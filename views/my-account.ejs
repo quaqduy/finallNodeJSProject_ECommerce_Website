@@ -1,30 +1,243 @@
-<!-- Dashboard người dùng, bao gồm các chức năng:
- - Xem các thong tin cơ bản ở dạng dashboard
- - Xem lịch sử đơn hàng và theo dõi đơn hàng
- - Xem và sửa địa chỉ giao hàng cũng như thông tin giao hàng
- - thông tin cá nhân của người dùng -->
-<!DOCTYPE html>
-<html>
-  <head>
+<!-- Mirrored from htmldemo.net/junko/junko/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Aug 2024 16:46:24 GMT -->
+<head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>DKD - about us</title>
+    <title>Junko - my account</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <!-- CSS 
     ========================= -->
 
+
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="/stylesheets/plugins.css">
+    <link rel="stylesheet" href="assets/css/plugins.css">
 
     <!-- Main Style CSS -->
-    <link rel="stylesheet" href="/stylesheets/style.css">
-  </head>
-  <body>
-    <h1>Account management</h1>
-    <p>Welcome to your account page</p>
-  </body>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+</head>
+
+<body>
+
+    <!--header area start-->
+    <!-- Include header component -->
+    <%- include('./components/header.ejs') %>
+
+    <!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>My account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs area end-->
+
+    <!-- my account start  -->
+    <section class="main_content_area">
+        <div class="container">
+            <div class="account_dashboard">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3 col-lg-3">
+                        <!-- Nav tabs -->
+                        <div class="dashboard_tab_button">
+                            <ul role="tablist" class="nav flex-column dashboard-list">
+                                <li><a href="#accountdetails" data-bs-toggle="tab" class="nav-link active">Account Details</a></li>
+                                <li> <a href="#orders" data-bs-toggle="tab" class="nav-link">Orders</a></li>
+                                <li><a href="#address" data-bs-toggle="tab" class="nav-link">Addresses</a></li>
+                                <li><a href="login.html" class="nav-link">logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-9 col-lg-9">
+                        <!-- Tab panes -->
+                        <div class="tab-content dashboard_content">
+                            <div class="tab-pane fade show active" id="accountdetails">
+                                <h3>Account Details</h3>
+                                <div>
+                                    <table class="account-details">
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <td>Duy Khoa Dung</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>tdtu@gmail.com</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phone number</th>
+                                            <td>0123456789</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Default address</th>
+                                            <td>19 Nguyen Huu Tho, Tan Phong, Quan 7, Tp.HCM</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Points</th>
+                                            <td>100000</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Creation date</th>
+                                            <td>8/12/2024</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lastest Update</th>
+                                            <td>8/12/2024</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <button id="update_profile">Update your profile</button>
+                            </div>
+
+                            <!-- Form modal -->
+                            <div id="updateForm" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <h3>Update Profile</h3>
+                                    <form id="profileForm" class="account_form">
+                                        <label for="fullName">Full Name:</label>
+                                        <input type="text" id="fullName" name="fullName" value="Duy Khoa Dung" required><br><br>
+
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" name="email" value="tdtu@gmail.com" required><br><br>
+
+                                        <label for="phoneNumber">Phone number:</label>
+                                        <input type="text" id="phoneNumber" name="phoneNumber" value="0123456789" required><br><br>
+
+                                        <label for="defaultAddress">Default address:</label>
+                                        <select id="defaultAddress" name="defaultAddress">
+                                            <option value="1" selected>19 Nguyen Huu Tho, Tan Phong, Quan 7, Tp.HCM</option>
+                                            <option value="2">1 Le Duan, District 1, Tp.HCM</option>
+                                            <option value="13">10 Hoang Dieu, District 4, Tp.HCM</option>
+                                        </select><br><br>
+
+                                        <button type="submit">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End update profile form modal -->
+
+                            <div class="tab-pane fade" id="orders">
+                                <h3>Orders</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Order</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                                <th>Total</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>May 10, 2022</td>
+                                                <td><span class="success">Completed</span></td>
+                                                <td>$25.00 for 1 item </td>
+                                                <td><a href="cart.html" class="view">view</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>May 10, 2022</td>
+                                                <td>Processing</td>
+                                                <td>$17.00 for 1 item </td>
+                                                <td><a href="cart.html" class="view">view</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="address">
+                                <h4 class="billing-address">Address</h4>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Address</th>
+                                                <th>Phone number</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>19 Nguyen Huu Tho, Tan Phong, Quan 7, Tp.HCM</td>
+                                                <td>0123456789</td>
+                                                <td>
+                                                    <button class="edit-btn" data-index="1">Edit</button>
+                                                    <button>Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>1168 Le Van Luong, Phuoc Kien, Nha Be, Tp.HCM</td>
+                                                <td>0123456789</td>
+                                                <td>
+                                                    <button class="edit-btn" data-index="2">Edit</button>
+                                                    <button>Delete</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button id="addAddress">Add another address</button>
+                                </div>
+                            </div>
+                            <!-- Modal for Update or Add Address -->
+                            <div id="addressForm" class="modal" style="display:none;">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <h3 id="modalTitle">Update Address</h3>
+                                    <form id="updateAddressForm" class="account_form">
+                                        <label for="editAddress">Address:</label>
+                                        <input type="text" id="editAddress" name="editAddress" required><br><br>
+
+                                        <label for="editPhone">Phone number:</label>
+                                        <input type="text" id="editPhone" name="editPhone" required><br><br>
+
+                                        <button type="submit">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Update address form end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- my account end   -->
+
+    <!-- Include footer component -->
+    <%- include('./components/footer.ejs') %>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Plugins JS -->
+    <script src="assets/js/plugins.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/junko/junko/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Aug 2024 16:46:24 GMT -->
 </html>

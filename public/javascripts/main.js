@@ -818,5 +818,138 @@
         }
     });
     
+    // Update Form
+    // Wait until the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the modal and button
+        const modal = document.getElementById("updateForm");
+        const btn = document.getElementById("update_profile");
+        const profileCloseModal = document.querySelector("#updateForm .close");
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        };
+
+        // When the user clicks on <span> (x), close the modal
+        profileCloseModal.onclick = function () {
+            document.getElementById("updateForm").style.display = "none";
+        };
+
+        // Profile form: close when clicking outside
+        window.addEventListener("click", function (event) {
+            const modal = document.getElementById("updateForm");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        // Handle form submission
+        const profileForm = document.getElementById("profileForm");
+        profileForm.onsubmit = function (e) {
+            e.preventDefault(); // Prevent form refresh
+
+            // Collect updated data
+            const fullName = document.getElementById("fullName").value;
+            const email = document.getElementById("email").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const defaultAddress = document.getElementById("defaultAddress").value;
+
+            // Log the updated data (can be sent to server or updated on page)
+            console.log({ fullName, email, phoneNumber, defaultAddress });
+
+            // Close the modal after submission
+            modal.style.display = "none";
+        };
+    });
+
+    // Address event
+    document.addEventListener("DOMContentLoaded", function () {
+        const addressModal = document.getElementById("addressForm");
+        const modalClose = document.querySelector("#addressForm .close");
+        const editAddressInput = document.getElementById("editAddress");
+        const editPhoneInput = document.getElementById("editPhone");
+        const updateAddressForm = document.getElementById("updateAddressForm");
+        const addAddressButton = document.getElementById("addAddress");
+        const modalTitle = document.getElementById("modalTitle");
+    
+        let currentRow = null; // To track the row being edited, or null for adding new
+    
+        // Handle "Add another address" button
+        addAddressButton.addEventListener("click", function () {
+            currentRow = null; // No row is being edited
+            editAddressInput.value = ""; // Clear the input fields
+            editPhoneInput.value = "";
+            modalTitle.textContent = "Add New Address"; // Update modal title
+            addressModal.style.display = "block"; // Show the modal
+        });
+    
+        // Handle Edit buttons
+        document.querySelectorAll(".edit-btn").forEach((btn) => {
+            btn.addEventListener("click", function () {
+                currentRow = btn.closest("tr");
+                const address = currentRow.children[1].textContent.trim();
+                const phone = currentRow.children[2].textContent.trim();
+                editAddressInput.value = address;
+                editPhoneInput.value = phone;
+                modalTitle.textContent = "Update Address"; // Update modal title
+                addressModal.style.display = "block"; // Show the modal
+            });
+        });
+    
+        // Handle Close modal
+        modalClose.onclick = function () {
+            addressModal.style.display = "none";
+        };
+    
+        // Close modal when clicking outside
+        window.addEventListener("click", function (event) {
+            if (event.target === addressModal) {
+                addressModal.style.display = "none";
+            }
+        });
+    
+        // Handle form submission
+        updateAddressForm.onsubmit = function (e) {
+            e.preventDefault();
+    
+            const updatedAddress = editAddressInput.value;
+            const updatedPhone = editPhoneInput.value;
+    
+            if (currentRow) {
+                // Update existing row
+                currentRow.children[1].textContent = updatedAddress;
+                currentRow.children[2].textContent = updatedPhone;
+            } else {
+                // Add a new row
+                const tableBody = document.querySelector("table tbody");
+                const newRow = document.createElement("tr");
+                const rowIndex = tableBody.children.length + 1;
+    
+                newRow.innerHTML = `
+                    <td>${rowIndex}</td>
+                    <td>${updatedAddress}</td>
+                    <td>${updatedPhone}</td>
+                    <td>
+                        <button class="edit-btn" data-index="${rowIndex}">Edit</button>
+                        <button>Delete</button>
+                    </td>
+                `;
+    
+                tableBody.appendChild(newRow);
+    
+                // Rebind the Edit button for the new row
+                newRow.querySelector(".edit-btn").addEventListener("click", function () {
+                    currentRow = newRow;
+                    editAddressInput.value = updatedAddress;
+                    editPhoneInput.value = updatedPhone;
+                    modalTitle.textContent = "Update Address";
+                    addressModal.style.display = "block";
+                });
+            }
+    
+            addressModal.style.display = "none"; // Close the modal
+        };
+    });
     
 })(jQuery);	
