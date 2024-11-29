@@ -19,351 +19,8 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
-    <!--header area start-->
-
-    <!--Offcanvas menu area start-->
-    <div class="off_canvars_overlay">
-
-    </div>
-    <div class="Offcanvas_menu">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="canvas_open">
-                        <a href="javascript:void(0)"><i class="ion-navicon"></i></a>
-                    </div>
-                    <div class="Offcanvas_menu_wrapper">
-                        <div class="canvas_close">
-                            <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
-                        </div>
-                        <div class="search_container">
-                            <form action="#">
-                                <div class="hover_category">
-                                    <select class="select_option" name="select" id="categori">
-                                        <option selected value="1">All Categories</option>
-                                        <option value="2">Accessories</option>
-                                        <option value="5">Camera</option>
-                                        <option value="6">Mornitors</option>
-                                        <option value="7">Tablets</option>
-                                        <option value="8">Laptops</option>
-                                        <option value="10">Headphone & Speaker</option>
-                                        <option value="15">Watchs</option>
-                                    </select>
-                                </div>
-                                <div class="search_box">
-                                    <input placeholder="Search product..." type="text">
-                                    <button type="submit">Search</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="middel_right_info">
-                            <div class="header_wishlist">
-                                <a href="wishlist.ejs"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                <span class="wishlist_quantity">3</span>
-                            </div>
-                            <div class="mini_cart_wrapper">
-                                <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
-                                        aria-hidden="true"></i>$147.00 <i class="fa fa-angle-down"></i></a>
-                                <span class="cart_quantity">2</span>
-                                <!--mini cart-->
-                                <div class="mini_cart">
-                                    <div class="cart_item">
-                                        <div class="cart_img">
-                                            <a href="#"><img src="/images/s-product/product.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart_info">
-                                            <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                            <p>Qty: 1 X <span> $60.00 </span></p>
-                                        </div>
-                                        <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="cart_item">
-                                        <div class="cart_img">
-                                            <a href="#"><img src="/images/s-product/product2.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart_info">
-                                            <a href="#">Natus erro at congue massa commodo</a>
-                                            <p>Qty: 1 X <span> $60.00 </span></p>
-                                        </div>
-                                        <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="mini_cart_table">
-                                        <div class="cart_total">
-                                            <span>Sub total:</span>
-                                            <span class="price">$138.00</span>
-                                        </div>
-                                        <div class="cart_total mt-10">
-                                            <span>total:</span>
-                                            <span class="price">$138.00</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="mini_cart_footer">
-                                        <div class="cart_button">
-                                            <a href="cart.ejs">View cart</a>
-                                        </div>
-                                        <div class="cart_button">
-                                            <a href="checkout.ejs">Checkout</a>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!--mini cart end-->
-                            </div>
-                        </div>
-                        <div id="menu" class="text-start ">
-                            <ul class="offcanvas_main_menu">
-                                <li class="menu-item-has-children"><a href="shop.ejs">Shop</a></li>
-                                <li class="menu-item-has-children"><a href="blog.ejs">Blog</a></li>
-                                <li class="menu-item-has-children"><a href="about.ejs">About Us</a></li>
-                                <li class="menu-item-has-children"><a href="contact.ejs"> Contact Us</a></li>
-                                <li class="menu-item-has-children"><a href="faq.ejs">FAQ</a></li>
-                                <li class="menu-item-has-children"><a href="my-account.ejs">My Account</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="Offcanvas_footer">
-                            <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
-                            <ul>
-                                <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li class="pinterest"><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Offcanvas menu area end-->
-
-    <header>
-        <div class="main_header">
-            <!--header middel start-->
-            <div class="header_middle">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="logo">
-                                <a href="index.ejs"><img src="/images/logo/logo.png" alt=""></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-9 col-md-6">
-                            <div class="middel_right">
-                                <div class="search_container">
-                                    <form action="#">
-                                        <div class="search_box">
-                                            <input placeholder="Search product..." type="text">
-                                            <button type="submit">Search</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="middel_right_info">
-                                    <div class="header_wishlist">
-                                        <a href="wishlist.ejs"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                        <span class="wishlist_quantity">3</span>
-                                    </div>
-                                    <div class="mini_cart_wrapper">
-                                        <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
-                                                aria-hidden="true"></i>$147.00 <i class="fa fa-angle-down"></i></a>
-                                        <span class="cart_quantity">2</span>
-                                        <!--mini cart-->
-                                        <div class="mini_cart">
-                                            <div class="cart_item">
-                                                <div class="cart_img">
-                                                    <a href="#"><img src="/images/s-product/product.jpg" alt=""></a>
-                                                </div>
-                                                <div class="cart_info">
-                                                    <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                                    <p>Qty: 1 X <span> $60.00 </span></p>
-                                                </div>
-                                                <div class="cart_remove">
-                                                    <a href="#"><i class="ion-android-close"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="cart_item">
-                                                <div class="cart_img">
-                                                    <a href="#"><img src="/images/s-product/product2.jpg" alt=""></a>
-                                                </div>
-                                                <div class="cart_info">
-                                                    <a href="#">Natus erro at congue massa commodo</a>
-                                                    <p>Qty: 1 X <span> $60.00 </span></p>
-                                                </div>
-                                                <div class="cart_remove">
-                                                    <a href="#"><i class="ion-android-close"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="mini_cart_table">
-                                                <div class="cart_total">
-                                                    <span>Sub total:</span>
-                                                    <span class="price">$138.00</span>
-                                                </div>
-                                                <div class="cart_total mt-10">
-                                                    <span>total:</span>
-                                                    <span class="price">$138.00</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="mini_cart_footer">
-                                                <div class="cart_button">
-                                                    <a href="cart.ejs">View cart</a>
-                                                </div>
-                                                <div class="cart_button">
-                                                    <a href="checkout.ejs">Checkout</a>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <!--mini cart end-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--header middel end-->
-            <!--header bottom satrt-->
-            <div class="main_menu_area">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-12">
-                            <div class="categories_menu">
-                                <div class="categories_title">
-                                    <h2 class="categori_toggle">ALL CATEGORIES</h2>
-                                </div>
-                                <div class="categories_menu_toggle">
-                                    <ul>
-                                        <li><a href="#">Accessories</a></li>
-                                        <li><a href="#">Camera</a></li>
-                                        <li><a href="#">Mornitors</a></li>
-                                        <li><a href="#">Tablets</a></li>
-                                        <li><a href="#">Laptops</a></li>
-                                        <li><a href="#">Headphone & Speaker</a></li>
-                                        <li><a href="#">Watchs</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-9 col-md-12">
-                            <div class="main_menu menu_position">
-                                <nav>
-                                    <ul>
-                                        <li><a href="shop.ejs">Shop</a></li>
-                                        <li><a href="blog.ejs">Blog</a></li>
-                                        <li><a href="about.ejs">About Us</a></li>
-                                        <li><a href="contact.ejs"> Contact Us</a></li>
-                                        <li><a href="faq.ejs">FAQ</a></li>
-                                        <li><a href="my-account.ejs">My Account</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--header bottom end-->
-        </div>
-    </header>
-
-    <!--sticky header area start-->
-    <div class="sticky_header_area sticky-header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-3">
-                    <div class="logo">
-                        <a href="index.ejs"><img src="/images/logo/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="sticky_header_right menu_position">
-                        <div class="main_menu">
-                            <nav>
-                                <ul>
-                                    <li><a href="shop.ejs">Shop</a></li>
-                                    <li><a href="blog.ejs">Blog</a></li>
-                                    <li><a href="about.ejs">About Us</a></li>
-                                    <li><a href="contact.ejs"> Contact Us</a></li>
-                                    <li><a href="faq.ejs">FAQ</a></li>
-                                    <li><a href="my-account.ejs">My Account</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div class="middel_right_info">
-                            <div class="header_wishlist">
-                                <a href="wishlist.ejs"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                                <span class="wishlist_quantity">3</span>
-                            </div>
-                            <div class="mini_cart_wrapper">
-                                <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
-                                        aria-hidden="true"></i>$147.00 <i class="fa fa-angle-down"></i></a>
-                                <span class="cart_quantity">2</span>
-                                <!--mini cart-->
-                                <div class="mini_cart">
-                                    <div class="cart_item">
-                                        <div class="cart_img">
-                                            <a href="#"><img src="/images/s-product/product.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart_info">
-                                            <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                            <p>Qty: 1 X <span> $60.00 </span></p>
-                                        </div>
-                                        <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="cart_item">
-                                        <div class="cart_img">
-                                            <a href="#"><img src="/images/s-product/product2.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart_info">
-                                            <a href="#">Natus erro at congue massa commodo</a>
-                                            <p>Qty: 1 X <span> $60.00 </span></p>
-                                        </div>
-                                        <div class="cart_remove">
-                                            <a href="#"><i class="ion-android-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="mini_cart_table">
-                                        <div class="cart_total">
-                                            <span>Sub total:</span>
-                                            <span class="price">$138.00</span>
-                                        </div>
-                                        <div class="cart_total mt-10">
-                                            <span>total:</span>
-                                            <span class="price">$138.00</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="mini_cart_footer">
-                                        <div class="cart_button">
-                                            <a href="cart.ejs">View cart</a>
-                                        </div>
-                                        <div class="cart_button">
-                                            <a href="checkout.ejs">Checkout</a>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!--mini cart end-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--sticky header area end-->
+    <!-- Include header component -->
+    <%- include('./components/header.ejs') %>
 
     <!--slider area start-->
     <section class="slider_section mb-70">
@@ -376,7 +33,7 @@
                                 <h1> best skin</h1>
                                 <h2>qled 75 inch q7f</h2>
                                 <p>exclusive offer <span> 20% off </span> this week</p>
-                                <a class="button" href="product-details.ejs">shopping now</a>
+                                <a class="button" href="product-details">shopping now</a>
                             </div>
                         </div>
                     </div>
@@ -391,7 +48,7 @@
                                 <h1>Dual Front</h1>
                                 <h2>camera 20mp</h2>
                                 <p>exclusive offer <span> 20% off </span> this week</p>
-                                <a class="button" href="product-details.ejs">shopping now</a>
+                                <a class="button" href="product-details">shopping now</a>
                             </div>
                         </div>
                     </div>
@@ -405,7 +62,7 @@
                                 <h1>Hurry Up!</h1>
                                 <h2>IN THE WORD 2022</h2>
                                 <p>exclusive offer <span> 20% off </span> this week</p>
-                                <a class="button" href="product-details.ejs">shopping now</a>
+                                <a class="button" href="product-details">shopping now</a>
                             </div>
                         </div>
                     </div>
@@ -475,21 +132,21 @@
                 <div class="col-lg-3 col-md-3">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner1.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner1.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner2.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner2.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner3.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner3.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -512,16 +169,16 @@
                 <article class="single_product">
                     <figure>
                         <div class="product_thumb">
-                            <a class="primary_img" href="product-details.ejs"><img
+                            <a class="primary_img" href="product-details"><img
                                     src="/images/product/product1.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.ejs"><img
+                            <a class="secondary_img" href="product-details"><img
                                     src="/images/product/product2.jpg" alt=""></a>
                             <div class="label_product">
                                 <span class="label_sale">sale</span>
                             </div>
                             <div class="action_links">
                                 <ul>
-                                    <li class="wishlist"><a href="wishlist.ejs" title="Add to Wishlist"><i
+                                    <li class="wishlist"><a href="wishlist" title="Add to Wishlist"><i
                                                 class="fa fa-heart-o" aria-hidden="true"></i></a></li>
                                     <li class="compare"><a href="#" title="compare"><span class="ion-levels"></span></a>
                                     </li>
@@ -530,7 +187,7 @@
                                 </ul>
                             </div>
                             <div class="add_to_cart">
-                                <a href="cart.ejs" title="add to cart">Add to cart</a>
+                                <a href="cart" title="add to cart">Add to cart</a>
                             </div>
                         </div>
                         <figcaption class="product_content">
@@ -538,7 +195,7 @@
                                 <span class="old_price">$86.00</span>
                                 <span class="current_price">$79.00</span>
                             </div>
-                            <h3 class="product_name"><a href="product-details.ejs">Natus erro at congue massa commodo sit</a></h3>
+                            <h3 class="product_name"><a href="product-details">Natus erro at congue massa commodo sit</a></h3>
                         </figcaption>
                     </figure>
                 </article>
@@ -554,14 +211,14 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner4.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner4.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner5.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner5.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -578,7 +235,7 @@
                     <div class="top_category_header">
                         <h3>Top Categories This Week</h3>
                         <p>Aliquam eget consectetuer habitasse interdum.</p>
-                        <a href="shop.ejs">Show All Categories</a>
+                        <a href="shop">Show All Categories</a>
                     </div>
                 </div>
                 <div class="col-lg-10 col-md-9">
@@ -587,10 +244,10 @@
                             <article class="single_category">
                                 <figure>
                                     <div class="category_thumb">
-                                        <a href="shop.ejs"><img src="/images/s-product/category1.jpg" alt=""></a>
+                                        <a href="shop"><img src="/images/s-product/category1.jpg" alt=""></a>
                                     </div>
                                     <figcaption class="category_name">
-                                        <h3><a href="shop.ejs">Games & Consoles </a></h3>
+                                        <h3><a href="shop">Games & Consoles </a></h3>
                                     </figcaption>
                                 </figure>
                             </article>
@@ -599,10 +256,10 @@
                             <article class="single_category">
                                 <figure>
                                     <div class="category_thumb">
-                                        <a href="shop.ejs"><img src="/images/s-product/category2.jpg" alt=""></a>
+                                        <a href="shop"><img src="/images/s-product/category2.jpg" alt=""></a>
                                     </div>
                                     <figcaption class="category_name">
-                                        <h3><a href="shop.ejs">Home Accessories</a></h3>
+                                        <h3><a href="shop">Home Accessories</a></h3>
                                     </figcaption>
                                 </figure>
                             </article>
@@ -611,10 +268,10 @@
                             <article class="single_category">
                                 <figure>
                                     <div class="category_thumb">
-                                        <a href="shop.ejs"><img src="/images/s-product/category3.jpg" alt=""></a>
+                                        <a href="shop"><img src="/images/s-product/category3.jpg" alt=""></a>
                                     </div>
                                     <figcaption class="category_name">
-                                        <h3><a href="shop.ejs">TV & Audio</a></h3>
+                                        <h3><a href="shop">TV & Audio</a></h3>
                                     </figcaption>
                                 </figure>
                             </article>
@@ -623,10 +280,10 @@
                             <article class="single_category">
                                 <figure>
                                     <div class="category_thumb">
-                                        <a href="shop.ejs"><img src="/images/s-product/category4.jpg" alt=""></a>
+                                        <a href="shop"><img src="/images/s-product/category4.jpg" alt=""></a>
                                     </div>
                                     <figcaption class="category_name">
-                                        <h3><a href="shop.ejs">Games & Consoles </a></h3>
+                                        <h3><a href="shop">Games & Consoles </a></h3>
                                     </figcaption>
                                 </figure>
                             </article>
@@ -635,10 +292,10 @@
                             <article class="single_category">
                                 <figure>
                                     <div class="category_thumb">
-                                        <a href="shop.ejs"><img src="/images/s-product/category5.jpg" alt=""></a>
+                                        <a href="shop"><img src="/images/s-product/category5.jpg" alt=""></a>
                                     </div>
                                     <figcaption class="category_name">
-                                        <h3><a href="shop.ejs">Laptop & Tablets </a></h3>
+                                        <h3><a href="shop">Laptop & Tablets </a></h3>
                                     </figcaption>
                                 </figure>
                             </article>
@@ -647,10 +304,10 @@
                             <article class="single_category">
                                 <figure>
                                     <div class="category_thumb">
-                                        <a href="shop.ejs"><img src="/images/s-product/category2.jpg" alt=""></a>
+                                        <a href="shop"><img src="/images/s-product/category2.jpg" alt=""></a>
                                     </div>
                                     <figcaption class="category_name">
-                                        <h3><a href="shop.ejs">Home Accessories</a></h3>
+                                        <h3><a href="shop">Home Accessories</a></h3>
                                     </figcaption>
                                 </figure>
                             </article>
@@ -676,16 +333,16 @@
                 <article class="single_product">
                     <figure>
                         <div class="product_thumb">
-                            <a class="primary_img" href="product-details.ejs"><img
+                            <a class="primary_img" href="product-details"><img
                                     src="/images/product/product1.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details.ejs"><img
+                            <a class="secondary_img" href="product-details"><img
                                     src="/images/product/product2.jpg" alt=""></a>
                             <div class="label_product">
                                 <span class="label_sale">sale</span>
                             </div>
                             <div class="action_links">
                                 <ul>
-                                    <li class="wishlist"><a href="wishlist.ejs" title="Add to Wishlist"><i
+                                    <li class="wishlist"><a href="wishlist" title="Add to Wishlist"><i
                                                 class="fa fa-heart-o" aria-hidden="true"></i></a></li>
                                     <li class="compare"><a href="#" title="compare"><span class="ion-levels"></span></a>
                                     </li>
@@ -694,7 +351,7 @@
                                 </ul>
                             </div>
                             <div class="add_to_cart">
-                                <a href="cart.ejs" title="add to cart">Add to cart</a>
+                                <a href="cart" title="add to cart">Add to cart</a>
                             </div>
                         </div>
                         <figcaption class="product_content">
@@ -702,7 +359,7 @@
                                 <span class="old_price">$86.00</span>
                                 <span class="current_price">$79.00</span>
                             </div>
-                            <h3 class="product_name"><a href="product-details.ejs">Natus erro at congue massa commodo sit</a></h3>
+                            <h3 class="product_name"><a href="product-details">Natus erro at congue massa commodo sit</a></h3>
                         </figcaption>
                     </figure>
                 </article>
@@ -718,14 +375,14 @@
                 <div class="col-lg-9 col-md-9">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner6.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner6.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="single_banner mb-30">
                         <div class="banner_thumb">
-                            <a href="shop.ejs"><img src="/images/bg/banner7.jpg" alt=""></a>
+                            <a href="shop"><img src="/images/bg/banner7.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -747,16 +404,16 @@
                             <article class="single_product">
                                 <figure>
                                     <div class="product_thumb">
-                                        <a class="primary_img" href="product-details.ejs"><img
+                                        <a class="primary_img" href="product-details"><img
                                                 src="/images/product/product1.jpg" alt=""></a>
-                                        <a class="secondary_img" href="product-details.ejs"><img
+                                        <a class="secondary_img" href="product-details"><img
                                                 src="/images/product/product2.jpg" alt=""></a>
                                         <div class="label_product">
                                             <span class="label_sale">sale</span>
                                         </div>
                                         <div class="action_links">
                                             <ul>
-                                                <li class="wishlist"><a href="wishlist.ejs" title="Add to Wishlist"><i
+                                                <li class="wishlist"><a href="wishlist" title="Add to Wishlist"><i
                                                             class="fa fa-heart-o" aria-hidden="true"></i></a></li>
                                                 <li class="compare"><a href="#" title="compare"><span
                                                             class="ion-levels"></span></a></li>
@@ -766,7 +423,7 @@
                                             </ul>
                                         </div>
                                         <div class="add_to_cart">
-                                            <a href="cart.ejs" title="add to cart">Add to cart</a>
+                                            <a href="cart" title="add to cart">Add to cart</a>
                                         </div>
                                     </div>
                                     <figcaption class="product_content">
@@ -774,7 +431,7 @@
                                             <span class="old_price">$86.00</span>
                                             <span class="current_price">$79.00</span>
                                         </div>
-                                        <h3 class="product_name"><a href="product-details.ejs">Natus erro at congue
+                                        <h3 class="product_name"><a href="product-details">Natus erro at congue
                                                 massa commodo sit</a></h3>
                                     </figcaption>
                                 </figure>
@@ -854,11 +511,11 @@
                         <article class="single_blog">
                             <figure>
                                 <div class="blog_thumb">
-                                    <a href="blog-details.ejs"><img src="/images/blog/blog1.jpg" alt=""></a>
+                                    <a href="blog-details"><img src="/images/blog/blog1.jpg" alt=""></a>
                                 </div>
                                 <figcaption class="blog_content">
                                     <p class="post_author">By <a href="#">admin</a> July 04, 2022</p>
-                                    <h3 class="post_title"><a href="blog-details.ejs">Blog image post</a></h3>
+                                    <h3 class="post_title"><a href="blog-details">Blog image post</a></h3>
                                 </figcaption>
                             </figure>
                         </article>
@@ -867,11 +524,11 @@
                         <article class="single_blog">
                             <figure>
                                 <div class="blog_thumb">
-                                    <a href="blog-details.ejs"><img src="/images/blog/blog2.jpg" alt=""></a>
+                                    <a href="blog-details"><img src="/images/blog/blog2.jpg" alt=""></a>
                                 </div>
                                 <figcaption class="blog_content">
                                     <p class="post_author">By <a href="#">admin</a> July 04, 2022</p>
-                                    <h3 class="post_title"><a href="blog-details.ejs">Post with Gallery</a></h3>
+                                    <h3 class="post_title"><a href="blog-details">Post with Gallery</a></h3>
                                 </figcaption>
                             </figure>
                         </article>
@@ -880,11 +537,11 @@
                         <article class="single_blog">
                             <figure>
                                 <div class="blog_thumb">
-                                    <a href="blog-details.ejs"><img src="/images/blog/blog3.jpg" alt=""></a>
+                                    <a href="blog-details"><img src="/images/blog/blog3.jpg" alt=""></a>
                                 </div>
                                 <figcaption class="blog_content">
                                     <p class="post_author">By <a href="#">admin</a> July 04, 2022</p>
-                                    <h3 class="post_title"><a href="blog-details.ejs">Post with Audio</a></h3>
+                                    <h3 class="post_title"><a href="blog-details">Post with Audio</a></h3>
                                 </figcaption>
                             </figure>
                         </article>
@@ -893,11 +550,11 @@
                         <article class="single_blog">
                             <figure>
                                 <div class="blog_thumb">
-                                    <a href="blog-details.ejs"><img src="/images/blog/blog4.jpg" alt=""></a>
+                                    <a href="blog-details"><img src="/images/blog/blog4.jpg" alt=""></a>
                                 </div>
                                 <figcaption class="blog_content">
                                     <p class="post_author">By <a href="#">admin</a> July 04, 2022</p>
-                                    <h3 class="post_title"><a href="blog-details.ejs">Post with Video</a></h3>
+                                    <h3 class="post_title"><a href="blog-details">Post with Video</a></h3>
                                 </figcaption>
                             </figure>
                         </article>
@@ -906,11 +563,11 @@
                         <article class="single_blog">
                             <figure>
                                 <div class="blog_thumb">
-                                    <a href="blog-details.ejs"><img src="/images/blog/blog5.jpg" alt=""></a>
+                                    <a href="blog-details"><img src="/images/blog/blog5.jpg" alt=""></a>
                                 </div>
                                 <figcaption class="blog_content">
                                     <p class="post_author">By <a href="#">admin</a> July 04, 2022</p>
-                                    <h3 class="post_title"><a href="blog-details.ejs">Maecenas ultricies</a></h3>
+                                    <h3 class="post_title"><a href="blog-details">Maecenas ultricies</a></h3>
                                 </figcaption>
                             </figure>
                         </article>
@@ -981,95 +638,6 @@
         </div>
     </div>
     <!--brand area end-->
-
-    <!--footer area start-->
-    <footer class="footer_widgets">
-        <div class="footer_top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="widgets_container contact_us">
-                            <div class="footer_logo">
-                                <a href="#"><img src="/images/logo/logo.png" alt=""></a>
-                            </div>
-                            <div class="footer_contact">
-                                <p>We are a team of designers and developers that
-                                    create high quality HTML Template, Woocommerce, Shopify Theme.</p>
-                                <p><span>Address</span> Your address goes here.</p>
-                                <p><span>Mobile: </span><a href="tel:0123456789">0123456789</a> – <a
-                                        href="tel:0123456789">0123456789</a> </p>
-                                <p><span>Support: </span><a href="mailto:demo@example.com">demo@example.com</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="widgets_container widget_menu">
-                            <h3>Information</h3>
-                            <div class="footer_menu">
-                                <ul>
-                                    <li><a href="about.ejs">About Us</a></li>
-                                    <li><a href="blog.ejs">Delivery Information</a></li>
-                                    <li><a href="contact.ejs">Privacy Policy</a></li>
-                                    <li><a href="services.ejs">Terms & Conditions</a></li>
-                                    <li><a href="#">Returns</a></li>
-                                    <li><a href="#">Gift Certificates</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="widgets_container widget_menu">
-                            <h3>My Account</h3>
-                            <div class="footer_menu">
-                                <ul>
-                                    <li><a href="#">My Account</a></li>
-                                    <li><a href="#">Order History</a></li>
-                                    <li><a href="wishlist.ejs">Wish List</a></li>
-                                    <li><a href="#">Newsletter</a></li>
-                                    <li><a href="#">Affiliate</a></li>
-                                    <li><a href="faq.ejs">International Orders</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="widgets_container newsletter">
-                            <h3>Follow Us</h3>
-                            <div class="footer_social_link">
-                                <ul>
-                                    <li><a class="facebook" href="#" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                    </li>
-                                    <li><a class="twitter" href="#" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                    </li>
-                                    <li><a class="instagram" href="#" title="instagram"><i
-                                                class="fa fa-instagram"></i></a></li>
-                                    <li><a class="linkedin" href="#" title="linkedin"><i class="fa fa-linkedin"></i></a>
-                                    </li>
-                                    <li><a class="rss" href="#" title="rss"><i class="fa fa-rss"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="subscribe_form">
-                                <h3>Join Our Newsletter Now</h3>
-                                <form id="mc-form" class="mc-form footer-newsletter">
-                                    <input id="mc-email" type="email" autocomplete="off"
-                                        placeholder="Your email address..." />
-                                    <button id="mc-submit">Subscribe!</button>
-                                </form>
-                                <!-- mailchimp-alerts Start -->
-                                <div class="mailchimp-alerts text-centre">
-                                    <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                                    <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                                    <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                                </div><!-- mailchimp-alerts end -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--footer area end-->
 
     <!-- modal area start (Quickview chi tiết sản phẩm)-->
     <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1195,48 +763,10 @@
     </div>
     <!-- modal area end-->
 
-    <!--news letter popup start-->
-    <div class="newletter-popup">
-        <div id="boxes" class="newletter-container">
-            <div id="dialog" class="window">
-                <div id="popup2">
-                    <span class="b-close"><span>close</span></span>
-                </div>
-                <div class="box">
-                    <div class="newletter-title">
-                        <h2>Newsletter</h2>
-                    </div>
-                    <div class="box-content newleter-content">
-                        <label class="newletter-label">Enter your email address to subscribe our notification of our new
-                            post &amp; features by email.</label>
-                        <div id="frm_subscribe">
-                            <form name="subscribe" id="subscribe_popup">
-                                <!-- <span class="required">*</span><span>Enter you email address here...</span>-->
-                                <input type="text" value="" name="subscribe_pemail" id="subscribe_pemail"
-                                    placeholder="Enter you email address here...">
-                                <input type="hidden" value="" name="subscribe_pname" id="subscribe_pname">
-                                <div id="notification"></div>
-                                <a class="theme-btn-outlined"
-                                    onclick="email_subscribepopup()"><span>Subscribe</span></a>
-                            </form>
-                            <div class="subscribe-bottom">
-                                <input type="checkbox" id="newsletter_popup_dont_show_again">
-                                <label for="newsletter_popup_dont_show_again">Don't show this popup again</label>
-                            </div>
-                        </div>
-                        <!-- /#frm_subscribe -->
-                    </div>
-                    <!-- /.box-content -->
-                </div>
-            </div>
-        </div>
-        <!-- /.box -->
-    </div>
-    <!--news letter popup start-->
+    <!-- Include footer component -->
+    <%- include('./components/footer.ejs') %>
 
-    <!--header area end-->
-
-     <!-- JS
+    <!-- JS
 ============================================ -->
 
     <!-- Plugins JS -->
