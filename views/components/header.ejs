@@ -17,18 +17,6 @@
                     </div>
                     <div class="search_container">
                         <form action="#">
-                            <div class="hover_category">
-                                <select class="select_option" name="select" id="categori">
-                                    <option selected value="1">All Categories</option>
-                                    <option value="2">Accessories</option>
-                                    <option value="3">Camera</option>
-                                    <option value="4">Mornitors</option>
-                                    <option value="5">Tablets</option>
-                                    <option value="6">Laptops</option>
-                                    <option value="7">Headphone & Speaker</option>
-                                    <option value="8">Watchs</option>
-                                </select>
-                            </div>
                             <div class="search_box">
                                 <input placeholder="Search product..." type="text">
                                 <button type="submit">Search</button>
@@ -98,18 +86,16 @@
                     </div>
                     <div id="menu" class="text-start ">
                         <ul class="offcanvas_main_menu">
-                            <li class="menu-item-has-children"><a href="shop">Shop</a></li>
-                            <li class="menu-item-has-children"><a href="blog">Blog</a></li>
-                            <li class="menu-item-has-children"><a href="about">About Us</a></li>
-                            <li class="menu-item-has-children"><a href="contact"> Contact Us</a></li>
-                            <li class="menu-item-has-children"><a href="faq">FAQ</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/shop">Shop</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/about">About Us</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                             <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                            <li class="menu-item-has-children"><a href="my-account">Sign Up / Sign In</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
                         </ul>
                     </div>
 
                     <div class="Offcanvas_footer">
-                        <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        <span><a href="#"><i class="fa fa-envelope-o"></i> info@webside.com</a></span>
                         <ul>
                             <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -212,7 +198,7 @@
             </div>
         </div>
         <!--header middel end-->
-        <!--header bottom satrt-->
+        <!--header bottom start-->
         <div class="main_menu_area">
             <div class="container">
                 <div class="row align-items-center">
@@ -223,13 +209,13 @@
                             </div>
                             <div class="categories_menu_toggle">
                                 <ul>
-                                    <li><a href="#">Accessories</a></li>
-                                    <li><a href="#">Camera</a></li>
-                                    <li><a href="#">Mornitors</a></li>
-                                    <li><a href="#">Tablets</a></li>
-                                    <li><a href="#">Laptops</a></li>
-                                    <li><a href="#">Headphone & Speaker</a></li>
-                                    <li><a href="#">Watchs</a></li>
+                                    <% if (categories && categories.length > 0) { %>
+                                        <% categories.forEach(item => { %>
+                                            <li><a href="<%= webLocationHost %>/shop/<%= item.id %>"><%= item.name %></a></li>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <li>No categories available</li> 
+                                    <% } %>  
                                 </ul>
                             </div>
                         </div>
@@ -238,13 +224,11 @@
                         <div class="main_menu menu_position">
                             <nav>
                                 <ul>
-                                    <li><a href="shop">Shop</a></li>
-                                    <li><a href="blog">Blog</a></li>
-                                    <li><a href="about">About Us</a></li>
-                                    <li><a href="contact"> Contact Us</a></li>
-                                    <li><a href="faq">FAQ</a></li>
+                                    <li><a href="<%= webLocationHost %>/shop">Shop</a></li>
+                                    <li><a href="<%= webLocationHost %>/about">About Us</a></li>
+                                    <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                     <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                    <li><a href="my-account">Sign Up / Sign In</a></li> 
+                                    <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li> 
                                 </ul>
                             </nav>
                         </div>
@@ -270,13 +254,11 @@
                     <div class="main_menu">
                         <nav>
                             <ul>
-                                <li><a href="shop">Shop</a></li>
-                                <li><a href="blog">Blog</a></li>
-                                <li><a href="about">About Us</a></li>
-                                <li><a href="contact"> Contact Us</a></li>
-                                <li><a href="faq">FAQ</a></li>
+                                <li><a href="<%= webLocationHost %>/shop">Shop</a></li>
+                                <li><a href="<%= webLocationHost %>/about">About Us</a></li>
+                                <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                 <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                <li><a href="my-account">Sign Up / Sign In</a></li>
+                                <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
                             </ul>
                         </nav>
                     </div>
