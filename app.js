@@ -5,7 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var testRouter = require('./routes/test');
+var productRouter = require('./routes/ProductRoutes');
+var categoryRouter = require('./routes/CategoryRoutes');
+var addressRouter = require('./routes/AddressRoutes');
+var cartItemRouter  = require('./routes/CartItemRoutes');
+var cartRouter  = require('./routes/CartRoutes');
+var couponRouter  = require('./routes/CouponRoutes');
+var orderItemRouter  = require('./routes/OrderItemRoutes');
+var orderRouter  = require('./routes/OrderRoutes');
+var reviewRouter  = require('./routes/ReviewRoutes');
+var shippingRouter  = require('./routes/ShippingRoutes');
+var userRouter  = require('./routes/UserRoutes');
 
 var app = express();
 
@@ -24,7 +34,17 @@ const database = require('./config/db');
 database.connect();
 
 app.use('/', indexRouter);
-app.use('/testDB', testRouter);
+app.use('/api/products', productRouter);
+app.use('/api/categorys', categoryRouter);
+app.use('/api/addresses', addressRouter);
+app.use('/api/cart_item', cartItemRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/coupon', couponRouter);
+app.use('/api/order_item', orderItemRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/review', reviewRouter);
+app.use('/api/shipping', shippingRouter);
+app.use('/api/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
