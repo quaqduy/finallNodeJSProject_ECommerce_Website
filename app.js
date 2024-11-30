@@ -35,7 +35,7 @@ database.connect();
 
 app.use('/', indexRouter);
 app.use('/api/products', productRouter);
-app.use('/api/categorys', categoryRouter);
+app.use('/api/categories', categoryRouter);
 app.use('/api/addresses', addressRouter);
 app.use('/api/cart_item', cartItemRouter);
 app.use('/api/cart', cartRouter);
