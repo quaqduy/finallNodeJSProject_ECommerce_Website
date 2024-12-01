@@ -1,39 +1,114 @@
 var express = require('express');
 var router = express.Router();
+const bcrypt = require('bcrypt');
 
 const Category = require('../models/CategoryModel');
 const Product = require('../models/ProductModel');
-
+const User = require('../models/UserModel');
+const Cart = require('../models/CartModel');
+const CartItem = require('../models/CartItemModel');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
+  if(!req.session.user){
+    //Create new account for guess
+    const newUser = new User({
+      username: 'Guess',
+      password : await bcrypt.hash('123456', 10),
+      email : 'none@none.com',
+      phoneNumber: 'none',
+    });
+    const savedUser = await newUser.save();
+    req.session.user = {userId : savedUser.id}
+    //Create new cart for new user
+    const newCart = new Cart({
+      userId : savedUser.id,
+    });
+    const savedCart = await newCart.save();
+    req.session.cart = {cartId : savedCart.id}
+  }
+
+  console.log(req.session.user);
+  console.log(req.session.cart);
+  
+  //get cartItem list
+  const cartId_find_items = req.session.cart.cartId;
+  const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+  const cartItemList = req.session.cartItemList;
+
+  //Ready for view
   const categories = await Category.find();
   const products = await Product.find();
 
   const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('homePage', { title: 'Home Page', webLocationHost, categories, products});
+  res.render('homePage', { 
+    title: 'Home Page', 
+    webLocationHost, 
+    categories, 
+    products,
+    cartItemList
+  });
 });
 
 /* GET shop page. */
 router.get('/shop', async function(req, res, next) {
-  const categories = await Category.find();
-  const products = await Product.find();
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const categories = await Category.find();
+    const products = await Product.find();
 
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('shop', { title: 'Shop', webLocationHost, categories, products, categoryName: ''});
-});
+    const cartId = req.session.cart.cartId;
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+    res.render('shop', { title: 'Shop', 
+      webLocationHost, 
+      categories, 
+      products, 
+      categoryName: '',
+      cartId,
+      cartItemList
+    });
+  }
+});   
+  
 /* GET shop page by type category. */
 router.get('/shop/:id', async function(req, res, next) {
-  const { id } = req.params;
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
 
-  const categories = await Category.find();
-  let categoryName = '';
-  categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
 
-  const products = await Product.find({ categoryId: id });
+    const products = await Product.find({ categoryId: id });
 
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('shop', { title: 'Shop', webLocationHost, categories, products, categoryName});
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+    res.render('shop', { title: 'Shop', 
+      webLocationHost, 
+      categories, 
+      products, 
+      categoryName,
+      cartId,
+      cartItemList
+    });
+  }
 });
 
 /* GET cart page. */
