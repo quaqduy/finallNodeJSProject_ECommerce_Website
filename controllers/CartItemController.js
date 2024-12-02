@@ -29,7 +29,7 @@ exports.getCartItemsByCartId = async (req, res) => {
 // Add a new Cart Item
 exports.createCartItem = async (req, res) => {
   console.log(req.body)
-  const { cartId, productId, quantity } = req.body;
+  const { cartId, productId, quantity,color } = req.body;
 
   const newCartItem = new CartItem({
     cartId,
@@ -50,18 +50,27 @@ exports.createCartItem = async (req, res) => {
 // Update an existing Cart Item by ID
 exports.updateCartItemById = async (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
+  const { quantity, color } = req.body;
 
   try {
-    const updatedCartItem = await CartItem.findByIdAndUpdate(
-      id,
-      { quantity },
-      { new: true, runValidators: true }
-    );
+    const updatedCartItem = await CartItem.findById(id);
 
     if (!updatedCartItem) {
       return res.status(404).json({ error: 'Cart item not found' });
     }
+
+    if (updatedCartItem.color) {
+      const existingColors = updatedCartItem.color.split(',').map(col => col.trim());
+      if (!existingColors.includes(color)) {
+        updatedCartItem.color = updatedCartItem.color + ',' + color;
+      }
+    } else {
+      updatedCartItem.color = color;
+    }
+
+    updatedCartItem.quantity = quantity;
+
+    await updatedCartItem.save();
 
     res.json(updatedCartItem);
   } catch (error) {

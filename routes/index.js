@@ -122,23 +122,50 @@ router.post('/cart_item/:id', async function(req, res, next) {
 
 //add cart item 
 router.post('/cart_item', async function(req, res, next) {
-  const {cartId, productId, color, quantity ,currentURL} = req.body;
+  const { cartId, productId, color, quantity, currentURL } = req.body;
 
-  const existingCartItem = await CartItem.findOne({ cartId, productId });
+  try {
+    // Check if the CartItem already exists with the provided cartId and productId
+    const existingCartItem = await CartItem.findOne({ cartId, productId });
 
-  if (existingCartItem) {
-    existingCartItem.quantity += parseInt(quantity, 10); 
-    await existingCartItem.save();
-  }else {
-    const newCartItem = new CartItem({
-      cartId,
-      productId,
-      quantity,
-      color,
-    });
-    await newCartItem.save();
+    if (existingCartItem) {
+      // If the CartItem exists, update the quantity by adding the new quantity
+      existingCartItem.quantity += parseInt(quantity, 10);
+
+      // Check if the CartItem already has a color
+      if (existingCartItem.color) {
+        // If colors exist, split them and check if the new color is already included
+        const existingColors = existingCartItem.color.split(',').map(col => col.trim());
+        if (!existingColors.includes(color)) {
+          // If the color is not in the list, add the new color (separated by a comma)
+          existingCartItem.color = existingCartItem.color + ',' + color;
+        }
+      } else {
+        // If no color exists, set the color field to the new color
+        existingCartItem.color = color;
+      }
+
+      // Save the updated CartItem
+      await existingCartItem.save();
+    } else {
+      // If the CartItem does not exist, create a new one
+      const newCartItem = new CartItem({
+        cartId,
+        productId,
+        quantity,
+        color,
+      });
+      // Save the new CartItem
+      await newCartItem.save();
+    }
+
+    // Redirect to the provided currentURL
+    res.redirect(currentURL);
+  } catch (error) {
+    console.error('Error adding/updating cart item:', error);
+    // Return an error response in case of an exception
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  res.redirect(currentURL);
 });
 
 /* GET cart page. */

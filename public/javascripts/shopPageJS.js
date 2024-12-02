@@ -33,10 +33,21 @@ const shopModelHandle = {
   current_productID: '',
   listItemMiniCart: [],
   readyForAddToCartModel(productName, productQuantity, productColors, productPrice, productID){
-    this.current_productName = productName,
-    this.current_productQuantity = productQuantity,
-    this.current_productPrice = productPrice,
-    this.current_productID = productID,
+    this.current_productName = productName;
+    this.current_productQuantity = productQuantity;
+    this.current_productPrice = productPrice;
+    this.current_productID = productID;
+
+    const colorSelectBox = document.querySelector('#colorSelect');
+    if(productColors){
+      productColors.split(',').forEach((color) => {
+        const childElement = document.createElement('option');
+        childElement.value = color.trim();
+        childElement.textContent = color.trim();  
+    
+        colorSelectBox.appendChild(childElement); 
+      });
+    }
 
     document.querySelector('#addToCartModel_productName').innerText = productName;
     // document.querySelector('#addToCartModel_productName').innerText = productName;
@@ -46,15 +57,17 @@ const shopModelHandle = {
     if(ModelBtn_btnAddToCart){
       ModelBtn_btnAddToCart.addEventListener('click',()=>{
         const quantityChossing = document.querySelector('#quantity_ModelAddToCart').value;
+        const colorChoosing = document.querySelector('#colorSelect').value;
   
         let checkItemCartExist = false;
         if(this.listItemMiniCart.length > 0){
           this.listItemMiniCart.forEach((itemCart)=>{
             if(itemCart.productId == this.current_productID){
               itemCart.quantityChossing = parseInt(itemCart.quantityChossing) + parseInt(quantityChossing);
+              itemCart.colorChoosing = colorChoosing;
               checkItemCartExist = true;
               //add cartItem quantity to DB
-              shopModelHandle.updateCartItem_ToDB(itemCart.quantityChossing);
+              shopModelHandle.updateCartItem_ToDB(itemCart.quantityChossing , itemCart.colorChoosing);
               return;
             }
           })
@@ -65,6 +78,7 @@ const shopModelHandle = {
             productId : this.current_productID,
             productName : this.current_productName,
             quantityChossing,
+            colorChoosing,
             productPrice : this.current_productPrice,
           });
           //add cartItem to DB
@@ -157,6 +171,7 @@ const shopModelHandle = {
     const cartID_input = document.querySelector('#cartID_input');
     const cartId = cartID_input.value;
     const quantityChossing = document.querySelector('#quantity_ModelAddToCart').value;
+    const colorChoosing = document.querySelector('#colorSelect').value;
 
     fetch(webLocationHost+'/api/cart_item',{
       method: 'POST',  
@@ -166,7 +181,8 @@ const shopModelHandle = {
       body: JSON.stringify({
         cartId: cartId,
         productId: shopModelHandle.current_productID,
-        quantity: quantityChossing
+        quantity: quantityChossing,
+        color: colorChoosing
       })
     })
     .then(response => response.json())  
@@ -184,7 +200,7 @@ const shopModelHandle = {
       console.error('Error:', error);
     });
   },
-  updateCartItem_ToDB(newQuantity){
+  updateCartItem_ToDB(newQuantity,color){
     const cartID_input = document.querySelector('#cartID_input');
     let itemCartId = '';
     shopModelHandle.listItemMiniCart.forEach((item)=>{
@@ -199,7 +215,8 @@ const shopModelHandle = {
         'Content-Type': 'application/json'  
       },
       body: JSON.stringify({
-        quantity: newQuantity
+        quantity: newQuantity,
+        color: color
       })
     })
     .then(response => response.json())  
