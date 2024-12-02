@@ -4,7 +4,12 @@
     let totalPrice_VND_Format = 0;
 %>
 </div>
+
 <div class="Offcanvas_menu">
+
+    <input type="text" class =' d-none' id="cartID_input" value = '<%= cartId %>'>
+    <input type="text" class =' d-none' id="urlBaseToFetch" value = '<%= webLocationHost %>'>
+
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -59,6 +64,7 @@
                                                 <input type="text" class="d-none" name="productName" value = '<%= productName %>'>
                                                 <input type="text" class="d-none" name="productQuantity" value = '<%= productQuantity %>'>
                                                 <input type="text" class="d-none" name="productPrice" value = '<%= item.productId.price %>'>
+                                                <input type="text" class="d-none" name="cartItemId" value = '<%= item._id %>'>
                                                 <!-- Product Image -->
                                                 <div class="cart_img me-3">
                                                 <a href="<%= productId %>">
@@ -81,7 +87,7 @@
                                                 <!-- Remove Button -->
                                                 <div class="cart_remove">
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" 
-                                                onclick = "shopModelHandle.removeItemCartHandle('<%= productId %>','<%= productName %>')">
+                                                onclick = "miniCartHandleExceptShopPage.start('<%= productId %>','<%= productName %>','<%= item._id %>')">
                                                     <i class="bi bi-trash-fill"></i>
                                                 </button>
                                                 </div>
@@ -221,7 +227,7 @@
                                             <!-- Remove Button -->
                                             <div class="cart_remove">
                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" 
-                                            onclick = "shopModelHandle.removeItemCartHandle('<%= productId %>','<%= productName %>')">
+                                            onclick = "miniCartHandleExceptShopPage.start('<%= productId %>','<%= productName %>','<%= item._id %>')">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                             </div>
@@ -379,7 +385,7 @@
                                             <!-- Remove Button -->
                                             <div class="cart_remove">
                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" 
-                                            onclick = "shopModelHandle.removeItemCartHandle('<%= productId %>','<%= productName %>')">
+                                            onclick = "miniCartHandleExceptShopPage.start('<%= productId %>','<%= productName %>','<%= item._id %>')">
                                                 <i class="bi bi-trash-fill"></i>
                                             </button>
                                             </div>

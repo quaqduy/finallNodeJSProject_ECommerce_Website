@@ -46,7 +46,8 @@ router.get('/', async function(req, res, next) {
     webLocationHost, 
     categories, 
     products,
-    cartItemList
+    cartItemList,
+    cartId: req.session.cart.cartId
   });
 });
 
@@ -111,6 +112,13 @@ router.get('/shop/:id', async function(req, res, next) {
   }
 });
 
+
+//DELETE cart item 
+router.post('/cart_item/:id', async function(req, res, next) {
+  const deletedCartItem = await CartItem.findByIdAndDelete(req.params.id);
+  res.redirect(req.body.windowLocation);
+});
+
 /* GET cart page. */
 router.get('/cart', async function(req, res, next) {
   const categories = await Category.find();
@@ -134,16 +142,62 @@ router.get('/wishlist', async function(req, res, next) {
 
 /* GET about page. */
 router.get('/about', async function(req, res, next) {
-  const categories = await Category.find();
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('about', { title: 'About', webLocationHost, categories});
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+    res.render('about', { title: 'About', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList
+    });
+  }
 });
 
 /* GET contact page. */
 router.get('/contact', async function(req, res, next) {
-  const categories = await Category.find();
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('contact', { title: 'Contact', webLocationHost, categories});
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+    res.render('contact', { title: 'Contact', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList
+    });
+  }
 });
 
 /* GET login page. */

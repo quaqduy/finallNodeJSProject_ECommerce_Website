@@ -961,3 +961,48 @@
     });
     
 })(jQuery);	
+
+
+
+// Mini cart code
+
+const miniCartHandleExceptShopPage  = {
+    checkIsShopPage : false,
+    windowLocation: '',
+    checkAction() {
+        const currentURL = window.location.href;
+        this.windowLocation = currentURL;
+        let checkPathIncludeShop = false;
+
+        if (currentURL) {
+            const paths = currentURL.split('/');
+            paths.forEach((path) => {
+                if (path === 'shop') { 
+                    checkPathIncludeShop = true;
+                }
+            });
+        }
+        this.checkIsShopPage = checkPathIncludeShop;
+    },
+    modelConfirmHandle(productId,productName,cartItemId){
+        const confirmRemoveModal = document.querySelector('#confirmRemoveModal');
+        confirmRemoveModal.classList.remove('d-none');
+        document.querySelector('#modelConfirm_removeCartItem--Context').innerText = `Are you sure you want to remove ${productName} from the cart?`;
+        document.querySelector('#currentURLModelInput').value = this.windowLocation;
+        const formRemoveItemMiniCartAction = document.querySelector('#formRemoveItemMiniCartAction');
+        const urlBaseToFetch = document.querySelector('#urlBaseToFetch').value;
+        formRemoveItemMiniCartAction.setAttribute('action',urlBaseToFetch+'/cart_item/'+cartItemId);
+        formRemoveItemMiniCartAction.setAttribute('method','POST');
+    },
+    removeItemCartDB(){
+        
+    },
+    start(productId, productName, cartItemId){
+        this.checkAction();
+        if(!this.checkIsShopPage){
+            this.modelConfirmHandle(productId,productName,cartItemId);
+            this.removeItemCartDB();
+        }
+    }
+}
+
