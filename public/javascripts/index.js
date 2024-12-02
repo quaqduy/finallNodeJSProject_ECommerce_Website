@@ -821,20 +821,25 @@
     // Update Form
     // Wait until the DOM is fully loaded
     document.addEventListener("DOMContentLoaded", function () {
-        // Get the modal and button
+    const btn = document.getElementById("update_profile");
+        if(btn){
+            // Get the modal and button
         const modal = document.getElementById("updateForm");
-        const btn = document.getElementById("update_profile");
         const profileCloseModal = document.querySelector("#updateForm .close");
 
         // When the user clicks the button, open the modal
-        btn.onclick = function () {
-            modal.style.display = "block";
-        };
+        if(btn){
+            btn.onclick = function () {
+                modal.style.display = "block";
+            };
+        }
 
         // When the user clicks on <span> (x), close the modal
-        profileCloseModal.onclick = function () {
-            document.getElementById("updateForm").style.display = "none";
-        };
+        if(profileCloseModal){
+            profileCloseModal.onclick = function () {
+                document.getElementById("updateForm").style.display = "none";
+            };
+        }
 
         // Profile form: close when clicking outside
         window.addEventListener("click", function (event) {
@@ -861,95 +866,143 @@
             // Close the modal after submission
             modal.style.display = "none";
         };
+        }
     });
 
     // Address event
     document.addEventListener("DOMContentLoaded", function () {
         const addressModal = document.getElementById("addressForm");
-        const modalClose = document.querySelector("#addressForm .close");
-        const editAddressInput = document.getElementById("editAddress");
-        const editPhoneInput = document.getElementById("editPhone");
-        const updateAddressForm = document.getElementById("updateAddressForm");
-        const addAddressButton = document.getElementById("addAddress");
-        const modalTitle = document.getElementById("modalTitle");
-    
-        let currentRow = null; // To track the row being edited, or null for adding new
-    
-        // Handle "Add another address" button
-        addAddressButton.addEventListener("click", function () {
-            currentRow = null; // No row is being edited
-            editAddressInput.value = ""; // Clear the input fields
-            editPhoneInput.value = "";
-            modalTitle.textContent = "Add New Address"; // Update modal title
-            addressModal.style.display = "block"; // Show the modal
-        });
-    
-        // Handle Edit buttons
-        document.querySelectorAll(".edit-btn").forEach((btn) => {
-            btn.addEventListener("click", function () {
-                currentRow = btn.closest("tr");
-                const address = currentRow.children[1].textContent.trim();
-                const phone = currentRow.children[2].textContent.trim();
-                editAddressInput.value = address;
-                editPhoneInput.value = phone;
-                modalTitle.textContent = "Update Address"; // Update modal title
+        if(addressModal){
+            const modalClose = document.querySelector("#addressForm .close");
+            const editAddressInput = document.getElementById("editAddress");
+            const editPhoneInput = document.getElementById("editPhone");
+            const updateAddressForm = document.getElementById("updateAddressForm");
+            const addAddressButton = document.getElementById("addAddress");
+            const modalTitle = document.getElementById("modalTitle");
+        
+            let currentRow = null; // To track the row being edited, or null for adding new
+        
+            // Handle "Add another address" button
+            addAddressButton.addEventListener("click", function () {
+                currentRow = null; // No row is being edited
+                editAddressInput.value = ""; // Clear the input fields
+                editPhoneInput.value = "";
+                modalTitle.textContent = "Add New Address"; // Update modal title
                 addressModal.style.display = "block"; // Show the modal
             });
-        });
-    
-        // Handle Close modal
-        modalClose.onclick = function () {
-            addressModal.style.display = "none";
-        };
-    
-        // Close modal when clicking outside
-        window.addEventListener("click", function (event) {
-            if (event.target === addressModal) {
-                addressModal.style.display = "none";
-            }
-        });
-    
-        // Handle form submission
-        updateAddressForm.onsubmit = function (e) {
-            e.preventDefault();
-    
-            const updatedAddress = editAddressInput.value;
-            const updatedPhone = editPhoneInput.value;
-    
-            if (currentRow) {
-                // Update existing row
-                currentRow.children[1].textContent = updatedAddress;
-                currentRow.children[2].textContent = updatedPhone;
-            } else {
-                // Add a new row
-                const tableBody = document.querySelector("table tbody");
-                const newRow = document.createElement("tr");
-                const rowIndex = tableBody.children.length + 1;
-    
-                newRow.innerHTML = `
-                    <td>${rowIndex}</td>
-                    <td>${updatedAddress}</td>
-                    <td>${updatedPhone}</td>
-                    <td>
-                        <button class="edit-btn" data-index="${rowIndex}">Edit</button>
-                        <button>Delete</button>
-                    </td>
-                `;
-    
-                tableBody.appendChild(newRow);
-    
-                // Rebind the Edit button for the new row
-                newRow.querySelector(".edit-btn").addEventListener("click", function () {
-                    currentRow = newRow;
-                    editAddressInput.value = updatedAddress;
-                    editPhoneInput.value = updatedPhone;
-                    modalTitle.textContent = "Update Address";
-                    addressModal.style.display = "block";
+        
+            // Handle Edit buttons
+            document.querySelectorAll(".edit-btn").forEach((btn) => {
+                btn.addEventListener("click", function () {
+                    currentRow = btn.closest("tr");
+                    const address = currentRow.children[1].textContent.trim();
+                    const phone = currentRow.children[2].textContent.trim();
+                    editAddressInput.value = address;
+                    editPhoneInput.value = phone;
+                    modalTitle.textContent = "Update Address"; // Update modal title
+                    addressModal.style.display = "block"; // Show the modal
                 });
-            }
-    
-            addressModal.style.display = "none"; // Close the modal
-        };
+            });
+        
+            // Handle Close modal
+            modalClose.onclick = function () {
+                addressModal.style.display = "none";
+            };
+        
+            // Close modal when clicking outside
+            window.addEventListener("click", function (event) {
+                if (event.target === addressModal) {
+                    addressModal.style.display = "none";
+                }
+            });
+        
+            // Handle form submission
+            updateAddressForm.onsubmit = function (e) {
+                e.preventDefault();
+        
+                const updatedAddress = editAddressInput.value;
+                const updatedPhone = editPhoneInput.value;
+        
+                if (currentRow) {
+                    // Update existing row
+                    currentRow.children[1].textContent = updatedAddress;
+                    currentRow.children[2].textContent = updatedPhone;
+                } else {
+                    // Add a new row
+                    const tableBody = document.querySelector("table tbody");
+                    const newRow = document.createElement("tr");
+                    const rowIndex = tableBody.children.length + 1;
+        
+                    newRow.innerHTML = `
+                        <td>${rowIndex}</td>
+                        <td>${updatedAddress}</td>
+                        <td>${updatedPhone}</td>
+                        <td>
+                            <button class="edit-btn" data-index="${rowIndex}">Edit</button>
+                            <button>Delete</button>
+                        </td>
+                    `;
+        
+                    tableBody.appendChild(newRow);
+        
+                    // Rebind the Edit button for the new row
+                    newRow.querySelector(".edit-btn").addEventListener("click", function () {
+                        currentRow = newRow;
+                        editAddressInput.value = updatedAddress;
+                        editPhoneInput.value = updatedPhone;
+                        modalTitle.textContent = "Update Address";
+                        addressModal.style.display = "block";
+                    });
+                }
+        
+                addressModal.style.display = "none"; // Close the modal
+            };
+        }
     });
     
 })(jQuery);	
+
+
+
+// Mini cart code
+
+const miniCartHandleExceptShopPage  = {
+    checkIsShopPage : false,
+    windowLocation: '',
+    checkAction() {
+        const currentURL = window.location.href;
+        this.windowLocation = currentURL;
+        let checkPathIncludeShop = false;
+
+        if (currentURL) {
+            const paths = currentURL.split('/');
+            paths.forEach((path) => {
+                if (path === 'shop') { 
+                    checkPathIncludeShop = true;
+                }
+            });
+        }
+        this.checkIsShopPage = checkPathIncludeShop;
+    },
+    modelConfirmHandle(productId,productName,cartItemId){
+        const confirmRemoveModal = document.querySelector('#confirmRemoveModal');
+        confirmRemoveModal.classList.remove('d-none');
+        document.querySelector('#modelConfirm_removeCartItem--Context').innerText = `Are you sure you want to remove ${productName} from the cart?`;
+        document.querySelector('#currentURLModelInput').value = this.windowLocation;
+        const formRemoveItemMiniCartAction = document.querySelector('#formRemoveItemMiniCartAction');
+        const urlBaseToFetch = document.querySelector('#urlBaseToFetch').value;
+        formRemoveItemMiniCartAction.setAttribute('action',urlBaseToFetch+'/cart_item/'+cartItemId);
+        formRemoveItemMiniCartAction.setAttribute('method','POST');
+    },
+    removeItemCartDB(){
+        
+    },
+    start(productId, productName, cartItemId){
+        this.checkAction();
+        if(!this.checkIsShopPage){
+            this.modelConfirmHandle(productId,productName,cartItemId);
+            this.removeItemCartDB();
+        }
+    }
+}
+

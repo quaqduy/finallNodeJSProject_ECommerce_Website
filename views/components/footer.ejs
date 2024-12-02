@@ -1,3 +1,32 @@
+<!-- Modal Confirm Remove Item mini cart -->
+<div class="modal fade d-none" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRemoveModalLabel">
+                    <i class="fas fa-trash-alt text-danger"></i> Confirm Product Removal
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><i class="fas fa-exclamation-triangle text-warning"></i> <span id="modelConfirm_removeCartItem--Context"></span> </p>
+            </div>
+            <div class="modal-footer">
+                <button id="modelConfirm_removeCartItem--Close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <form id="formRemoveItemMiniCartAction" action="" method="">
+                    <input type="text" name="windowLocation" id="currentURLModelInput" class="d-none">
+                    <button type="submit" class="btn btn-danger" id="confirmRemoveItemCartBtn">
+                        <i class="fas fa-trash-alt"></i> Remove
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!--footer area start-->
 <footer class="footer_widgets">
     <div class="footer_top">
