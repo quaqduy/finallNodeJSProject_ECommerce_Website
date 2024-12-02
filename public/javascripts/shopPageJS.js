@@ -284,37 +284,40 @@ const addProductToWishList = (productId)=>{
 }
 
 
-//For break page
-const productBox_items = document.querySelectorAll('.productBox_item');
-const hideAllProduct = ()=>{
-  productBox_items.forEach((item)=>{
+// For break page
+let productBox_items = document.querySelectorAll('.productBox_item');
+const productBox_items_FromOldToNew = productBox_items;
+const hideAllProduct = () => {
+  productBox_items.forEach((item) => {
     item.classList.add('d-none');
-  })
+  });
 }
 
 let currentProduct_start = 0;
 let currentProduct_end = 0;
 let currentProduct_pageNumber = 0;
+
+// Function to show products for a specific page
 const showPage = (clickedElement, pageNumber) => {
   const paginationItems = document.querySelectorAll('.pagination li');
-  paginationItems.forEach((i)=>{
+  paginationItems.forEach((i) => {
     i.classList.remove('current');
-  })
+  });
 
-  const itemsPerPage = 6; 
-  if(pageNumber == 'next'){
+  const itemsPerPage = 6;
+  if (pageNumber === 'next') {
     currentProduct_pageNumber++;
-    clickedElement = paginationItems[currentProduct_pageNumber-1]
-  }else{
+    clickedElement = paginationItems[currentProduct_pageNumber - 1];
+  } else {
     currentProduct_pageNumber = pageNumber;
   }
-  
-  if((currentProduct_pageNumber - 1) * itemsPerPage < productBox_items.length){
-    currentProduct_start = (currentProduct_pageNumber - 1) * itemsPerPage; 
+
+  if ((currentProduct_pageNumber - 1) * itemsPerPage < productBox_items.length) {
+    currentProduct_start = (currentProduct_pageNumber - 1) * itemsPerPage;
     currentProduct_end = currentProduct_start + itemsPerPage;
 
     const page_amountContent = document.querySelector('.page_amount');
-    page_amountContent.innerHTML = `Showing ${currentProduct_start} – ${currentProduct_end} of ${productBox_items.length} results`;
+    page_amountContent.innerHTML = `Showing ${currentProduct_start + 1} – ${currentProduct_end} of ${productBox_items.length} results`;
 
     productBox_items.forEach((item, index) => {
       if (index >= currentProduct_start && index < currentProduct_end) {
@@ -324,16 +327,180 @@ const showPage = (clickedElement, pageNumber) => {
       }
     });
 
-    if(clickedElement){
+    if (clickedElement) {
       clickedElement.classList.add('current');
-    }else{
+    } else {
       paginationItems[0].classList.add('current');
     }
   }
 };
 
-
+// Initial hide all products and show the first page
 hideAllProduct();
-showPage(null , 1);
+showPage(null, 1);
+
+
+//for sort
+const sortSelection = document.querySelector('#sortSelection');
+
+function pickSort(selectedValue) {
+  switch (selectedValue) {
+      case 1:
+        console.log("Sort by average rating");
+        sortByAverageRating();
+        break;
+      case 2:
+        console.log("Sort by popularity");
+        sortByPopularity();
+        break;
+      case 3:
+        console.log("Sort by newness");
+        sortByNewness();
+        break;
+      case 4:
+        console.log("Sort by price: low to high");
+        sortByPriceLowToHigh();
+        break;
+      case 5:
+        console.log("Sort by price: high to low");
+        sortByPriceHighToLow();
+        break;
+      case 6:
+        console.log("Product Name: Z");
+        sortByProductNameZ();
+        break;
+      default:
+        console.log("Invalid selection");
+    }
+}
+
+// Function to sort products by price from low to high
+function sortByPriceLowToHigh() {
+  // Get all product items
+  productBox_items = document.querySelectorAll('.productBox_item');
+  
+  // Convert NodeList to an array to allow sorting
+  let productArray = Array.from(productBox_items);
+
+  // Sort products by price (ascending)
+  productArray.sort((a, b) => {
+    // Get the price as string from the _itemPrice attribute
+    const priceA = parseFloat(a.getAttribute('_itemPrice'));  // Convert to number
+    const priceB = parseFloat(b.getAttribute('_itemPrice'));  // Convert to number
+    
+    // Return comparison result
+    return priceA - priceB;  // Sort from low to high
+  });
+
+
+  // Reorder the product elements in the DOM
+  const container = document.querySelector('.shop_wrapper');
+  productArray.forEach(item => {
+    container.appendChild(item);  // Re-append sorted items to the container
+  });
+
+  // Optionally, reassign the sorted list to productBox_items if needed
+  productBox_items = document.querySelectorAll('.productBox_item');
+
+  // Initial hide all products and show the first page
+  hideAllProduct();
+  showPage(null, 1);
+}
+
+// Function to sort products by price from high to low
+function sortByPriceHighToLow() {
+  // Get all product items
+  productBox_items = document.querySelectorAll('.productBox_item');
+  
+  // Convert NodeList to an array to allow sorting
+  let productArray = Array.from(productBox_items);
+
+  // Sort products by price (descending)
+  productArray.sort((a, b) => {
+    // Get the price as string from the _itemPrice attribute
+    const priceA = parseFloat(a.getAttribute('_itemPrice'));  // Convert to number
+    const priceB = parseFloat(b.getAttribute('_itemPrice'));  // Convert to number
+    
+    // Return comparison result for high to low sorting
+    return priceB - priceA;  // Sort from high to low
+  });
+
+  // Reorder the product elements in the DOM
+  const container = document.querySelector('.shop_wrapper');
+  productArray.forEach(item => {
+    container.appendChild(item);  // Re-append sorted items to the container
+  });
+
+  // Optionally, reassign the sorted list to productBox_items if needed
+  productBox_items = document.querySelectorAll('.productBox_item');
+
+  // Initial hide all products and show the first page
+  hideAllProduct();
+  showPage(null, 1);
+}
+
+function sortByProductNameZ() {
+  // Get all product items
+  productBox_items = document.querySelectorAll('.productBox_item');
+  
+  // Convert NodeList to an array to allow sorting
+  let productArray = Array.from(productBox_items);
+
+  // Sort products by product name (Z to A)
+  productArray.sort((a, b) => {
+    // Get the product name from the _itemName attribute
+    const nameA = a.getAttribute('_itemName').toUpperCase();  // Convert to uppercase for case-insensitive comparison
+    const nameB = b.getAttribute('_itemName').toUpperCase();  // Convert to uppercase for case-insensitive comparison
+    
+    // Return comparison result for Z to A sorting
+    if (nameA > nameB) {
+      return 1;  // nameA comes after nameB (A to Z)
+    } else if (nameA < nameB) {
+      return -1;  // nameA comes before nameB (A to Z)
+    } else {
+      return 0;  // names are equal
+    }
+  });
+
+  // Reorder the product elements in the DOM
+  const container = document.querySelector('.shop_wrapper');
+  productArray.forEach(item => {
+    container.appendChild(item);  // Re-append sorted items to the container
+  });
+
+  // Optionally, reassign the sorted list to productBox_items if needed
+  productBox_items = document.querySelectorAll('.productBox_item');
+
+  // Initial hide all products and show the first page
+  hideAllProduct();
+  showPage(null, 1);
+}
+
+
+function sortByNewness() {
+  productBox_items = Array.from(productBox_items_FromOldToNew).reverse();
+  // Reorder the product elements in the DOM
+  const container = document.querySelector('.shop_wrapper');
+  productBox_items.forEach(item => {
+    container.appendChild(item);  // Re-append sorted items to the container
+  });
+  
+  // Optionally, reassign the sorted list to productBox_items if needed
+  productBox_items = document.querySelectorAll('.productBox_item');
+  
+  // Initial hide all products and show the first page
+  hideAllProduct();
+  showPage(null, 1);
+}
+
+// Placeholder functions for other sorts, you can add logic as needed
+function sortByAverageRating() {
+  console.log("Sorting by average rating...");
+}
+
+function sortByPopularity() {
+  console.log("Sorting by popularity...");
+}
+
 
 
