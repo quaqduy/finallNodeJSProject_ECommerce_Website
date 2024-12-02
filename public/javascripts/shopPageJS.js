@@ -282,3 +282,58 @@ const addProductToWishList = (productId)=>{
   wishlistAdd_form.querySelector('input[name="currentUrl"]').value = window.location.href;
   wishlistAdd_form.querySelector('input[type="submit"]').click();
 }
+
+
+//For break page
+const productBox_items = document.querySelectorAll('.productBox_item');
+const hideAllProduct = ()=>{
+  productBox_items.forEach((item)=>{
+    item.classList.add('d-none');
+  })
+}
+
+let currentProduct_start = 0;
+let currentProduct_end = 0;
+let currentProduct_pageNumber = 0;
+const showPage = (clickedElement, pageNumber) => {
+  const paginationItems = document.querySelectorAll('.pagination li');
+  paginationItems.forEach((i)=>{
+    i.classList.remove('current');
+  })
+
+  const itemsPerPage = 6; 
+  if(pageNumber == 'next'){
+    currentProduct_pageNumber++;
+    clickedElement = paginationItems[currentProduct_pageNumber-1]
+  }else{
+    currentProduct_pageNumber = pageNumber;
+  }
+  
+  if((currentProduct_pageNumber - 1) * itemsPerPage < productBox_items.length){
+    currentProduct_start = (currentProduct_pageNumber - 1) * itemsPerPage; 
+    currentProduct_end = currentProduct_start + itemsPerPage;
+
+    const page_amountContent = document.querySelector('.page_amount');
+    page_amountContent.innerHTML = `Showing ${currentProduct_start} – ${currentProduct_end} of ${productBox_items.length} results`;
+
+    productBox_items.forEach((item, index) => {
+      if (index >= currentProduct_start && index < currentProduct_end) {
+        item.classList.remove('d-none');
+      } else {
+        item.classList.add('d-none');
+      }
+    });
+
+    if(clickedElement){
+      clickedElement.classList.add('current');
+    }else{
+      paginationItems[0].classList.add('current');
+    }
+  }
+};
+
+
+hideAllProduct();
+showPage(null , 1);
+
+
