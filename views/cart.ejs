@@ -67,60 +67,43 @@
                                   <thead>
                                       <tr>
                                           <th class="product_remove">Delete</th>
+                                          <th class="product_Id">Product ID</th>
                                           <th class="product_thumb">Image</th>
-                                          <th class="product_name">Product</th>
+                                          <th class="product_name">Product Name</th>
+                                          <th class="product_color">Color Chose</th>
                                           <th class="product-price">Price</th>
                                           <th class="product_quantity">Quantity</th>
                                           <th class="product_total">Total</th>
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
-                                          </td>
-                                          <td class="product_thumb"><a href="#"><img
-                                                      src="/images/product_imgs/defautProductImg.png" alt=""></a></td>
-                                          <td class="product_name"><a href="#">Handbag fringilla</a></td>
-                                          <td class="product-price">£65.00</td>
-                                          <td class="product_quantity"><label>Quantity</label> <input min="1"
-                                                  max="100" value="1" type="number"></td>
-                                          <td class="product_total">£130.00</td>
-
-
-                                      </tr>
-
-                                      <tr>
-                                          <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
-                                          </td>
-                                          <td class="product_thumb"><a href="#"><img
-                                                      src="/images/product_imgs/defautProductImg.png" alt=""></a></td>
-                                          <td class="product_name"><a href="#">Handbags justo</a></td>
-                                          <td class="product-price">£90.00</td>
-                                          <td class="product_quantity"><label>Quantity</label> <input min="1"
-                                                  max="100" value="1" type="number"></td>
-                                          <td class="product_total">£180.00</td>
-
-
-                                      </tr>
-                                      <tr>
-                                          <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
-                                          </td>
-                                          <td class="product_thumb"><a href="#"><img
-                                                      src="/images/product_imgs/defautProductImg.png" alt=""></a></td>
-                                          <td class="product_name"><a href="#">Handbag elit</a></td>
-                                          <td class="product-price">£80.00</td>
-                                          <td class="product_quantity"><label>Quantity</label> <input min="1"
-                                                  max="100" value="1" type="number"></td>
-                                          <td class="product_total">£160.00</td>
-
-
-                                      </tr>
-
+                                    <%
+                                    if(cartItemList.length > 0){
+                                        cartItemList.forEach((item) => {
+                                    %>
+                                    <tr class="cartItem" _cartItemID="<%= item._id %>" _cartItem_ProductPrice="<%= item.productId.price %>">
+                                        <input class="itemCartId d-none" _cartItemId="<%= item._id %>" type="text" >
+                                        <td class="product_remove" onclick="handleViewerAction('<%= item._id %>','<%= item.productId.name %>')"><i class="fa fa-trash"></i></td>
+                                        <td class="product_Id"><%= item.productId._id %></td>
+                                        <td class="product_thumb"><a href="<%= webLocationHost %>/product-details/<%= item.productId._id %>"><img src="/images/product_imgs/defautProductImg.png" alt=""></a></td>
+                                        <td class="product_name"><a href="<%= webLocationHost %>/product-details/<%= item.productId._id %>"><%= item.productId.name %></a></td>
+                                        <td class="product_Chose"><%= item.color %></td>
+                                        <td class="product-price"><%= parseInt(item.productId.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+                                        <td class="product_quantity">
+                                            <label>Quantity</label> 
+                                            <input _cartItemID="<%= item._id %>" class="quantityItemCart" min="1" max="100" value="<%= item.quantity %>" type="number">
+                                        </td>
+                                        <td class="product_total"><%= (parseInt(item.quantity) * parseInt(item.productId.price)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+                                    </tr>
+                                    <%
+                                        });
+                                    }
+                                    %>
                                   </tbody>
                               </table>
                           </div>
                           <div class="cart_submit">
-                              <button type="submit">update cart</button>
+                              <button type="button" onclick = 'submitNewCart()'>update cart</button>
                           </div>
                       </div>
                   </div>
@@ -144,7 +127,17 @@
                               <div class="coupon_inner">
                                   <div class="cart_subtotal">
                                       <p>Subtotal</p>
-                                      <p class="cart_amount">£215.00</p>
+                                      <p class="cart_amount"><%
+                                            let subtotal = 0;
+                                            if(cartItemList.length && cartItemList.length > 0){
+                                                cartItemList.forEach((item)=>{
+                                                    subtotal += parseInt(item.quantity)*parseInt(item.productId.price);
+                                                })
+                                            }
+                                            %>
+                                            <%= subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+                                            <%
+                                        %></p>
                                   </div>
                                   <div class="cart_subtotal ">
                                       <p>Shipping</p>
@@ -170,6 +163,34 @@
   </div>
   <!--shopping cart area end -->
 
+  <!-- Delete Confirmation Modal -->
+  <form id="submitNewCartForm" action="<%= webLocationHost %>/cart_item_delmany" method="POST" class="d-none">
+    <input type="text" name="listCartItemID_remove">
+    <input type="text" name="listQuantity_change">
+    <input type="text" name="currentURL">
+    <input type="submit" id="submitHandleCartBtn">
+  </form>
+<div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmRemoveModalLabel">Confirm Remove Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to remove <span id="modalProductName" class="fw-bold"></span> from the cart?
+        </div>
+        <div class="modal-footer">
+          <button id="removeItemCancelBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <div>
+            <button id="removeItemCofirmBtn" _cartItemID="" type="button" class="btn btn-danger" onclick="handleRemoveItemCart_view(event)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
   <!-- Include footer component -->
   <%- include('./components/footer.ejs') %>
 
@@ -178,5 +199,7 @@
 
   <!-- Main JS -->
   <script src="/javascripts/index.js"></script>
+
+  <script src="/javascripts/cart.js"></script>
   </body>
 </html>

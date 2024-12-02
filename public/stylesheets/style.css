@@ -10582,3 +10582,8 @@ a{
   font-size: 15px !important;
   font-weight: bold;
 }
+
+.product_remove:hover {
+  color: red; /* Change the color on hover */
+  cursor: pointer; /* Show pointer to indicate clickable area */
+}

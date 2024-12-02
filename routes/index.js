@@ -120,6 +120,31 @@ router.post('/cart_item/:id', async function(req, res, next) {
   res.redirect(req.body.windowLocation);
 });
 
+//DELETE many cart item 
+router.post('/cart_item_delmany', async function(req, res, next) {
+  console.log(req.body)
+  if(req.body.listCartItemID_remove !== ''){
+    const listCartItemRemove = req.body.listCartItemID_remove.split(';');
+    if(listCartItemRemove.length > 0 && listCartItemRemove){
+      listCartItemRemove.forEach( async (item)=>{
+        await CartItem.findByIdAndDelete(item);
+      })
+    }
+  }
+  if(req.body.listQuantity_change !== ''){
+    const listQuantity_change = JSON.parse(req.body.listQuantity_change);
+    console.log(listQuantity_change);
+    if(listQuantity_change.length > 0){
+      listQuantity_change.forEach(async(item) =>{
+        const updatedCartItem = await CartItem.findById(item.cartItemID);
+        updatedCartItem.quantity = item.quantity;
+        await updatedCartItem.save();
+      })
+    }
+  }
+  res.redirect(req.body.currentURL);
+});
+
 //add cart item 
 router.post('/cart_item', async function(req, res, next) {
   const { cartId, productId, color, quantity, currentURL } = req.body;
@@ -170,9 +195,32 @@ router.post('/cart_item', async function(req, res, next) {
 
 /* GET cart page. */
 router.get('/cart', async function(req, res, next) {
-  const categories = await Category.find();
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('cart', { title: 'Cart', webLocationHost, categories});
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+    res.render('cart', { title: 'Cart', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList
+    });
+  }
 });
 
 

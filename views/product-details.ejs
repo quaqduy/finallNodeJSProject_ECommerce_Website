@@ -170,8 +170,11 @@
                   <label>color</label>
                   <ul id = 'colorList'>
                     <% 
-                      if(productDetail.colors){
+                      var defaultColor = ''; 
+                      if(productDetail.colors !== undefined && productDetail.colors !== null){
                         var colors = productDetail.colors.split(',');
+                        defaultColor = productDetail.colors.split(',')[0];
+
                         if(colors){
                           colors.forEach((color)=>{
                             %>
@@ -193,7 +196,7 @@
                   <form id="addToCartForm" action = "<%= webLocationHost %>/cart_item" method ="POST">
                       <input type="hidden" name="cartId" value="<%= cartId %>">
                       <input type="hidden" name="productId" value="<%= productDetail._id %>">
-                      <input type="hidden" name="color" id="colorChoose" value="<%= productDetail.colors.split(',')[0] %>">
+                      <input type="hidden" name="color" id="colorChoose" value="<%= defaultColor %>">
                       <input type="hidden" name="currentURL" id="currentURL">
                       <label for="quantity">Quantity:</label>
                       <input min="1" max="100" value="1" type="number" id="quantity" name="quantity"/>
