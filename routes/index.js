@@ -33,7 +33,8 @@ router.get('/', async function(req, res, next) {
   
   //get cartItem list
   const cartId_find_items = req.session.cart.cartId;
-  const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+  const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId'); 
+  req.session.cartItemList = cartItems;
   const cartItemList = req.session.cartItemList;
 
   //Ready for view
@@ -64,7 +65,7 @@ router.get('/shop', async function(req, res, next) {
 
     //get cartItem list
     const cartId_find_items = req.session.cart.cartId;
-    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId'); 
     req.session.cartItemList = cartItems;
     const cartItemList = req.session.cartItemList;
 
@@ -97,7 +98,7 @@ router.get('/shop/:id', async function(req, res, next) {
 
     //get cartItem list
     const cartId_find_items = req.session.cart.cartId;
-    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  
     req.session.cartItemList = cartItems;
     const cartItemList = req.session.cartItemList;
 
@@ -119,11 +120,67 @@ router.post('/cart_item/:id', async function(req, res, next) {
   res.redirect(req.body.windowLocation);
 });
 
+//add cart item 
+router.post('/cart_item', async function(req, res, next) {
+  const {cartId, productId, color, quantity ,currentURL} = req.body;
+
+  const existingCartItem = await CartItem.findOne({ cartId, productId });
+
+  if (existingCartItem) {
+    existingCartItem.quantity += parseInt(quantity, 10); 
+    await existingCartItem.save();
+  }else {
+    const newCartItem = new CartItem({
+      cartId,
+      productId,
+      quantity,
+      color,
+    });
+    await newCartItem.save();
+  }
+  res.redirect(currentURL);
+});
+
 /* GET cart page. */
 router.get('/cart', async function(req, res, next) {
   const categories = await Category.find();
   const webLocationHost = `${req.protocol}://${req.get('host')}`;
   res.render('cart', { title: 'Cart', webLocationHost, categories});
+});
+
+
+/* GET product detail page. */
+router.get('/product-details/:id', async function(req, res, next) {
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+    //For product Detail
+    const productDetail = await Product.findById(id).populate('categoryId');
+
+    res.render('product-details', { title: 'Product Detail', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList,
+      productDetail
+    });
+  }
 });
 
 /* GET checkout page. */
@@ -156,7 +213,7 @@ router.get('/about', async function(req, res, next) {
 
     //get cartItem list
     const cartId_find_items = req.session.cart.cartId;
-    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  
     req.session.cartItemList = cartItems;
     const cartItemList = req.session.cartItemList;
 
@@ -186,7 +243,7 @@ router.get('/contact', async function(req, res, next) {
 
     //get cartItem list
     const cartId_find_items = req.session.cart.cartId;
-    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  req.session.cartItemList = cartItems;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');
     req.session.cartItemList = cartItems;
     const cartItemList = req.session.cartItemList;
 
@@ -212,11 +269,6 @@ router.get('/userAccount', async function(req, res, next) {
   const categories = await Category.find();
   const webLocationHost = `${req.protocol}://${req.get('host')}`;
   res.render('userAccount', { title: 'User Account', webLocationHost, categories});
-});
-
-/* GET product detail page. */
-router.get('/product-details', function(req, res, next) {
-  res.render('product-details', { title: 'Express' });
 });
 
 module.exports = router;

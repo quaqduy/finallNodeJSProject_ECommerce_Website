@@ -145,10 +145,10 @@
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="product-details"><img
-                                                            src="/images/product/product1.jpg" alt=""></a>
-                                                    <a class="secondary_img" href="product-details"><img
-                                                            src="/images/product/product2.jpg" alt=""></a>
+                                                    <a class="primary_img" href="/product-details/<%= item._id %>"><img
+                                                            src="/images/product_imgs/defautProductImg.png" alt=""></a>
+                                                    <a class="secondary_img" href="/product-details/<%= item._id %>"><img
+                                                            src="/images/product_imgs/defautProductImg.png" alt=""></a>
                                                     <div class="label_product">
                                                         <span class="label_sale">sale</span>
                                                     </div>
@@ -189,7 +189,7 @@
                                                             <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
                                                         </ul>
                                                     </div>
-                                                    <h3 class="product_name grid_name"><a href="product-details"><%= item.name %></a></h3>
+                                                    <h3 class="product_name grid_name"><a href="/product-details/<%= item._id %>"><%= item.name %></a></h3>
                                                 </div>
                                                 <div class="product_content list_content">
                                                     <div class="left_caption">
@@ -197,7 +197,7 @@
                                                             <!-- <span class="old_price">$86.00</span> -->
                                                             <span class="current_price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price) %></span>
                                                         </div>
-                                                        <h3 class="product_name"><a href="product-details"><%= item.name %></a></h3>
+                                                        <h3 class="product_name"><a href="/product-details/<%= item._id %>"><%= item.name %></a></h3>
                                                         <div class="product_ratings">
                                                             <ul>
                                                                 <li><a href="#"><i class="ion-android-star-outline"></i></a></li>

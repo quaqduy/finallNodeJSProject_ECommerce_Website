@@ -28,12 +28,14 @@ exports.getCartItemsByCartId = async (req, res) => {
 
 // Add a new Cart Item
 exports.createCartItem = async (req, res) => {
+  console.log(req.body)
   const { cartId, productId, quantity } = req.body;
 
   const newCartItem = new CartItem({
     cartId,
     productId,
     quantity,
+    color
   });
 
   try {

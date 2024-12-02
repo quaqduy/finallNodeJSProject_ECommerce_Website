@@ -86,14 +86,14 @@ const shopModelHandle = {
             <div class="cart_item p-3 rounded shadow-sm d-flex align-items-center mb-3">
               <!-- Product Image -->
               <div class="cart_img me-3">
-                <a href="${item.productId}">
+                <a href="/product-details/${item.productId}">
                   <img src="/images/s-product/product.jpg" alt="${item.productName}" class="img-fluid rounded" style="width: 80px; height: 80px;">
                 </a>
               </div>
               
               <!-- Product Information -->
               <div class="cart_info flex-grow-1">
-                <a href="${item.productId}" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                <a href="/product-details/${item.productId}" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
                   <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
                   ${item.productName}
                 </a>
