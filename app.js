@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var productRouter = require('./routes/ProductRoutes');
@@ -18,6 +19,14 @@ var shippingRouter  = require('./routes/ShippingRoutes');
 var userRouter  = require('./routes/UserRoutes');
 
 var app = express();
+
+// setup session
+app.use(session({
+  secret: '8386',  
+  resave: false,              
+  saveUninitialized: true,    
+  cookie: { secure: false }  
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,7 +44,7 @@ database.connect();
 
 app.use('/', indexRouter);
 app.use('/api/products', productRouter);
-app.use('/api/categorys', categoryRouter);
+app.use('/api/categories', categoryRouter);
 app.use('/api/addresses', addressRouter);
 app.use('/api/cart_item', cartItemRouter);
 app.use('/api/cart', cartRouter);

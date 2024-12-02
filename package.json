@@ -12,6 +12,7 @@
     "dotenv": "^16.4.5",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-session": "^1.18.1",
     "finallnodejsproject": "file:",
     "http-errors": "~1.6.3",
     "mongoose": "^8.8.2",

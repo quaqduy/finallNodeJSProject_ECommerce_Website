@@ -1,10 +1,15 @@
 <!--header area start-->
-
-<!--Offcanvas menu area start-->
-<div class="off_canvars_overlay">
-
+<%
+    let totalPrice = 0;
+    let totalPrice_VND_Format = 0;
+%>
 </div>
+
 <div class="Offcanvas_menu">
+
+    <input type="text" class =' d-none' id="cartID_input" value = '<%= cartId %>'>
+    <input type="text" class =' d-none' id="urlBaseToFetch" value = '<%= webLocationHost %>'>
+
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -17,18 +22,6 @@
                     </div>
                     <div class="search_container">
                         <form action="#">
-                            <div class="hover_category">
-                                <select class="select_option" name="select" id="categori">
-                                    <option selected value="1">All Categories</option>
-                                    <option value="2">Accessories</option>
-                                    <option value="3">Camera</option>
-                                    <option value="4">Mornitors</option>
-                                    <option value="5">Tablets</option>
-                                    <option value="6">Laptops</option>
-                                    <option value="7">Headphone & Speaker</option>
-                                    <option value="8">Watchs</option>
-                                </select>
-                            </div>
                             <div class="search_box">
                                 <input placeholder="Search product..." type="text">
                                 <button type="submit">Search</button>
@@ -38,48 +31,86 @@
 
                     <div class="middel_right_info">
                         <div class="header_wishlist">
-                            <a href="wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                            <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                            </a>
                             <span class="wishlist_quantity">3</span>
                         </div>
                         <div class="mini_cart_wrapper">
                             <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
-                                    aria-hidden="true"></i>$147.00 <i class="fa fa-angle-down"></i></a>
-                            <span class="cart_quantity">2</span>
+                                    aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
+                            <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                             <!--mini cart-->
-                            <div class="mini_cart">
-                                <div class="cart_item">
-                                    <div class="cart_img">
-                                        <a href="#"><img src="/images/s-product/product.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart_info">
-                                        <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                        <p>Qty: 1 X <span> $60.00 </span></p>
-                                    </div>
-                                    <div class="cart_remove">
-                                        <a href="#"><i class="ion-android-close"></i></a>
-                                    </div>
+                            <div class="mini_cart"
+                            style=" 
+                                max-height: 500px !important; 
+                                overflow-y: auto;
+                                "
+                            >
+                                <!--mini cart items-->
+                                <div class="miniCart_box">
+                                    <%
+
+                                    if(cartItemList && cartItemList.length > 0){
+                                        cartItemList.forEach((item)=>{
+                                            const cartId = item._id;
+                                            const  productId = item.productId._id;
+                                            const  productName = item.productId.name;
+                                            const  productPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.productId.price );
+                                            const  productQuantity = item.quantity;
+                                            %>
+                                            <div class="cart_item p-3 rounded shadow-sm d-flex align-items-center mb-3">
+                                                <input type="text" class="d-none" name="cartItemId" value = '<%= cartId %>'>
+                                                <input type="text" class="d-none" name="productId" value = '<%= productId %>'>
+                                                <input type="text" class="d-none" name="productName" value = '<%= productName %>'>
+                                                <input type="text" class="d-none" name="productQuantity" value = '<%= productQuantity %>'>
+                                                <input type="text" class="d-none" name="productPrice" value = '<%= item.productId.price %>'>
+                                                <input type="text" class="d-none" name="cartItemId" value = '<%= item._id %>'>
+                                                <!-- Product Image -->
+                                                <div class="cart_img me-3">
+                                                <a href="<%= productId %>">
+                                                    <img src="/images/s-product/product.jpg" alt="<%= productName %>" class="img-fluid rounded" style="width: 80px; height: 80px;">
+                                                </a>
+                                                </div>
+                                                
+                                                <!-- Product Information -->
+                                                <div class="cart_info flex-grow-1">
+                                                <a href="<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                                                    <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
+                                                    <%= productName %>
+                                                </a>
+                                                <p class="mb-0 text-muted">
+                                                    <i class="bi bi-tag-fill me-1 text-success"></i> <!-- Icon cho giá -->
+                                                    Qty: <%= productQuantity %> x <span class="text-primary fw-bold"><%= productPrice %></span>
+                                                </p>
+                                                </div>
+                                                
+                                                <!-- Remove Button -->
+                                                <div class="cart_remove">
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" 
+                                                onclick = "miniCartHandleExceptShopPage.start('<%= productId %>','<%= productName %>','<%= item._id %>')">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                                </div>
+                                            </div> 
+                                            <%
+                                            const price = parseInt(item.productId.price) * parseInt(productQuantity);
+                                            totalPrice += price;
+                                        })
+                                    }
+                                    totalPrice_VND_Format = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
+                                    %>
                                 </div>
-                                <div class="cart_item">
-                                    <div class="cart_img">
-                                        <a href="#"><img src="/images/s-product/product2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart_info">
-                                        <a href="#">Natus erro at congue massa commodo</a>
-                                        <p>Qty: 1 X <span> $60.00 </span></p>
-                                    </div>
-                                    <div class="cart_remove">
-                                        <a href="#"><i class="ion-android-close"></i></a>
-                                    </div>
-                                </div>
+                                <!--mini cart items end-->
                                 <div class="mini_cart_table">
-                                    <div class="cart_total">
-                                        <span>Sub total:</span>
-                                        <span class="price">$138.00</span>
+                                    <div class="cart_total mt-3 p-3 d-flex justify-content-between align-items-center" 
+                                        style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                                        <span class="d-flex align-items-center" style="color: #1953b4; font-weight: bold;">
+                                            <i class="bi bi-cash-stack me-2" style="font-size: 1.5rem; color: #28a745;"></i>
+                                            Total:
+                                        </span>
+                                        <span class="miniCart_price" style="color: #dc3545; font-size: 1.25rem; font-weight: bold;"><%= totalPrice_VND_Format %></span>
                                     </div>
-                                    <div class="cart_total mt-10">
-                                        <span>total:</span>
-                                        <span class="price">$138.00</span>
-                                    </div>
+
                                 </div>
 
                                 <div class="mini_cart_footer">
@@ -98,18 +129,16 @@
                     </div>
                     <div id="menu" class="text-start ">
                         <ul class="offcanvas_main_menu">
-                            <li class="menu-item-has-children"><a href="shop">Shop</a></li>
-                            <li class="menu-item-has-children"><a href="blog">Blog</a></li>
-                            <li class="menu-item-has-children"><a href="about">About Us</a></li>
-                            <li class="menu-item-has-children"><a href="contact"> Contact Us</a></li>
-                            <li class="menu-item-has-children"><a href="faq">FAQ</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/shop">Shop</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/about">About Us</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                             <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                            <li class="menu-item-has-children"><a href="my-account">Sign Up / Sign In</a></li>
+                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
                         </ul>
                     </div>
 
                     <div class="Offcanvas_footer">
-                        <span><a href="#"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+                        <span><a href="#"><i class="fa fa-envelope-o"></i> info@webside.com</a></span>
                         <ul>
                             <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -148,47 +177,76 @@
                             </div>
                             <div class="middel_right_info">
                                 <div class="header_wishlist">
-                                    <a href="wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                    <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                                    </a>
                                     <span class="wishlist_quantity">3</span>
                                 </div>
                                 <div class="mini_cart_wrapper">
                                     <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
-                                            aria-hidden="true"></i>$147.00 <i class="fa fa-angle-down"></i></a>
-                                    <span class="cart_quantity">2</span>
+                                            aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
+                                    <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                                     <!--mini cart-->
-                                    <div class="mini_cart">
-                                        <div class="cart_item">
-                                            <div class="cart_img">
-                                                <a href="#"><img src="/images/s-product/product.jpg" alt=""></a>
+                                    <div class="mini_cart" 
+                                    style=" 
+                                        max-height: 500px !important; 
+                                        overflow-y: auto;
+                                        "
+                                    >
+                                        <!--mini cart items-->
+                                        <div class="miniCart_box">
+                                            <%
+
+                                    if(cartItemList && cartItemList.length > 0){
+                                        cartItemList.forEach((item)=>{
+
+                                            const  productId = item.productId._id;
+                                            const  productName = item.productId.name;
+                                            const  productPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.productId.price );
+                                            const  productQuantity = item.quantity;
+                                            %>
+                                            <div class="cart_item p-3 rounded shadow-sm d-flex align-items-center mb-3">
+                                            <!-- Product Image -->
+                                            <div class="cart_img me-3">
+                                            <a href="<%= productId %>">
+                                                <img src="/images/s-product/product.jpg" alt="<%= productName %>" class="img-fluid rounded" style="width: 80px; height: 80px;">
+                                            </a>
                                             </div>
-                                            <div class="cart_info">
-                                                <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                                <p>Qty: 1 X <span> $60.00 </span></p>
+                                            
+                                            <!-- Product Information -->
+                                            <div class="cart_info flex-grow-1">
+                                            <a href="<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                                                <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
+                                                <%= productName %>
+                                            </a>
+                                            <p class="mb-0 text-muted">
+                                                <i class="bi bi-tag-fill me-1 text-success"></i> <!-- Icon cho giá -->
+                                                Qty: <%= productQuantity %> x <span class="text-primary fw-bold"><%= productPrice %></span>
+                                            </p>
                                             </div>
+                                            
+                                            <!-- Remove Button -->
                                             <div class="cart_remove">
-                                                <a href="#"><i class="ion-android-close"></i></a>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" 
+                                            onclick = "miniCartHandleExceptShopPage.start('<%= productId %>','<%= productName %>','<%= item._id %>')">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
                                             </div>
+                                        </div> 
+                                            <%
+                                        })
+                                    }
+
+                                    %>
                                         </div>
-                                        <div class="cart_item">
-                                            <div class="cart_img">
-                                                <a href="#"><img src="/images/s-product/product2.jpg" alt=""></a>
-                                            </div>
-                                            <div class="cart_info">
-                                                <a href="#">Natus erro at congue massa commodo</a>
-                                                <p>Qty: 1 X <span> $60.00 </span></p>
-                                            </div>
-                                            <div class="cart_remove">
-                                                <a href="#"><i class="ion-android-close"></i></a>
-                                            </div>
-                                        </div>
+                                        <!--mini cart items end-->
                                         <div class="mini_cart_table">
-                                            <div class="cart_total">
-                                                <span>Sub total:</span>
-                                                <span class="price">$138.00</span>
-                                            </div>
-                                            <div class="cart_total mt-10">
-                                                <span>total:</span>
-                                                <span class="price">$138.00</span>
+                                            <div class="cart_total mt-3 p-3 d-flex justify-content-between align-items-center" 
+                                                style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                                                <span class="d-flex align-items-center" style="color: #1953b4; font-weight: bold;">
+                                                    <i class="bi bi-cash-stack me-2" style="font-size: 1.5rem; color: #28a745;"></i>
+                                                    Total:
+                                                </span>
+                                                <span class="miniCart_price" style="color: #dc3545; font-size: 1.25rem; font-weight: bold;"><%= totalPrice_VND_Format %></span>
                                             </div>
                                         </div>
 
@@ -212,7 +270,7 @@
             </div>
         </div>
         <!--header middel end-->
-        <!--header bottom satrt-->
+        <!--header bottom start-->
         <div class="main_menu_area">
             <div class="container">
                 <div class="row align-items-center">
@@ -223,13 +281,13 @@
                             </div>
                             <div class="categories_menu_toggle">
                                 <ul>
-                                    <li><a href="#">Accessories</a></li>
-                                    <li><a href="#">Camera</a></li>
-                                    <li><a href="#">Mornitors</a></li>
-                                    <li><a href="#">Tablets</a></li>
-                                    <li><a href="#">Laptops</a></li>
-                                    <li><a href="#">Headphone & Speaker</a></li>
-                                    <li><a href="#">Watchs</a></li>
+                                    <% if (categories && categories.length > 0) { %>
+                                        <% categories.forEach(item => { %>
+                                            <li><a href="<%= webLocationHost %>/shop/<%= item.id %>"><%= item.name %></a></li>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <li>No categories available</li> 
+                                    <% } %>  
                                 </ul>
                             </div>
                         </div>
@@ -238,13 +296,11 @@
                         <div class="main_menu menu_position">
                             <nav>
                                 <ul>
-                                    <li><a href="shop">Shop</a></li>
-                                    <li><a href="blog">Blog</a></li>
-                                    <li><a href="about">About Us</a></li>
-                                    <li><a href="contact"> Contact Us</a></li>
-                                    <li><a href="faq">FAQ</a></li>
+                                    <li><a href="<%= webLocationHost %>/shop">Shop</a></li>
+                                    <li><a href="<%= webLocationHost %>/about">About Us</a></li>
+                                    <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                     <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                    <li><a href="my-account">Sign Up / Sign In</a></li> 
+                                    <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li> 
                                 </ul>
                             </nav>
                         </div>
@@ -270,59 +326,84 @@
                     <div class="main_menu">
                         <nav>
                             <ul>
-                                <li><a href="shop">Shop</a></li>
-                                <li><a href="blog">Blog</a></li>
-                                <li><a href="about">About Us</a></li>
-                                <li><a href="contact"> Contact Us</a></li>
-                                <li><a href="faq">FAQ</a></li>
+                                <li><a href="<%= webLocationHost %>/shop">Shop</a></li>
+                                <li><a href="<%= webLocationHost %>/about">About Us</a></li>
+                                <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                 <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                <li><a href="my-account">Sign Up / Sign In</a></li>
+                                <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="middel_right_info">
                         <div class="header_wishlist">
-                            <a href="wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                            <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                            </a>
                             <span class="wishlist_quantity">3</span>
                         </div>
                         <div class="mini_cart_wrapper">
                             <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
-                                    aria-hidden="true"></i>$147.00 <i class="fa fa-angle-down"></i></a>
-                            <span class="cart_quantity">2</span>
+                                    aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
+                            <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                             <!--mini cart-->
-                            <div class="mini_cart">
-                                <div class="cart_item">
-                                    <div class="cart_img">
-                                        <a href="#"><img src="/images/s-product/product.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart_info">
-                                        <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                        <p>Qty: 1 X <span> $60.00 </span></p>
-                                    </div>
-                                    <div class="cart_remove">
-                                        <a href="#"><i class="ion-android-close"></i></a>
-                                    </div>
-                                </div>
-                                <div class="cart_item">
-                                    <div class="cart_img">
-                                        <a href="#"><img src="/images/s-product/product2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart_info">
-                                        <a href="#">Natus erro at congue massa commodo</a>
-                                        <p>Qty: 1 X <span> $60.00 </span></p>
-                                    </div>
-                                    <div class="cart_remove">
-                                        <a href="#"><i class="ion-android-close"></i></a>
-                                    </div>
+                            <div class="mini_cart"
+                            style=" 
+                                max-height: 500px !important; 
+                                overflow-y: auto;
+                                "
+                            >
+                                <div class="miniCart_box">
+                                    <%
+
+                                    if(cartItemList && cartItemList.length > 0){
+                                        cartItemList.forEach((item)=>{
+
+                                            const  productId = item.productId._id;
+                                            const  productName = item.productId.name;
+                                            const  productPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.productId.price );
+                                            const  productQuantity = item.quantity;
+                                            %>
+                                            <div class="cart_item p-3 rounded shadow-sm d-flex align-items-center mb-3">
+                                            <!-- Product Image -->
+                                            <div class="cart_img me-3">
+                                            <a href="<%= productId %>">
+                                                <img src="/images/s-product/product.jpg" alt="<%= productName %>" class="img-fluid rounded" style="width: 80px; height: 80px;">
+                                            </a>
+                                            </div>
+                                            
+                                            <!-- Product Information -->
+                                            <div class="cart_info flex-grow-1">
+                                            <a href="<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                                                <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
+                                                <%= productName %>
+                                            </a>
+                                            <p class="mb-0 text-muted">
+                                                <i class="bi bi-tag-fill me-1 text-success"></i> <!-- Icon cho giá -->
+                                                Qty: <%= productQuantity %> x <span class="text-primary fw-bold"><%= productPrice %></span>
+                                            </p>
+                                            </div>
+                                            
+                                            <!-- Remove Button -->
+                                            <div class="cart_remove">
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" 
+                                            onclick = "miniCartHandleExceptShopPage.start('<%= productId %>','<%= productName %>','<%= item._id %>')">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                            </div>
+                                        </div> 
+                                            <%
+                                        })
+                                    }
+
+                                    %>
                                 </div>
                                 <div class="mini_cart_table">
-                                    <div class="cart_total">
-                                        <span>Sub total:</span>
-                                        <span class="price">$138.00</span>
-                                    </div>
-                                    <div class="cart_total mt-10">
-                                        <span>total:</span>
-                                        <span class="price">$138.00</span>
+                                    <div class="cart_total mt-3 p-3 d-flex justify-content-between align-items-center" 
+                                        style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                                        <span class="d-flex align-items-center" style="color: #1953b4; font-weight: bold;">
+                                            <i class="bi bi-cash-stack me-2" style="font-size: 1.5rem; color: #28a745;"></i>
+                                            Total:
+                                        </span>
+                                        <span class="miniCart_price" style="color: #dc3545; font-size: 1.25rem; font-weight: bold;"><%= totalPrice_VND_Format %></span>
                                     </div>
                                 </div>
 
