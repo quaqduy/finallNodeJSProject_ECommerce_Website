@@ -55,7 +55,7 @@ router.get('/', async function(req, res, next) {
 
   //Ready for view
   const categories = await Category.find();
-  const products = await Product.find();
+  const products = await Product.find().populate('categoryId');
 
   const webLocationHost = `${req.protocol}://${req.get('host')}`;
   res.render('homePage', { 
@@ -76,7 +76,7 @@ router.get('/shop', async function(req, res, next) {
     res.redirect('/');
   }else{
     const categories = await Category.find();
-    const products = await Product.find();
+    const products = await Product.find().populate('categoryId');
 
     const cartId = req.session.cart.cartId;
     const webLocationHost = `${req.protocol}://${req.get('host')}`;
@@ -92,7 +92,6 @@ router.get('/shop', async function(req, res, next) {
    const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
    req.session.wishlistItemList = wishlistItems;
    const wishlistItemList = req.session.wishlistItemList;
-
 
     res.render('shop', { title: 'Shop', 
       webLocationHost, 
@@ -254,6 +253,9 @@ router.get('/cart', async function(req, res, next) {
    req.session.wishlistItemList = wishlistItems;
    const wishlistItemList = req.session.wishlistItemList;
 
+   //products
+   const products = await Product.find().populate('categoryId');
+
     res.render('cart', { title: 'Cart', 
       webLocationHost, 
       categories, 
@@ -261,7 +263,8 @@ router.get('/cart', async function(req, res, next) {
       cartId,
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: req.session.wishlistItemList
+      wishlistItemList: req.session.wishlistItemList,
+      products
     });
   }
 });
@@ -295,6 +298,8 @@ router.get('/product-details/:id', async function(req, res, next) {
 
     //For product Detail
     const productDetail = await Product.findById(id).populate('categoryId');
+    //product
+    const products = await Product.find().populate('categoryId');
 
     res.render('product-details', { title: 'Product Detail', 
       webLocationHost, 
@@ -304,50 +309,59 @@ router.get('/product-details/:id', async function(req, res, next) {
       cartItemList,
       productDetail,
       wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: req.session.wishlistItemList
+      wishlistItemList: req.session.wishlistItemList,
+      products
     });
   }
 });
 
 /* GET wishlist page. */
 router.get('/wishlist', async function(req, res, next) {
-  if(!req.session.user){
-    res.redirect('/');
-  }else{
-    const { id } = req.params;
+  try {
+    if(!req.session.user){
+      res.redirect('/');
+    }else{
+      const { id } = req.params;
+  
+      const categories = await Category.find();
+      let categoryName = '';
+      categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+  
+      const webLocationHost = `${req.protocol}://${req.get('host')}`;
+      const cartId = req.session.cart.cartId;
+  
+      //get cartItem list
+      const cartId_find_items = req.session.cart.cartId;
+      const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  
+      req.session.cartItemList = cartItems;
+      const cartItemList = req.session.cartItemList;
+  
+         //get wishlist item list
+     const wishlistId_find_items = req.session.wishlist.wishlistId;
+     const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
+     req.session.wishlistItemList = wishlistItems;
+     const wishlistItemList = req.session.wishlistItemList;
+  
+      //For product Detail
+      const productDetail = await Product.findById(id).populate('categoryId');
 
-    const categories = await Category.find();
-    let categoryName = '';
-    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
-
-    const webLocationHost = `${req.protocol}://${req.get('host')}`;
-    const cartId = req.session.cart.cartId;
-
-    //get cartItem list
-    const cartId_find_items = req.session.cart.cartId;
-    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');  
-    req.session.cartItemList = cartItems;
-    const cartItemList = req.session.cartItemList;
-
-       //get wishlist item list
-   const wishlistId_find_items = req.session.wishlist.wishlistId;
-   const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
-   req.session.wishlistItemList = wishlistItems;
-   const wishlistItemList = req.session.wishlistItemList;
-
-    //For product Detail
-    const productDetail = await Product.findById(id).populate('categoryId');
-
-    res.render('wishlist', { title: 'Wishlist', 
-      webLocationHost, 
-      categories, 
-      categoryName,
-      cartId,
-      cartItemList,
-      productDetail,
-      wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: req.session.wishlistItemList
-    });
+      //products
+      const products = await Product.find().populate('categoryId');
+  
+      res.render('wishlist', { title: 'Wishlist', 
+        webLocationHost, 
+        categories, 
+        categoryName,
+        cartId,
+        cartItemList,
+        productDetail,
+        wishlistId: req.session.wishlist.wishlistId,
+        wishlistItemList: req.session.wishlistItemList,
+        products
+      });
+    }
+  } catch (e) {
+    console.log(e); // Log the error object
   }
 });
 
@@ -415,6 +429,9 @@ router.get('/about', async function(req, res, next) {
    req.session.wishlistItemList = wishlistItems;
    const wishlistItemList = req.session.wishlistItemList;
 
+   //products
+   const products = await Product.find().populate('categoryId');
+
     res.render('about', { title: 'About', 
       webLocationHost, 
       categories, 
@@ -422,7 +439,8 @@ router.get('/about', async function(req, res, next) {
       cartId,
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: req.session.wishlistItemList
+      wishlistItemList: req.session.wishlistItemList,
+      products
     });
   }
 });
@@ -453,6 +471,9 @@ router.get('/contact', async function(req, res, next) {
    req.session.wishlistItemList = wishlistItems;
    const wishlistItemList = req.session.wishlistItemList;
 
+   //products
+   const products = await Product.find().populate('categoryId');
+
     res.render('contact', { title: 'Contact', 
       webLocationHost, 
       categories, 
@@ -460,7 +481,8 @@ router.get('/contact', async function(req, res, next) {
       cartId,
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: req.session.wishlistItemList
+      wishlistItemList: req.session.wishlistItemList,
+      products 
     });
   }
 });

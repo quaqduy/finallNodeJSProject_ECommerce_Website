@@ -1007,3 +1007,73 @@ const miniCartHandleExceptShopPage  = {
     }
 }
 
+//For Search
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInputs = document.querySelectorAll('.searchInput_Header');
+    const searchResults = document.querySelectorAll('.searchResults');
+    
+    const categories = JSON.parse(document.getElementById('categoriesData').value);
+    const products = JSON.parse(document.getElementById('productsData').value);
+
+    // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm
+    searchInputs.forEach((searchInput, index) => {
+        searchInput.addEventListener('input', function() {
+            const urlBaseToFetch = document.querySelector('#urlBaseToFetch').value;
+
+            const searchTerm = searchInput.value.toLowerCase();
+            let resultHtml = '';
+    
+            // Tìm kiếm trong danh mục
+            categories.forEach(category => {
+                if (category.name.toLowerCase().includes(searchTerm)) {
+                    resultHtml += `<a href="${urlBaseToFetch}/shop/${category._id}" class="list-group-item list-group-item-action result-item" data-id="${category._id}" data-type="category">
+                        (Category) - ${category.name} 
+                    </a>`;
+                }
+            });
+    
+            // Tìm kiếm trong sản phẩm
+            products.forEach(product => {
+                if (product.name.toLowerCase().includes(searchTerm)) {
+                    resultHtml += `<a href="${urlBaseToFetch}/product-details/${product._id}" class="list-group-item list-group-item-action result-item" data-id="${product._id}" data-type="product">
+                        (Product) - ${product.name}
+                    </a>`;
+                }
+            });
+
+            // Hiển thị kết quả tìm kiếm
+            if (resultHtml) {
+                searchResults[index].innerHTML = resultHtml;
+                searchResults[index].classList.remove('d-none');
+            } else {
+                searchResults[index].classList.add('d-none');
+            }
+        });
+
+        // Xử lý khi người dùng click ra ngoài ô tìm kiếm (blur)
+        searchInput.addEventListener('blur', function() {
+            setTimeout(() => {  // Dùng setTimeout để đảm bảo người dùng có thể click vào kết quả
+                searchResults[index].classList.add('d-none');
+            }, 200);  // Độ trễ 200ms để tránh ẩn kết quả quá sớm
+        });
+    });
+
+    // Xử lý khi người dùng click vào kết quả
+    searchResults.forEach(resultContainer => {
+        resultContainer.addEventListener('click', function(e) {
+            const item = e.target;
+            if (item.classList.contains('result-item')) {
+                const itemId = item.getAttribute('data-id');
+                const itemType = item.getAttribute('data-type');
+                
+                if (itemType === 'product') {
+                    window.location.href = `/product/${itemId}`;
+                } else if (itemType === 'category') {
+                    window.location.href = `/category/${itemId}`;
+                }
+            }
+        });
+    });
+});
+
+

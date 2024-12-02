@@ -5,6 +5,9 @@
 %>
 </div>
 
+<input type="hidden" id="categoriesData" value="<%= JSON.stringify(categories) %>" />
+<input type="hidden" id="productsData" value="<%= JSON.stringify(products) %>" />
+
 <div class="Offcanvas_menu">
 
     <input type="text" class =' d-none' id="cartID_input" value = '<%= cartId %>'>
@@ -20,14 +23,14 @@
                     <div class="canvas_close">
                         <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
                     </div>
-                    <div class="search_container">
-                        <form action="#">
-                            <div class="search_box">
-                                <input placeholder="Search product..." type="text">
-                                <button type="submit">Search</button>
+                        <!-- Search and Category Filter Area -->
+                        <!-- Thanh tìm kiếm -->
+                        <div class="search_container">
+                            <div class="input-group">
+                                <input type="text" class="form-control searchInput_Header" placeholder="Search products and categories..." aria-label="Search">
                             </div>
-                        </form>
-                    </div>
+                            <div class="searchResults list-group d-none"></div>
+                        </div>                        
 
                     <div class="middel_right_info">
                         <div class="header_wishlist">
@@ -175,14 +178,16 @@
                     </div>
                     <div class="col-lg-9 col-md-6">
                         <div class="middel_right">
+                            
+                            <!-- Search and Category Filter Area -->
+                            <!-- Thanh tìm kiếm -->
                             <div class="search_container">
-                                <form action="#">
-                                    <div class="search_box">
-                                        <input placeholder="Search product..." type="text">
-                                        <button type="submit">Search</button>
-                                    </div>
-                                </form>
-                            </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control searchInput_Header" placeholder="Search products and categories..." aria-label="Search">
+                                </div>
+                                <div class="searchResults list-group d-none"></div>
+                            </div>                       
+
                             <div class="middel_right_info">
                                 <div class="header_wishlist">
                                     <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
@@ -299,7 +304,7 @@
                                 <ul>
                                     <% if (categories && categories.length > 0) { %>
                                         <% categories.forEach(item => { %>
-                                            <li><a href="<%= webLocationHost %>/shop/<%= item.id %>" style="color:white !important"><%= item.name %></a></li>
+                                            <li><a href="<%= webLocationHost %>/shop/<%= item.id %>"><%= item.name %></a></li>
                                         <% }); %>
                                     <% } else { %>
                                         <li>No categories available</li> 
