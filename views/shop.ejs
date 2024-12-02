@@ -154,8 +154,28 @@
                                                     </div>
                                                     <div class="action_links">
                                                         <ul>
-                                                            <li class="wishlist"><a href="wishlist" title="Add to Wishlist"><i
-                                                                        class="fa fa-heart-o" aria-hidden="true"></i></a></li>
+                                                            <li class="wishlist" onclick="addProductToWishList('<%= item._id %>')">
+                                                                <form _productId="<%= item._id %>" class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                                    <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                                    <input type="text" name="productId" value="<%= item._id %>">
+                                                                    <input type="text" name="currentUrl">
+                                                                    <input type="submit">
+                                                                </form>
+                                                                <%
+                                                                    var heartIconStyle = '';
+
+                                                                    if (wishlistItemList.length > 0) {
+                                                                        wishlistItemList.forEach((wishItem) => {
+                                                                            var wishItem_productId = String(wishItem.productId._id);
+                                                                            var productId = String(item._id);
+                                                                            if (wishItem_productId === productId) {
+                                                                                heartIconStyle = 'background-color: red !important';
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                %>
+                                                                <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                            </li>                                                          
                                                             <li class="quick_button"><a href="#" data-bs-toggle="modal"
                                                                     data-bs-target="#modal_box" title="quick view"> <span
                                                                         class="ion-ios-search-strong"></span></a></li>
@@ -227,9 +247,27 @@
                                                         </div>
                                                         <div class="action_links">
                                                             <ul>
-                                                                <li class="wishlist"><a href="wishlist"
-                                                                        title="Add to Wishlist"><i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> Add to Wishlist</a></li>
+                                                                <li class="wishlist" onclick="addProductToWishList(event)">
+                                                                    <form class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                                        <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                                        <input type="text" name="productId" value="<%= item._id %>">
+                                                                        <input type="submit">
+                                                                    </form>
+                                                                    <%
+                                                                        var heartIconStyle = '';
+
+                                                                        if (wishlistItemList.length > 0) {
+                                                                            wishlistItemList.forEach((wishItem) => {
+                                                                                var wishItem_productId = String(wishItem.productId._id);
+                                                                                var productId = String(item._id);
+                                                                                if (wishItem_productId === productId) {
+                                                                                    heartIconStyle = 'background-color: red !important';
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    %>
+                                                                <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                                </li>                                                                
                                                                 <li class="compare"><a href="#" title="compare"><span
                                                                             class="ion-levels"></span> Compare</a></li>
                                                                 <li class="quick_button"><a href="#" data-bs-toggle="modal"

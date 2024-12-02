@@ -31,12 +31,20 @@
 
                     <div class="middel_right_info">
                         <div class="header_wishlist">
-                            <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                            <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
                             </a>
-                            <span class="wishlist_quantity">3</span>
+                            <span class="wishlist_quantity">
+                                <%
+                                    var wishlistLength = 0;
+                                    if (wishlistItemList.length > 0) {
+                                        wishlistLength = wishlistItemList.length;
+                                    }
+                                %>
+                                <%= wishlistLength %>
+                            </span>
                         </div>
                         <div class="mini_cart_wrapper">
-                            <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
+                            <a href="javascript:void(0)" style="color:black !important"><i class="fa fa-shopping-bag"
                                     aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
                             <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                             <!--mini cart-->
@@ -177,12 +185,20 @@
                             </div>
                             <div class="middel_right_info">
                                 <div class="header_wishlist">
-                                    <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                                    <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
                                     </a>
-                                    <span class="wishlist_quantity">3</span>
+                                    <span class="wishlist_quantity">
+                                        <%
+                                            var wishlistLength = 0;
+                                            if (wishlistItemList.length > 0) {
+                                                wishlistLength = wishlistItemList.length;
+                                            }
+                                        %>
+                                        <%= wishlistLength %>
+                                    </span>
                                 </div>
                                 <div class="mini_cart_wrapper">
-                                    <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
+                                    <a href="javascript:void(0)" style="color:black !important"><i class="fa fa-shopping-bag"
                                             aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
                                     <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                                     <!--mini cart-->
@@ -283,7 +299,7 @@
                                 <ul>
                                     <% if (categories && categories.length > 0) { %>
                                         <% categories.forEach(item => { %>
-                                            <li><a href="<%= webLocationHost %>/shop/<%= item.id %>"><%= item.name %></a></li>
+                                            <li><a href="<%= webLocationHost %>/shop/<%= item.id %>" style="color:white !important"><%= item.name %></a></li>
                                         <% }); %>
                                     <% } else { %>
                                         <li>No categories available</li> 
@@ -336,12 +352,20 @@
                     </div>
                     <div class="middel_right_info">
                         <div class="header_wishlist">
-                            <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                            <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
                             </a>
-                            <span class="wishlist_quantity">3</span>
+                            <span class="wishlist_quantity">
+                                <%
+                                    var wishlistLength = 0;
+                                    if (wishlistItemList.length > 0) {
+                                        wishlistLength = wishlistItemList.length;
+                                    }
+                                %>
+                                <%= wishlistLength %>
+                            </span>
                         </div>
                         <div class="mini_cart_wrapper">
-                            <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
+                            <a style="color:black !important" href="javascript:void(0)"><i class="fa fa-shopping-bag"
                                     aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
                             <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                             <!--mini cart-->

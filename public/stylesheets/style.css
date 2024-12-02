@@ -10575,7 +10575,6 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 a{
   text-decoration: none !important;
-  color: black ;
 }
 
 .header_totalPrice{
@@ -10586,4 +10585,17 @@ a{
 .product_remove:hover {
   color: red; /* Change the color on hover */
   cursor: pointer; /* Show pointer to indicate clickable area */
+}
+
+
+.wishlist .fa-heart {
+  background-color: #1b6de1;  
+  color: white !important;     
+  padding: 10px;               
+  border-radius: 50%;          
+  font-size: 15px;             
+}
+
+.wishlist:hover{
+  cursor: pointer;
 }
