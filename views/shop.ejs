@@ -91,11 +91,10 @@
                             </div>
                             <div class="widget_list widget_filter">
                                 <h2>Filter by price</h2>
-                                <form action="#">
+                                <form>
                                     <div id="slider-range"></div>
-                                    <button type="submit">Filter</button>
-                                    <input type="text" name="text" id="amount" />
-
+                                    <button type="button" onclick="applyPriceFilter()"><a href="#" style="color:white !important">Filter</a></button>
+                                    <input type="text" name="text" id="amount"/>
                                 </form>
                             </div>
                         </div>
@@ -313,6 +312,9 @@
                                 %>
                                 <li class="next" onclick="showPage(this , 'next')"><a href="#">next</a></li>
                             </ul>
+                        </div>
+                        <div class="pagination" id="pagination_forFilter">
+
                         </div>
                     </div>
                     <!--shop toolbar end-->

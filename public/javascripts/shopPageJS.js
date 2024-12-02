@@ -503,4 +503,104 @@ function sortByPopularity() {
 }
 
 
+// Function to filter products and create a new pagination
+function applyPriceFilter() {
+  const minValue = $("#slider-range").slider("values", 0);
+  const maxValue = $("#slider-range").slider("values", 1);
 
+  // Filter the products based on the selected price range
+  productBox_items = Array.from(productBox_items_FromOldToNew).filter(item => {
+    const price = parseFloat(item.getAttribute('_itemPrice')); // Get the price
+    return price >= minValue && price <= maxValue; // Check if within range
+  });
+
+  // Update the product container with filtered products
+  const container = document.querySelector('.shop_wrapper');
+  container.innerHTML = '';
+  productBox_items.forEach(item => {
+    container.appendChild(item); // Re-append filtered products
+  });
+
+  // Hide the original pagination
+  const originalPagination = document.querySelector('.pagination');
+  originalPagination.style.display = 'none';
+
+  // Generate new pagination if filtered products exceed 6
+  const pagination_forFilter = document.querySelector('#pagination_forFilter');
+  pagination_forFilter.innerHTML = ''; // Clear any existing content
+
+  if (productBox_items.length > 6) {
+    const itemsPerPage = 6;
+    const pageNumber = Math.ceil(productBox_items.length / itemsPerPage);
+
+    const ul = document.createElement('ul');
+
+    // Create page links dynamically
+    for (let i = 0; i < pageNumber; i++) {
+      const li = document.createElement('li');
+      
+      // Add 'current' class to the first page
+      if (i === 0) {
+        li.classList.add('current');
+      }
+      
+      li.setAttribute('onclick', `showPageForFilter(this, ${i + 1})`);
+      li.innerHTML = `<a href="#">${i + 1}</a>`;
+      ul.appendChild(li);
+    }    
+
+    // Create "next" button
+    const nextLi = document.createElement('li');
+    nextLi.classList.add('next');
+    nextLi.setAttribute('onclick', `showPageForFilter(this, 'next')`);
+    nextLi.innerHTML = `<a href="#">next</a>`;
+    ul.appendChild(nextLi);
+
+    // Append the new pagination to the container
+    pagination_forFilter.appendChild(ul);
+  } else {
+    // If there are less than 6 items, no pagination is needed
+    pagination_forFilter.innerHTML = '';
+  }
+
+  // Show the first page of filtered products
+  hideAllProduct();
+  showPageForFilter(null, 1);
+}
+
+// Function to show a specific page for filtered products
+function showPageForFilter(clickedElement, pageNumber) {
+  const itemsPerPage = 6;
+  const paginationItems = document.querySelectorAll('#pagination_forFilter li');
+
+  // Remove "current" class from all pagination items
+  paginationItems.forEach(i => i.classList.remove('current'));
+
+  if (pageNumber === 'next') {
+    currentProduct_pageNumber++;
+    clickedElement = paginationItems[currentProduct_pageNumber - 1];
+  } else {
+    currentProduct_pageNumber = pageNumber;
+  }
+
+  if ((currentProduct_pageNumber - 1) * itemsPerPage < productBox_items.length) {
+    currentProduct_start = (currentProduct_pageNumber - 1) * itemsPerPage;
+    currentProduct_end = currentProduct_start + itemsPerPage;
+
+    productBox_items.forEach((item, index) => {
+      if (index >= currentProduct_start && index < currentProduct_end) {
+        item.classList.remove('d-none');
+      } else {
+        item.classList.add('d-none');
+      }
+    });
+
+    if (clickedElement) {
+      clickedElement.classList.add('current');
+    }
+
+    if(clickedElement == null){
+      paginationItems[0].classList.add('current');
+    }
+  }
+}
