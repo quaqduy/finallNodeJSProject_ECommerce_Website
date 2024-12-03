@@ -277,13 +277,6 @@ const formatCurrency = (value) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
 };
 
-const addProductToWishList = (productId)=>{
-  const wishlistAdd_form = document.querySelector(`.wishlistAdd_form[_productId="${productId}"]`);
-  wishlistAdd_form.querySelector('input[name="currentUrl"]').value = window.location.href;
-  wishlistAdd_form.querySelector('input[type="submit"]').click();
-}
-
-
 // For break page
 let productBox_items = document.querySelectorAll('.productBox_item');
 const productBox_items_FromOldToNew = productBox_items;

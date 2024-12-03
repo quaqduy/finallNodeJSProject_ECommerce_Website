@@ -1077,3 +1077,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+const addProductToWishList = (productId)=>{
+    const wishlistAdd_form = document.querySelector(`.wishlistAdd_form[_productId="${productId}"]`);
+    wishlistAdd_form.querySelector('input[name="currentUrl"]').value = window.location.href;
+    wishlistAdd_form.querySelector('input[type="submit"]').click();
+  }
