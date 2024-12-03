@@ -200,19 +200,38 @@
                       <input type="hidden" name="currentURL" id="currentURL">
                       <label for="quantity">Quantity:</label>
                       <input min="1" max="100" value="1" type="number" id="quantity" name="quantity"/>
-                      <button class="button" type="submit">Add to Cart</button>
-                  </form>                
+                      <%
+                        if(parseInt(productDetail.stock) == 0){
+                          %>
+                          <div class="d-flex justify-content-center align-items-center bg-dark text-white p-3">
+                              <i class="bi bi-cart-x me-2"></i> <i>Out of stock</i>
+                          </div>                                           
+                          <%
+                        }else{
+                          %>
+                          <button id="btnSubmitCartItem" class="button" type="submit">Add to Cart</button>
+                          <%
+                        }
+                      %>
+                  </form>   
+                    <input type="hidden" id="stockProduct" value = '<%=productDetail.stock%>'>
                 </div>
+                <div id="msgProductDetail"></div>             
                 <div class="product_d_action">
                   <ul>
                     <li>
-                      <a href="#" title="Add to wishlist">+ Add to Wishlist</a>
+                      <a title="Add to wishlist" onclick="addToWishlist()">+ Add to Wishlist</a>
                     </li>
-                    <li><a href="#" title="Add to wishlist">+ Compare</a></li>
+                    <form class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                        <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                        <input type="text" name="productId" value="<%= productDetail._id %>">
+                        <input type="text" name="currentUrl">
+                        <input type="submit">
+                    </form>
                   </ul>
                 </div>
                 <div class="product_meta">
-                  <span>Category: <a href="#"><%= productDetail.categoryId.name %></a></span>
+                  <span>Category: <a href="<%=webLocationHost%>/shop/<%= productDetail.categoryId._id %>"><%= productDetail.categoryId.name %></a></span>
                 </div>
               </div>
               <div class="priduct_social">
@@ -273,16 +292,6 @@
                   <li>
                     <a
                       data-bs-toggle="tab"
-                      href="#sheet"
-                      role="tab"
-                      aria-controls="sheet"
-                      aria-selected="false"
-                      >Specification</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      data-bs-toggle="tab"
                       href="#reviews"
                       role="tab"
                       aria-controls="reviews"
@@ -302,43 +311,6 @@
                     <p><%= productDetail.description %></p>
                   </div>
                 </div>
-                <div class="tab-pane fade" id="sheet" role="tabpanel">
-                  <div class="product_d_table">
-                    <div>
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td class="first_child">Compositions</td>
-                            <td>Polyester</td>
-                          </tr>
-                          <tr>
-                            <td class="first_child">Styles</td>
-                            <td>Girly</td>
-                          </tr>
-                          <tr>
-                            <td class="first_child">Properties</td>
-                            <td>Short Dress</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="product_info_content">
-                    <p>
-                      Fashion has been creating well-designed collections since
-                      2010. The brand offers feminine designs delivering stylish
-                      separates and statement dresses which have since evolved
-                      into a full ready-to-wear collection in which every item
-                      is a vital part of a woman's wardrobe. The result? Cool,
-                      easy, chic looks with youthful elegance and unmistakable
-                      signature style. All the beautiful pieces are made in
-                      Italy and manufactured with the greatest attention. Now
-                      Fashion extends to a range of accessories including shoes,
-                      hats, belts and more!
-                    </p>
-                  </div>
-                </div>
-
                 <div class="tab-pane fade" id="reviews" role="tabpanel">
                   <div class="reviews_wrapper">
                     <h2>1 review for Donec eu furniture</h2>
@@ -431,143 +403,6 @@
     </div>
     <!--product info end-->
 
-    <!--product area start-->
-    <section class="product_area related_products">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="section_title">
-              <h2>Related Products</h2>
-            </div>
-          </div>
-        </div>
-        <div class="product_carousel product_column5 owl-carousel">
-          <article class="single_product">
-            <figure>
-              <div class="product_thumb">
-                <a class="primary_img" href="product-details"
-                  ><img src="/images/product/product1.jpg" alt=""
-                /></a>
-                <a class="secondary_img" href="product-details"
-                  ><img src="/images/product/product2.jpg" alt=""
-                /></a>
-                <div class="label_product">
-                  <span class="label_sale">sale</span>
-                </div>
-                <div class="action_links">
-                  <ul>
-                    <li class="wishlist">
-                      <a href="wishlist" title="Add to Wishlist"
-                        ><i class="fa fa-heart-o" aria-hidden="true"></i
-                      ></a>
-                    </li>
-                    <li class="compare">
-                      <a href="#" title="compare"
-                        ><span class="ion-levels"></span
-                      ></a>
-                    </li>
-                    <li class="quick_button">
-                      <a
-                        href="#"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modal_box"
-                        title="quick view"
-                      >
-                        <span class="ion-ios-search-strong"></span
-                      ></a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="add_to_cart">
-                  <a href="cart" title="add to cart">Add to cart</a>
-                </div>
-              </div>
-              <figcaption class="product_content">
-                <div class="price_box">
-                  <span class="old_price">$86.00</span>
-                  <span class="current_price">$79.00</span>
-                </div>
-                <h3 class="product_name">
-                  <a href="product-details"
-                    >Natus erro at congue massa commodo sit</a
-                  >
-                </h3>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
-      </div>
-    </section>
-    <!--product area end-->
-
-    <!--product area start-->
-    <section class="product_area upsell_products">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="section_title">
-              <h2>Upsell Products</h2>
-            </div>
-          </div>
-        </div>
-        <div class="product_carousel product_column5 owl-carousel">
-          <article class="single_product">
-            <figure>
-              <div class="product_thumb">
-                <a class="primary_img" href="product-details"
-                  ><img src="/images/product/product9.jpg" alt=""
-                /></a>
-                <a class="secondary_img" href="product-details"
-                  ><img src="/images/product/product10.jpg" alt=""
-                /></a>
-                <div class="label_product">
-                  <span class="label_sale">sale</span>
-                </div>
-                <div class="action_links">
-                  <ul>
-                    <li class="wishlist">
-                      <a href="wishlist" title="Add to Wishlist"
-                        ><i class="fa fa-heart-o" aria-hidden="true"></i
-                      ></a>
-                    </li>
-                    <li class="compare">
-                      <a href="#" title="compare"
-                        ><span class="ion-levels"></span
-                      ></a>
-                    </li>
-                    <li class="quick_button">
-                      <a
-                        href="#"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modal_box"
-                        title="quick view"
-                      >
-                        <span class="ion-ios-search-strong"></span
-                      ></a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="add_to_cart">
-                  <a href="cart" title="add to cart">Add to cart</a>
-                </div>
-              </div>
-              <figcaption class="product_content">
-                <div class="price_box">
-                  <span class="old_price">$86.00</span>
-                  <span class="current_price">$79.00</span>
-                </div>
-                <h3 class="product_name">
-                  <a href="product-details"
-                    >Natus erro at congue massa commodo sit</a
-                  >
-                </h3>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
-      </div>
-    </section>
-    <!--product area end-->
 
     <!-- Include footer component -->
     <%- include('./components/footer.ejs') %>
