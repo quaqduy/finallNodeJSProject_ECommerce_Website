@@ -1082,3 +1082,71 @@ const addProductToWishList = (productId)=>{
     wishlistAdd_form.querySelector('input[name="currentUrl"]').value = window.location.href;
     wishlistAdd_form.querySelector('input[type="submit"]').click();
   }
+
+//for quick view product
+const quickViewModel_create = (name, price, desc, colors, productId) => {
+    document.querySelector('#modelQuickView_ProductName').innerText = name;
+    document.querySelector('#modelQuickView_ProductPrice').innerText = new Intl.NumberFormat('vi-VN', { 
+        style: 'currency', 
+        currency: 'VND' 
+    }).format(price);
+    document.querySelector('#modelQuickView_ProductDesc').innerText = desc;
+
+    colors = colors.split(',');
+    if (colors && colors.length > 0) {
+        const lsElementOptionColor = colors.map((color, index) => {
+            const newElement = document.createElement('option');
+            newElement.value = color.trim();
+            newElement.innerText = color.trim();
+            return newElement.outerHTML;
+        });
+
+        document.querySelector('#modelQuickView_Colors').innerHTML = lsElementOptionColor.join('');
+    }
+
+    document.querySelector('#modelQuickView_buttonSubmit').addEventListener('click',()=>{
+        const cartID = document.querySelector('#cartID_input').value;
+        const color = document.querySelector('#modelQuickView_Colors').value;
+        const quantity = document.querySelector('#modelQuickView_Quantity').value;
+        const hiddenForm = createHiddenForm(cartID, productId, color, quantity, window.location.href);
+        hiddenForm.querySelector('[type="submit"]').click();
+    })
+};
+
+// Tạo formSubmit cho model quickview
+function createHiddenForm(cartId, productId, color, quantity, currentURL) {
+    // Tạo form
+    const form = document.createElement('form');
+    form.method = 'POST';
+
+    const url = document.querySelector('#urlBaseToFetch').value + "/cart_item";
+    form.action = url; 
+    form.style.display = 'none';
+
+    // Tạo các input
+    const inputs = [
+        { name: 'cartId', value: cartId },
+        { name: 'productId', value: productId },
+        { name: 'color', value: color },
+        { name: 'quantity', value: quantity },
+        { name: 'currentURL', value: currentURL }
+    ];
+
+    inputs.forEach(inputData => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = inputData.name;
+        input.value = inputData.value;
+        form.appendChild(input);
+    });
+
+    // Tạo nút submit
+    const submitButton = document.createElement('input');
+    submitButton.type = 'submit';
+    form.appendChild(submitButton);
+
+    // Thêm form vào body
+    document.body.appendChild(form);
+
+    return form;
+}

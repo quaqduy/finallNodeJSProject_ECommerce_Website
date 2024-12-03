@@ -185,9 +185,9 @@
                 <article class="single_product">
                     <figure>
                         <div class="product_thumb">
-                            <a class="primary_img" href="product-details"><img
+                            <a class="primary_img" href="#"><img
                                     src="/images/product/product1.jpg" alt=""></a>
-                            <a class="secondary_img" href="product-details"><img
+                            <a class="secondary_img" href="#"><img
                                     src="/images/product/product2.jpg" alt=""></a>
                             <div class="label_product">
                                 <span class="label_sale">sale</span>
@@ -355,9 +355,9 @@
                                 <article class="single_product">
                                     <figure>
                                         <div class="product_thumb">
-                                            <a class="primary_img" href="product-details"><img
+                                            <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
                                                     src="/images/product/product1.jpg" alt=""></a>
-                                            <a class="secondary_img" href="product-details"><img
+                                            <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
                                                     src="/images/product/product2.jpg" alt=""></a>
                                             <div class="label_product">
                                                 <span class="label_sale">sale</span>
@@ -386,12 +386,14 @@
                                                         %>
                                                         <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
                                                     </li>      
-                                                    <li class="quick_button"><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box"
-                                                            title="quick view"> <span class="ion-ios-search-strong"></span></a></li>
+                                                    <li class="quick_button" onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>')">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box"
+                                                            title="quick view"> <span class="ion-ios-search-strong" ></span></a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="add_to_cart">
-                                                <a style="color: white" title="add to cart">Hoving</a>
+                                                <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
                                             </div>
                                         </div>
                                         <figcaption class="product_content">
@@ -456,9 +458,9 @@
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="product-details"><img
+                                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
                                                             src="/images/product/product1.jpg" alt=""></a>
-                                                    <a class="secondary_img" href="product-details"><img
+                                                    <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
                                                             src="/images/product/product2.jpg" alt=""></a>
                                                     <div class="label_product">
                                                         <span class="label_sale">sale</span>
@@ -488,12 +490,15 @@
                                                                 <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
                                                             </li>      
                                                             <li class="quick_button"><a href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#modal_box" title="quick view"> <span
-                                                                        class="ion-ios-search-strong"></span></a></li>
+                                                                    data-bs-target="#modal_box" title="quick view" 
+                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>')"> 
+                                                                    <span
+                                                                        class="ion-ios-search-strong"></span></a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div class="add_to_cart">
-                                                        <a style="color: white" title="add to cart">Hoving</a>
+                                                        <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
                                                     </div>
                                                 </div>
                                                 <figcaption class="product_content">
@@ -582,56 +587,43 @@
                             <div class="col-lg-7 col-md-7 col-sm-12">
                                 <div class="modal_right">
                                     <div class="modal_title mb-10">
-                                        <h2>Dũng Ruồi</h2>
+                                        <h2 id="modelQuickView_ProductName">Dũng Ruồi</h2>
                                     </div>
                                     <div class="modal_price mb-10">
-                                        <span class="new_price">$64.99</span>
-                                        <span class="old_price">$78.99</span>
+                                        <span class="new_price" id="modelQuickView_ProductPrice">$64.99</span>
+                                        <!-- <span class="old_price" >$78.99</span> -->
                                     </div>
                                     <div class="modal_description mb-15">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste
+                                        <p id="modelQuickView_ProductDesc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste
                                             laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam
                                             in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel
                                             recusandae </p>
                                     </div>
-                                    <div class="variants_selects">
-                                        <div class="variants_size">
-                                            <h2>size</h2>
-                                            <select class="select_option">
-                                                <option selected value="1">s</option>
-                                                <option value="1">m</option>
-                                                <option value="1">l</option>
-                                                <option value="1">xl</option>
-                                                <option value="1">xxl</option>
-                                            </select>
-                                        </div>
-                                        <div class="variants_color">
-                                            <h2>color</h2>
-                                            <select class="select_option">
-                                                <option selected value="1">purple</option>
-                                                <option value="1">violet</option>
-                                                <option value="1">black</option>
-                                                <option value="1">pink</option>
-                                                <option value="1">orange</option>
+                                    <div class="variants_selects p-3">
+                                        <div class="mb-3">
+                                            <h5 class="fw-bold">Color</h5>
+                                            <select class="form-select" id="modelQuickView_Colors">
+                                                <option value="" disabled selected>Choose a color</option>
                                             </select>
                                         </div>
                                         <div class="modal_add_to_cart">
-                                            <form action="#">
-                                                <input min="0" max="100" step="2" value="1" type="number">
-                                                <button type="submit">add to cart</button>
+                                            <form class="d-flex align-items-center gap-2">
+                                                <input 
+                                                    min="0" 
+                                                    max="100" 
+                                                    step="2" 
+                                                    value="1" 
+                                                    type="number" 
+                                                    class="form-control w-25" 
+                                                    id="modelQuickView_Quantity" 
+                                                />
+                                                <button type="button" class="btn btn-dark text-white px-4" id="modelQuickView_buttonSubmit">
+                                                    Add to Cart
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="modal_social">
-                                        <h2>Share this product</h2>
-                                        <ul>
-                                            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li class="pinterest"><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                                            <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                        </ul>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
