@@ -54,9 +54,35 @@ const shopModelHandle = {
   },
   addToCart_Action(){
     const ModelBtn_btnAddToCart = document.querySelector('#ModelBtn_btnAddToCart');
+    const quantityChossing = document.querySelector('#quantity_ModelAddToCart').value;
+
+
+
     if(ModelBtn_btnAddToCart){
+      document.querySelector('#quantity_ModelAddToCart').addEventListener('input', (e)=>{
+        const stockMessageClass = 'stock-message'; 
+        const existingMsg = document.querySelector(`.${stockMessageClass}`);    
+        
+        document.querySelector('#ModelBtn_btnAddToCart').disabled = false;
+
+        if(parseInt(this.current_productQuantity) < parseInt(e.target.value)){
+            if(!existingMsg){
+                const msg = document.createElement('div');
+                msg.innerText = 'The quantity you chose is out of the amount in stock. There are '+this.current_productQuantity+' available.';
+                msg.style.color = 'red';
+                msg.style.fontWeight = 'bold';
+                msg.classList.add(stockMessageClass);
+                document.querySelector('#msgModelAdd').appendChild(msg);
+            }
+            document.querySelector('#ModelBtn_btnAddToCart').disabled = true;
+        }
+        else if (existingMsg) { 
+            existingMsg.remove(); 
+        }
+
+      })
+
       ModelBtn_btnAddToCart.addEventListener('click',()=>{
-        const quantityChossing = document.querySelector('#quantity_ModelAddToCart').value;
         const colorChoosing = document.querySelector('#colorSelect').value;
   
         let checkItemCartExist = false;
@@ -84,6 +110,7 @@ const shopModelHandle = {
           //add cartItem to DB
           shopModelHandle.createNewCartItem_ToDB();
         }
+
         this.renderMiniCart();
         document.querySelector('#btnCloseModelAddToCart').click();
       })

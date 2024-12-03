@@ -179,7 +179,7 @@
                                                             </li>                                                          
                                                             <li class="quick_button"><a href="#" data-bs-toggle="modal"
                                                                     data-bs-target="#modal_box" title="quick view" 
-                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>')"> 
+                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')"> 
                                                                     <span class="ion-ios-search-strong"></span></a>
                                                             </li>
                                                         </ul>
@@ -273,7 +273,7 @@
                                                                 </li>                                        
                                                                 <li class="quick_button"><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#modal_box" title="quick view"
-                                                                        onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>')"> 
+                                                                        onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')"> 
                                                                         <span
                                                                             class="ion-ios-search-strong"></span> Quick View
                                                                         </a>
@@ -358,6 +358,7 @@
                   <input type="number" class="form-control text-center" id="quantity_ModelAddToCart" value="1" min="1">
                   <button class="btn btn-outline-secondary" id="increase"><i class="bi bi-plus-lg"></i></button>
                 </div>
+                <div id="msgModelAdd"></div>
               </div>
             </div>
             <div class="modal-footer">

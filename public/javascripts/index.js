@@ -1084,7 +1084,7 @@ const addProductToWishList = (productId)=>{
   }
 
 //for quick view product
-const quickViewModel_create = (name, price, desc, colors, productId) => {
+const quickViewModel_create = (name, price, desc, colors, productId, stock) => {
     document.querySelector('#modelQuickView_ProductName').innerText = name;
     document.querySelector('#modelQuickView_ProductPrice').innerText = new Intl.NumberFormat('vi-VN', { 
         style: 'currency', 
@@ -1103,6 +1103,29 @@ const quickViewModel_create = (name, price, desc, colors, productId) => {
 
         document.querySelector('#modelQuickView_Colors').innerHTML = lsElementOptionColor.join('');
     }
+
+    document.querySelector('#modelQuickView_Quantity').addEventListener('input',(e)=>{
+        const stockMessageClass = 'stock-message'; 
+        const existingMsg = document.querySelector(`.${stockMessageClass}`);    
+
+        document.querySelector('#modelQuickView_buttonSubmit').disabled = false;
+
+        if(parseInt(e.target.value) > parseInt(stock)){
+            if(!existingMsg){
+                const msg = document.createElement('div');
+                msg.innerText = 'The quantity you chose is out of the amount in stock. There are '+stock+' available.';
+                msg.style.color = 'red';
+                msg.style.fontWeight = 'bold';
+                msg.classList.add(stockMessageClass);
+                document.querySelector('.modal_add_to_cart').appendChild(msg);
+            }
+            document.querySelector('#modelQuickView_buttonSubmit').disabled = true;
+        }
+        else if (existingMsg) { 
+            existingMsg.remove(); 
+        }
+
+    })
 
     document.querySelector('#modelQuickView_buttonSubmit').addEventListener('click',()=>{
         const cartID = document.querySelector('#cartID_input').value;

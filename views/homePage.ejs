@@ -386,7 +386,7 @@
                                                         %>
                                                         <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
                                                     </li>      
-                                                    <li class="quick_button" onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>')">
+                                                    <li class="quick_button" onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')">
                                                         <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box"
                                                             title="quick view"> <span class="ion-ios-search-strong" ></span></a>
                                                     </li>
@@ -491,7 +491,7 @@
                                                             </li>      
                                                             <li class="quick_button"><a href="#" data-bs-toggle="modal"
                                                                     data-bs-target="#modal_box" title="quick view" 
-                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>')"> 
+                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')"> 
                                                                     <span
                                                                         class="ion-ios-search-strong"></span></a>
                                                             </li>
