@@ -127,17 +127,17 @@
                               <div class="coupon_inner">
                                   <div class="cart_subtotal">
                                       <p>Subtotal</p>
-                                      <p class="cart_amount" id="subTotal"><%
+                                      <p class="cart_amount" id="subTotal">
+                                        <%
                                             let subtotal = 0;
                                             if(cartItemList.length && cartItemList.length > 0){
                                                 cartItemList.forEach((item)=>{
                                                     subtotal += parseInt(item.quantity)*parseInt(item.productId.price);
                                                 })
                                             }
-                                            %>
+                                        %>
                                             <%= subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-                                            <%
-                                        %></p>
+                                        </p>
                                   </div>
                                   <div class="cart_subtotal ">
                                       <p>Shipping</p>
@@ -157,7 +157,19 @@
                                       <p class="cart_amount" id="totalFee_Cart"></p>
                                   </div>
                                   <div class="checkout_btn">
-                                      <a href="#">Proceed to Checkout</a>
+                                        <%
+                                        if(cartItemList.length && cartItemList.length > 0){
+                                            cartItemList.forEach((item)=>{
+                                                %>
+                                                <a href="/checkout">Proceed to Checkout</a>         
+                                                <%
+                                            })
+                                        }else{
+                                            %>
+                                            <a style="color: white">No item cart to check out</a>         
+                                            <%
+                                        }
+                                        %>
                                   </div>
                               </div>
                           </div>

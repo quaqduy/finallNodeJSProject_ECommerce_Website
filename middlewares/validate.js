@@ -2,13 +2,14 @@ const validator = require('validator');
 
 // Middleware kiểm tra dữ liệu đăng ký
 const validateRegistration = (req, res, next) => {
-    const { username, phoneNumber, email, password, repassword } = req.body;
+    const { fullname, username, phoneNumber, email, password, repassword } = req.body;
     // Nếu không có lỗi, xóa lỗi trong session và tiếp tục xử lý
     req.session.registerErr = [];
-    req.session.oldDataFormRegister = { username, phoneNumber, email, password, repassword };
-
+    req.session.oldDataFormRegister = { fullname, username, phoneNumber, email, password, repassword };
+console.log(fullname)
     // Sử dụng trim() để loại bỏ khoảng trắng
     const trimmedData = {
+        fullname: fullname?.trim() || "",
         username: username?.trim() || "",
         phoneNumber: phoneNumber?.trim() || "",
         email: email?.trim() || "",
@@ -20,6 +21,10 @@ const validateRegistration = (req, res, next) => {
     const errors = [];
 
     // Kiểm tra các trường bắt buộc
+    if (!trimmedData.fullname) {
+        errors.push("Fullname is required.");
+    }
+
     if (!trimmedData.username) {
         errors.push("Username is required.");
     } else if (trimmedData.username === "Guess") {

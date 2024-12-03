@@ -545,9 +545,9 @@ router.post('/login/register',validateRegistration,async (req,res)=>{
   req.session.oldDataFormRegister = null;
   req.session.registerErr = {code: '0',msg: 'Success to create account.'};
 
-  const { username, email, phoneNumber, password } = req.body;
+  const { fullname, username, email, phoneNumber, password } = req.body;
 
-  let updatedData = { username, email, phoneNumber, password };
+  let updatedData = { fullname, username, email, phoneNumber, password };
   if (password) {
     const hashedPassword = await bcrypt.hash(password, 10);
     updatedData.password = hashedPassword;

@@ -64,20 +64,12 @@
               <form action="#">
                 <h3>Billing Details</h3>
                 <div class="row">
-                  <div class="col-lg-6 mb-20">
-                    <label>First Name <span>*</span></label>
-                    <input type="text" />
-                  </div>
-                  <div class="col-lg-6 mb-20">
-                    <label>Last Name <span>*</span></label>
-                    <input type="text" />
+                  <div class="col-lg-12 mb-20">
+                    <label>Full Name <span>*</span></label>
+                    <input type="text" name/>
                   </div>
                   <div class="col-12 mb-20">
-                    <label>Company Name</label>
-                    <input type="text" />
-                  </div>
-                  <div class="col-12 mb-20">
-                    <label for="country">country <span>*</span></label>
+                    <label for="country">State <span>*</span></label>
                     <select
                       class="niceselect_option"
                       name="country"
@@ -102,17 +94,7 @@
                     />
                   </div>
                   <div class="col-12 mb-20">
-                    <input
-                      placeholder="Apartment, suite, unit etc. (optional)"
-                      type="text"
-                    />
-                  </div>
-                  <div class="col-12 mb-20">
                     <label>Town / City <span>*</span></label>
-                    <input type="text" />
-                  </div>
-                  <div class="col-12 mb-20">
-                    <label>State / County <span>*</span></label>
                     <input type="text" />
                   </div>
                   <div class="col-lg-6 mb-20">
@@ -129,7 +111,7 @@
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOne"
                       aria-controls="collapseOne"
-                      >Create an account?</label
+                      ><i>Create an account?</i></label
                     >
                     <div
                       id="collapseOne"
@@ -139,16 +121,9 @@
                       <div class="card-body1">
                         <label> Account password <span>*</span></label>
                         <input placeholder="password" type="password" />
+                        <label> Re_account password <span>*</span></label>
+                        <input placeholder="password" type="password" />
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="order-notes">
-                      <label for="order_note">Order Notes</label>
-                      <textarea
-                        id="order_note"
-                        placeholder="Notes about your order, e.g. special notes for delivery."
-                      ></textarea>
                     </div>
                   </div>
                 </div>
@@ -166,31 +141,39 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Handbag fringilla <strong> × 2</strong></td>
-                        <td>$165.00</td>
-                      </tr>
-                      <tr>
-                        <td>Handbag justo <strong> × 2</strong></td>
-                        <td>$50.00</td>
-                      </tr>
-                      <tr>
-                        <td>Handbag elit <strong> × 2</strong></td>
-                        <td>$50.00</td>
-                      </tr>
-                      <tr>
-                        <td>Handbag Rutrum <strong> × 1</strong></td>
-                        <td>$50.00</td>
-                      </tr>
+                      <%
+                          if(cartItemList.length && cartItemList.length > 0){
+                              cartItemList.forEach((item)=>{
+                                  %>
+                                  <tr>
+                                    <td><%=item.productId.name%><strong> × <%=item.quantity%></strong></td>
+                                    <td><%=new Intl.NumberFormat('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        }).format(parseInt(item.productId.price) * parseInt(item.quantity))%></td>
+                                    </tr>
+                                  <%
+                              })
+                          }
+                      %>
                     </tbody>
                     <tfoot>
                       <tr>
                         <th>Cart Subtotal</th>
-                        <td>$215.00</td>
+                        <td><%
+                                let subtotal = 0;
+                                if(cartItemList.length && cartItemList.length > 0){
+                                    cartItemList.forEach((item)=>{
+                                        subtotal += parseInt(item.quantity)*parseInt(item.productId.price);
+                                    })
+                                }
+                            %>
+                                <%= subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+                        </td>
                       </tr>
                       <tr>
                         <th>Shipping</th>
-                        <td><strong>$5.00</strong></td>
+                        <td><strong>...</strong></td>
                       </tr>
                       <tr class="order_total">
                         <th>Order Total</th>
