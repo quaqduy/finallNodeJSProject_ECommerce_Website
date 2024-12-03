@@ -11013,3 +11013,53 @@ a{
       font-size: 12px;
   }
 }
+
+
+/* //for purchase */
+.btn-purchases {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #007bff; /* Màu xanh nổi bật */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.btn-purchases i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.btn-purchases:hover {
+  background-color: #0056b3; /* Màu tối hơn khi hover */
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-purchases:active {
+  transform: translateY(0);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Mặc định ẩn phần collapse */
+.collapse {
+  display: none;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.5s ease; /* Thêm hiệu ứng khi thay đổi chiều cao */
+}
+
+/* Khi phần tử không bị ẩn (được mở) */
+.collapse.show {
+  display: block;
+  height: auto; /* Thiết lập chiều cao tự động khi mở */
+}

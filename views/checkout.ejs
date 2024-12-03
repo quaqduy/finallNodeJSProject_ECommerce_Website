@@ -59,89 +59,69 @@
     <div class="Checkout_section mt-60">
       <div class="container">
         <div class="checkout_form">
-          <div class="row">
-            <div class="col-lg-6 col-md-6">
-              <form action="#">
+          <form action="/checkout" method="POST">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
                 <h3>Billing Details</h3>
                 <div class="row">
                   <div class="col-lg-12 mb-20">
                     <label>Full Name <span>*</span></label>
-                    <input type="text" name/>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                      <input type="text" name="fullname" class="form-control"/>
+                    </div>
                   </div>
                   <div class="col-12 mb-20">
                     <label for="country">State <span>*</span></label>
-                    <select
-                      class="niceselect_option"
-                      name="country"
-                      id="country"
-                    >
-                      <option value="2">bangladesh</option>
-                      <option value="3">Algeria</option>
-                      <option value="4">Afghanistan</option>
-                      <option value="5">Ghana</option>
-                      <option value="6">Albania</option>
-                      <option value="7">Bahrain</option>
-                      <option value="8">Colombia</option>
-                      <option value="9">Dominican Republic</option>
+                    <select name="state" id="country" class="form-control">
+                      <!-- Add state options here -->
                     </select>
                   </div>
-
+              
                   <div class="col-12 mb-20">
                     <label>Street address <span>*</span></label>
-                    <input
-                      placeholder="House number and street name"
-                      type="text"
-                    />
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                      <input type="text" placeholder="House number and street name" name="fullAddress" class="form-control"/>
+                    </div>
                   </div>
                   <div class="col-12 mb-20">
                     <label>Town / City <span>*</span></label>
-                    <input type="text" />
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-city"></i></span>
+                      <input type="text" name="city" id="city" class="form-control"/>
+                    </div>
                   </div>
                   <div class="col-lg-6 mb-20">
-                    <label>Phone<span>*</span></label>
-                    <input type="text" />
+                    <label>Phone <span>*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      <input type="text" class="form-control"/>
+                    </div>
                   </div>
                   <div class="col-lg-6 mb-20">
-                    <label> Email Address <span>*</span></label>
-                    <input type="text" />
-                  </div>
-                  <div class="col-12 mb-20">
-                    <label
-                      for="account"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-controls="collapseOne"
-                      ><i>Create an account?</i></label
-                    >
-                    <div
-                      id="collapseOne"
-                      class="collapse one"
-                      data-bs-parent="#accordion"
-                    >
-                      <div class="card-body1">
-                        <label> Account password <span>*</span></label>
-                        <input placeholder="password" type="password" />
-                        <label> Re_account password <span>*</span></label>
-                        <input placeholder="password" type="password" />
-                      </div>
+                    <label>Email Address <span>*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      <input type="text" name="email" class="form-control"/>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <form action="#">
-                <h3>Your order</h3>
-                <div class="order_table table-responsive">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Product</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <%
+              </div>
+              
+              <div class="col-lg-6 col-md-6">
+                <div>
+                  <h3>Your order</h3>
+                  <div class="order_table table-responsive">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%
                           if(cartItemList.length && cartItemList.length > 0){
                               cartItemList.forEach((item)=>{
                                   %>
@@ -151,96 +131,79 @@
                                             style: 'currency',
                                             currency: 'VND'
                                         }).format(parseInt(item.productId.price) * parseInt(item.quantity))%></td>
-                                    </tr>
+                                  </tr>
                                   <%
                               })
                           }
-                      %>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Cart Subtotal</th>
-                        <td><%
-                                let subtotal = 0;
-                                if(cartItemList.length && cartItemList.length > 0){
-                                    cartItemList.forEach((item)=>{
-                                        subtotal += parseInt(item.quantity)*parseInt(item.productId.price);
-                                    })
-                                }
-                            %>
-                                <%= subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Shipping</th>
-                        <td><strong>...</strong></td>
-                      </tr>
-                      <tr class="order_total">
-                        <th>Order Total</th>
-                        <td><strong>$220.00</strong></td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-                <div class="payment_method">
-                  <div class="panel-default">
-                    <input
-                      id="payment_defult"
-                      name="check_method"
-                      type="radio"
-                    />
-                    <label
-                      for="payment_defult"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapsedefult"
-                      aria-controls="collapsedefult"
-                    >
-                      PayPal <img alt=""
-                    /></label>
+                        %>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Cart Subtotal</th>
+                          <td id="orderSubTotal">
+                          <%
+                              let subtotal = 0;
+                              if(cartItemList.length && cartItemList.length > 0){
+                                  cartItemList.forEach((item)=>{
+                                      subtotal += parseInt(item.quantity)*parseInt(item.productId.price);
+                                  })
+                              }
+                          %>
+                          <%= subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Shipping</th>
+                          <td><strong id="shippingFeeElement">...</strong></td>
+                        </tr>
+                        <tr class="order_total">
+                          <th>Order Total</th>
+                          <td><strong id="orderTotal"></strong></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+              
+                  <!-- Collapse phần "Create an account" với icon -->
+                  <div class="col-12 mb-20">
+                    <label for="account" id="toggleCollapse">
+                      <i class="fas fa-user-plus"></i> <i>Create an account?</i>
+                    </label>
 
-                    <input
-                      id="payment_default"
-                      name="check_method"
-                      type="radio"
-                    />
-                    <label
-                      for="payment_default"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapsedefault"
-                      aria-controls="collapsedefault"
-                    >
-                      Cash <img alt=""
-                    /></label>
-
-                    <div
-                      id="collapsedefult"
-                      class="collapse one"
-                      data-bs-parent="#accordion"
-                    >
+                    <div id="collapseOne" class="collapse one">
                       <div class="card-body1">
-                        <label> Name <span>*</span></label>
-                        <input placeholder="Name" type="name" />
-
-                        <label> Card number <span>*</span></label>
-                        <input placeholder="Card number" type="text" />
-
-                        <div class="col-12 mb-20">
-                          <label> Expiration Date <span>*</span></label>
-                          <input placeholder="--/--" type="text" />
-
-                          <label> CVC <span>*</span></label>
-                          <input placeholder="cvc" type="text" />
-                        </div>
+                        <label> Username <span>*</span></label>
+                        <input placeholder="Enter your username" type="text" class="form-control"/>
+                        <label> Account password <span>*</span></label>
+                        <input placeholder="password" type="password" class="form-control"/>
+                        <label> Re_account password <span>*</span></label>
+                        <input placeholder="password" type="password" class="form-control"/>
                       </div>
                     </div>
                   </div>
-                  <div class="order_button">
-                    <button type="submit">Proceed to PayPal</button>
-                  </div>
+              
+                  <!-- Nút submit với icon giỏ hàng -->
+                  <%
+                      if(cartItemList.length && cartItemList.length > 0){
+                        %>
+                        <button type="submit" class="btn-purchases btn btn-primary">
+                          <i class="fas fa-shopping-cart"></i> PURCHASES
+                        </button> 
+                        <%
+                      }else{
+                        %>
+                        <button type="submit" class="btn-purchases btn btn-primary" disabled>
+                          <i class="fas fa-shopping-cart"></i> No product chose !!
+                        </button> 
+                        <%
+                      }
+                  %>
+                  </button> 
                 </div>
-              </form>
-            </div>
+              </div>
+              
           </div>
+          </form>
         </div>
       </div>
     </div>
@@ -254,5 +217,7 @@
 
     <!-- Main JS -->
     <script src="/javascripts/index.js"></script>
+
+    <script src="/javascripts/checkout.js"></script>
   </body>
 </html>
