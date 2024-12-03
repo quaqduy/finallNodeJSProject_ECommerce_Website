@@ -185,17 +185,28 @@
                                                         </ul>
                                                     </div>
                                                     <div class="add_to_cart">
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal" 
-                                                        onclick = "
-                                                        shopModelHandle.readyForAddToCartModel(
-                                                            '<%= item.name %>',
-                                                            '<%= item.stock %>', 
-                                                            '<%= item.colors %>', 
-                                                            '<%= item.price %>',
-                                                            '<%= item.id %>'
-                                                        )">
-                                                            <i class="bi bi-eye"></i> Add to cart
-                                                          </button>
+                                                        <%
+                                                            if(parseInt(item.stock) == 0) {
+                                                        %>
+                                                                <button type="button" class="btn btn-dark">
+                                                                    <i class="bi bi-cart-x"></i> Out of stock
+                                                                </button>  
+                                                        <%
+                                                            } else {
+                                                        %>
+                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal" 
+                                                                    onclick="shopModelHandle.readyForAddToCartModel(
+                                                                        '<%= item.name %>',
+                                                                        '<%= item.stock %>', 
+                                                                        '<%= item.colors %>', 
+                                                                        '<%= item.price %>',
+                                                                        '<%= item.id %>'
+                                                                    )">
+                                                                    <i class="bi bi-eye"></i> Add to cart
+                                                                </button>
+                                                        <%
+                                                            }
+                                                        %>
                                                     </div>
                                                 </div>
                                                 <div class="product_content grid_content">

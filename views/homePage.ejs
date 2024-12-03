@@ -393,7 +393,19 @@
                                                 </ul>
                                             </div>
                                             <div class="add_to_cart">
-                                                <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
+                                                <%
+                                                    if(parseInt(item.stock) == 0) {
+                                                %>
+                                                        <button type="button" class="btn btn-dark">
+                                                            <i class="bi bi-cart-x"></i> Out of stock
+                                                        </button>  
+                                                <%
+                                                    } else {
+                                                %>
+                                                    <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
+                                                <%
+                                                    }
+                                                %>
                                             </div>
                                         </div>
                                         <figcaption class="product_content">
@@ -498,8 +510,19 @@
                                                         </ul>
                                                     </div>
                                                     <div class="add_to_cart">
-                                                        <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
-                                                    </div>
+                                                        <%
+                                                            if(parseInt(item.stock) == 0) {
+                                                        %>
+                                                                <button type="button" class="btn btn-dark">
+                                                                    <i class="bi bi-cart-x"></i> Out of stock
+                                                                </button>  
+                                                        <%
+                                                            } else {
+                                                        %>
+                                                            <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
+                                                        <%
+                                                            }
+                                                        %>                                                    </div>
                                                 </div>
                                                 <figcaption class="product_content">
                                                     <div class="price_box">
