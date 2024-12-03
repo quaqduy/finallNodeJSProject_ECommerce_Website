@@ -13,11 +13,13 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-session": "^1.18.1",
+    "express-validator": "^7.2.0",
     "finallnodejsproject": "file:",
     "http-errors": "~1.6.3",
     "mongoose": "^8.8.2",
     "mongose": "^0.0.2-security",
     "morgan": "~1.9.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "validator": "^13.12.0"
   }
 }

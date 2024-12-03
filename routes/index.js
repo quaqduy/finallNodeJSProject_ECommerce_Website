@@ -21,8 +21,9 @@ router.get('/', async function(req, res, next) {
       phoneNumber: 'none',
     });
     const savedUser = await newUser.save();
-    req.session.user = {userId : savedUser.id}
-
+    req.session.user = {userId : savedUser.id};
+    req.session.userInf = savedUser;
+    
     //Create new cart for new user
     const newCart = new Cart({
       userId : savedUser.id,
@@ -38,7 +39,7 @@ router.get('/', async function(req, res, next) {
     req.session.wishlist = {wishlistId : savedWishlist.id}
   }
 
-  console.log(req.session.user);
+  console.log(req.session.userInf.username);
   console.log(req.session.cart);
   
   //get cartItem list
@@ -66,7 +67,8 @@ router.get('/', async function(req, res, next) {
     cartItemList,
     cartId: req.session.cart.cartId,
     wishlistId: req.session.wishlist.wishlistId,
-    wishlistItemList
+    wishlistItemList,
+    userInf : req.session.userInf
   });
 });
 
@@ -101,7 +103,8 @@ router.get('/shop', async function(req, res, next) {
       cartId,
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: wishlistItemList
+      wishlistItemList: wishlistItemList,
+      userInf : req.session.userInf
     });
   }
 });   
@@ -142,7 +145,8 @@ router.get('/shop/:id', async function(req, res, next) {
       cartId,
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
-      wishlistItemList: req.session.wishlistItemList
+      wishlistItemList: req.session.wishlistItemList,
+      userInf : req.session.userInf
     });
   }
 });
@@ -264,7 +268,8 @@ router.get('/cart', async function(req, res, next) {
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
       wishlistItemList: req.session.wishlistItemList,
-      products
+      products,
+      userInf : req.session.userInf
     });
   }
 });
@@ -310,7 +315,8 @@ router.get('/product-details/:id', async function(req, res, next) {
       productDetail,
       wishlistId: req.session.wishlist.wishlistId,
       wishlistItemList: req.session.wishlistItemList,
-      products
+      products,
+      userInf : req.session.userInf
     });
   }
 });
@@ -357,7 +363,8 @@ router.get('/wishlist', async function(req, res, next) {
         productDetail,
         wishlistId: req.session.wishlist.wishlistId,
         wishlistItemList: req.session.wishlistItemList,
-        products
+        products,
+        userInf : req.session.userInf
       });
     }
   } catch (e) {
@@ -440,7 +447,8 @@ router.get('/about', async function(req, res, next) {
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
       wishlistItemList: req.session.wishlistItemList,
-      products
+      products,
+      userInf : req.session.userInf
     });
   }
 });
@@ -482,23 +490,184 @@ router.get('/contact', async function(req, res, next) {
       cartItemList,
       wishlistId: req.session.wishlist.wishlistId,
       wishlistItemList: req.session.wishlistItemList,
-      products 
+      products ,
+      userInf : req.session.userInf
     });
   }
 });
 
 /* GET login page. */
 router.get('/login', async function(req, res, next) {
-  const categories = await Category.find();
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('login', { title: 'Login', webLocationHost, categories});
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+       //get wishlist item list
+   const wishlistId_find_items = req.session.wishlist.wishlistId;
+   const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
+   req.session.wishlistItemList = wishlistItems;
+   const wishlistItemList = req.session.wishlistItemList;
+
+   //products
+   const products = await Product.find().populate('categoryId');
+
+   const userInf = req.session.userInf;
+
+
+    res.render('login', { title: 'Login', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList,
+      wishlistId: req.session.wishlist.wishlistId,
+      wishlistItemList: req.session.wishlistItemList,
+      products,
+      userInf,
+      errorRegister : req.session.registerErr,
+      oldDataFormRegister: req.session.oldDataFormRegister,
+      errorSign: req.session.signInErr,
+      oldDataFormSignIn: req.session.oldDataFormSignIn
+    });
+  }
+})
+
+//Register
+const { validateRegistration } = require('../middlewares/validate');
+router.post('/login/register',validateRegistration,async (req,res)=>{
+  req.session.oldDataFormRegister = null;
+  req.session.registerErr = {code: '0',msg: 'Success to create account.'};
+
+  const { username, email, phoneNumber, password } = req.body;
+
+  let updatedData = { username, email, phoneNumber, password };
+  if (password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    updatedData.password = hashedPassword;
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.session.user.userId, updatedData, { new: true, runValidators: true });
+  req.session.userInf = updatedUser;
+
+  res.redirect('/userAccount');
+})
+
+//signIn
+const { validateSignIn } = require('../middlewares/validateSignIn');
+router.post('/login/signIn', validateSignIn, async (req, res) => {
+  // Xóa dữ liệu cũ nếu có
+  req.session.oldDataFormSignIn = null;
+  req.session.signInErr = null;
+
+  // Lấy dữ liệu từ form
+  const { usernameOrEmail, password } = req.body;
+
+  // Kiểm tra xem người dùng có đăng nhập bằng username hay email
+  const user = await User.findOne({
+      $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+  });
+
+  if (!user) {
+      // Nếu không tìm thấy người dùng
+      req.session.signInErr = { code: '1', msg: 'Invalid username or email.' };
+      req.session.oldDataFormSignIn = req.body;
+      return res.redirect('/login'); // Quay lại trang login với thông báo lỗi
+  }
+
+  // Kiểm tra mật khẩu
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+      // Nếu mật khẩu không đúng
+      req.session.signInErr = { code: '2', msg: 'Incorrect password.' };
+      req.session.oldDataFormSignIn = req.body;
+      return res.redirect('/login'); // Quay lại trang login với thông báo lỗi
+  }
+
+  // Đăng nhập thành công, lưu thông tin người dùng vào session
+  req.session.userInf = user;
+  req.session.user = {userId : user.id};
+
+  const cart = await Cart.findOne({ userId: user._id });
+  req.session.cart = {cartId : cart._id }
+
+  const wishlist = await Wishlist.findOne({ userId: user._id });
+  req.session.wishlist = {wishlistId : wishlist._id}
+
+  res.redirect('/userAccount'); // Redirect đến trang tài khoản người dùng
 });
 
 /* GET user account page. */
 router.get('/userAccount', async function(req, res, next) {
-  const categories = await Category.find();
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('userAccount', { title: 'User Account', webLocationHost, categories});
+  if(!req.session.user || (req.session.userInf && req.session.userInf.username === "Guess")){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+       //get wishlist item list
+   const wishlistId_find_items = req.session.wishlist.wishlistId;
+   const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
+   req.session.wishlistItemList = wishlistItems;
+   const wishlistItemList = req.session.wishlistItemList;
+
+   //products
+   const products = await Product.find().populate('categoryId');
+
+   const userInf = req.session.userInf;
+
+
+    res.render('userAccount', { title: 'User Account', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList,
+      wishlistId: req.session.wishlist.wishlistId,
+      wishlistItemList: req.session.wishlistItemList,
+      products,
+      userInf,
+      errorRegister : req.session.registerErr,
+      oldDataFormRegister: req.session.oldDataFormRegister
+    });
+  }
 });
+
+//Logout
+router.get('/logout',async (req,res)=>{
+  req.session.oldDataFormRegister = null;
+  req.session.registerErr = {};
+
+  req.session.userInf = null;
+  req.session.user = null;
+
+  res.redirect('/');
+})
+
 
 module.exports = router;

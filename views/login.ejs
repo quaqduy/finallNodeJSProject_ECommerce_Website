@@ -63,20 +63,31 @@
           <div class="col-lg-6 col-md-6">
             <div class="account_form">
               <h2>login</h2>
-              <form action="#">
+              <form action="/login/signIn" method="POST">
                 <p>
-                  <label>Username or email <span>*</span></label>
-                  <input type="text" />
+                    <label>Username or Email <span>*</span></label>
+                    <input type="text" name="usernameOrEmail" 
+                    value="<%= oldDataFormSignIn && oldDataFormSignIn.usernameOrEmail ? oldDataFormSignIn.usernameOrEmail : '' %>"
+                    required />
                 </p>
                 <p>
-                  <label>Passwords <span>*</span></label>
-                  <input type="password" />
+                    <label>Password <span>*</span></label>
+                    <input type="password" name="password" 
+                    value="<%= oldDataFormSignIn && oldDataFormSignIn.password ? oldDataFormSignIn.password : '' %>"
+                    required />
                 </p>
+                <%
+                  if(errorSign && errorSign.code != ''){
+                    %>
+                    <div class="text-danger fw-bold">Error validate: <%=errorSign.msg%></div>
+                    <%
+                  }
+                %>
                 <div class="login_submit">
-                  <a href="#">Forgot password?</a>
-                  <button type="submit">log in</button>
+                    <a href="#">Forgot password?</a>
+                    <button type="submit">Log in</button>
                 </div>
-              </form>
+            </form>            
             </div>
           </div>
           <!--login area start-->
@@ -85,23 +96,61 @@
           <div class="col-lg-6 col-md-6">
             <div class="account_form register">
               <h2>Register</h2>
-              <form action="#">
-                <p>
-                  <label>Email address <span>*</span></label>
-                  <input type="text" />
-                </p>
-                <p>
-                  <label>Passwords <span>*</span></label>
-                  <input type="password" />
-                </p>
-                <p>
-                  <label>Confirm Passwords <span>*</span></label>
-                  <input type="password" />
-                </p>
-                <div class="login_submit">
-                  <button type="submit">Register</button>
-                </div>
-              </form>
+              <%
+                var username = ''; 
+                var phoneNumber = ''; 
+                var email = ''; 
+                var password = ''; 
+                var repassword = ''; 
+
+                if(userInf){
+                  username = userInf.username;
+                  phoneNumber = userInf.phoneNumber;
+                  email = userInf.email;
+
+                  if(oldDataFormRegister){
+                    username = oldDataFormRegister.username;
+                    phoneNumber = oldDataFormRegister.phoneNumber;
+                    email = oldDataFormRegister.email;
+                    password = oldDataFormRegister.password; 
+                    repassword = oldDataFormRegister.repassword; 
+                  } 
+                  %>
+                  <form action="/login/register" method="POST">
+                    <p>
+                      <label>Username <span>*</span></label>
+                      <input type="text" name="username" value = "<%=username%>" placeholder="<%=username%>"/>
+                    </p>
+                    <p>
+                      <label>Phone number <span>*</span></label>
+                      <input type="text" name="phoneNumber" value = "<%=phoneNumber%>" placeholder="<%=phoneNumber%>"/>
+                    </p>
+                    <p>
+                      <label>Email address <span>*</span></label>
+                      <input type="text" name="email" value = "<%=email%>" placeholder="<%=email%>"/>
+                    </p>
+                    <p>
+                      <label>Passwords <span>*</span></label>
+                      <input type="password" name="password" value = "<%=password%>" placeholder="<%=password%>"/>
+                    </p>
+                    <p>
+                      <label>Confirm Passwords <span>*</span></label>
+                      <input type="password" name="repassword" value = "<%=repassword%>" placeholder="<%=repassword%>"/>
+                    </p>
+                    <%
+                        if(errorRegister && errorRegister.length > 0){
+                          %>
+                          <div class="text-danger fw-bold">Error validate: <%=errorRegister[0]%></div>
+                          <%
+                        }
+                      %>
+                    <div class="login_submit">
+                      <button type="submit">Register</button>
+                    </div>
+                  </form>
+                  <%
+                }
+              %>
             </div>
           </div>
           <!--register area end-->

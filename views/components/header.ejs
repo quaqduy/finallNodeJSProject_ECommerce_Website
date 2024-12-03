@@ -144,7 +144,17 @@
                             <li class="menu-item-has-children"><a href="<%= webLocationHost %>/about">About Us</a></li>
                             <li class="menu-item-has-children"><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                             <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                            <%
+                                if(userInf.username == "Guess"){
+                                    %>
+                                    <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                    <%                                
+                                }else{
+                                    %>
+                                    <li class="menu-item-has-children"><a href="<%= webLocationHost %>/userAccount">Your account</a></li>
+                                    <%
+                                }
+                             %>
                         </ul>
                     </div>
 
@@ -321,7 +331,17 @@
                                     <li><a href="<%= webLocationHost %>/about">About Us</a></li>
                                     <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                     <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                    <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li> 
+                                    <%
+                                        if(userInf.username == "Guess"){
+                                            %>
+                                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                            <%                                
+                                        }else{
+                                            %>
+                                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/userAccount">Your account</a></li>
+                                            <%
+                                        }
+                                    %>
                                 </ul>
                             </nav>
                         </div>
@@ -351,7 +371,17 @@
                                 <li><a href="<%= webLocationHost %>/about">About Us</a></li>
                                 <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                 <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                <%
+                                    if(userInf.username == "Guess"){
+                                        %>
+                                        <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                        <%                                
+                                    }else{
+                                        %>
+                                        <li class="menu-item-has-children"><a href="<%= webLocationHost %>/userAccount">Your account</a></li>
+                                        <%
+                                    }
+                                %>
                             </ul>
                         </nav>
                     </div>
