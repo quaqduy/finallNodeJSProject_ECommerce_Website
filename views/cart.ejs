@@ -127,7 +127,7 @@
                               <div class="coupon_inner">
                                   <div class="cart_subtotal">
                                       <p>Subtotal</p>
-                                      <p class="cart_amount"><%
+                                      <p class="cart_amount" id="subTotal"><%
                                             let subtotal = 0;
                                             if(cartItemList.length && cartItemList.length > 0){
                                                 cartItemList.forEach((item)=>{
@@ -141,13 +141,20 @@
                                   </div>
                                   <div class="cart_subtotal ">
                                       <p>Shipping</p>
-                                      <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
+                                      <p class="cart_amount" id="shippingFee">Calculating...</p>
                                   </div>
-                                  <a href="#">Calculate shipping</a>
-
+                                  <div class="mb-3">
+                                        <label for="customerAddress" class="form-label">Enter your address to caculate shipping fee</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="bi bi-geo-alt"></i> <!-- Biểu tượng địa chỉ -->
+                                            </span>
+                                            <input type="text" class="form-control" id="customerAddress_cartPage" placeholder="Enter customer's address with the format: address ; city ; state">
+                                        </div>
+                                    </div>                               
                                   <div class="cart_subtotal">
                                       <p>Total</p>
-                                      <p class="cart_amount">£215.00</p>
+                                      <p class="cart_amount" id="totalFee_Cart"></p>
                                   </div>
                                   <div class="checkout_btn">
                                       <a href="#">Proceed to Checkout</a>

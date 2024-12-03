@@ -402,13 +402,6 @@ router.post('/wishlist_item', async function(req, res, next) {
   }
 });
 
-/* GET checkout page. */
-router.get('/checkout', async function(req, res, next) {
-  const categories = await Category.find();
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  res.render('checkout', { title: 'Checkout', webLocationHost, categories});
-});
-
 
 /* GET about page. */
 router.get('/about', async function(req, res, next) {
@@ -702,5 +695,53 @@ router.post('/forgortpassword',async (req,res)=>{
   res.render('forgotPass', {result});
 })
 
+
+//for checkout
+router.get('/checkout', async function(req, res, next) {
+  if(!req.session.user){
+    res.redirect('/');
+  }else{
+    const { id } = req.params;
+
+    const categories = await Category.find();
+    let categoryName = '';
+    categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+    const webLocationHost = `${req.protocol}://${req.get('host')}`;
+    const cartId = req.session.cart.cartId;
+
+    //get cartItem list
+    const cartId_find_items = req.session.cart.cartId;
+    const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');
+    req.session.cartItemList = cartItems;
+    const cartItemList = req.session.cartItemList;
+
+       //get wishlist item list
+   const wishlistId_find_items = req.session.wishlist.wishlistId;
+   const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
+   req.session.wishlistItemList = wishlistItems;
+   const wishlistItemList = req.session.wishlistItemList;
+
+   //products
+   const products = await Product.find().populate('categoryId');
+
+   const userInf = req.session.userInf;
+
+
+    res.render('checkout', { title: 'Checkout', 
+      webLocationHost, 
+      categories, 
+      categoryName,
+      cartId,
+      cartItemList,
+      wishlistId: req.session.wishlist.wishlistId,
+      wishlistItemList: req.session.wishlistItemList,
+      products,
+      userInf,
+      errorRegister : req.session.registerErr,
+      oldDataFormRegister: req.session.oldDataFormRegister
+    });
+  }
+});
 
 module.exports = router;

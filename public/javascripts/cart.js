@@ -66,3 +66,58 @@ quantityItemCarts.forEach((item)=>{
     });
     
 })
+
+// for shipping fee calculate
+document.querySelector('#customerAddress_cartPage').addEventListener('input', (e) => {
+    const stringAddress = e.target.value;
+    const addressItemLs = stringAddress.split(';');
+
+    let fullAddress = '';
+    let city = '';
+    let state = '';
+
+    if (addressItemLs.length > 0) {
+        fullAddress = addressItemLs[0]?.trim() || '';
+    }
+    if (addressItemLs.length > 1) {
+        city = addressItemLs[1]?.trim() || '';
+    }
+    if (addressItemLs.length > 2) {
+        state = addressItemLs[2]?.trim() || '';
+    }
+
+    let feeShipping = 0;
+
+    if (state && (state.toLowerCase() === 'vn' || state.toLowerCase() === 'vietnam')) {
+        if (['sg', 'hcm', 'sài gòn', 'hồ chí minh'].includes(city.toLowerCase())) {
+            feeShipping = 50000;
+        } else {
+            feeShipping = 100000;
+        }
+    } else {
+        feeShipping = 200000;
+    }
+
+    // Định dạng phí vận chuyển thành VND
+    const formattedFee = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(feeShipping);
+
+    document.querySelector('#shippingFee').innerText = formattedFee;
+
+    // Lấy subTotal đã định dạng VND
+    const subTotalElement = document.querySelector('#subTotal').innerText;
+    const subTotal = parseInt(subTotalElement.replace(/[^\d]/g, ''), 10) || 0;
+
+    // Cộng phí vận chuyển và subTotal
+    const totalFee = feeShipping + subTotal;
+
+    // Định dạng và hiển thị tổng phí
+    const formattedTotalFee = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(totalFee);
+
+    document.querySelector('#totalFee_Cart').innerText = formattedTotalFee;
+});
