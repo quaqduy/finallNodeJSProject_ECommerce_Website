@@ -669,5 +669,38 @@ router.get('/logout',async (req,res)=>{
   res.redirect('/');
 })
 
+//For forgot pass
+router.get('/forgortpassword',async (req,res)=>{
+  res.render('forgotPass',{result : {}});
+})
+
+const mailer = require('../helper/mailer');
+router.post('/forgortpassword',async (req,res)=>{
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  let result = { 
+    code: 1,
+    message: "User not found with the provided email address."
+  };
+  if (user) {
+    const newPassword = user.username + '@@1';
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    mailer.mailerCreate(email, newPassword , user.username);
+
+    result = { 
+      code: 0,
+      message: "Password reset successfully. Check your email for the new password."
+    }
+  } 
+
+  res.render('forgotPass', {result});
+})
+
 
 module.exports = router;
