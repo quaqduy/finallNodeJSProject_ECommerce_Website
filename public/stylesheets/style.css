@@ -11105,3 +11105,147 @@ a{
 .shipping-method input[type="radio"]:checked + label i {
   color: #fff; /* Đổi màu icon khi chọn */
 }
+
+
+.coupon-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.coupon-container input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+  flex: 1;
+}
+
+.coupon-container i {
+  margin-right: 10px;
+  color: black;
+  font-size: 20px;
+}
+
+.coupon-container button {
+  padding: 10px 15px;
+  background-color: black;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.coupon-container button:hover {
+  background-color: #218838;
+}
+
+.rating_stars li {
+  list-style: none;
+  font-size: 24px;
+  color: #ddd;
+  cursor: pointer;
+  margin-right: 5px;
+}
+.rating_stars li.active,
+.rating_stars li:hover,
+.rating_stars li:hover ~ li {
+  color: #ffc107;
+}
+
+#addressForm input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+/* for view order */
+/* Tạo khoảng cách và bố cục hiện đại */
+.container {
+  max-width: 900px;
+  margin-top: 40px;
+}
+
+/* Tiêu đề chính */
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #007bff;  /* Màu xanh dương */
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Định dạng phần Order Info */
+.order-info p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  color: #6c757d;  /* Màu xám nhẹ */
+}
+
+/* Định dạng bảng Order Items */
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+}
+
+/* Định dạng màu nền của các bảng */
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+/* Định dạng Order Summary */
+.order-summary h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #343a40; /* Màu xám đậm */
+}
+
+.order-summary p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+  color: #495057;  /* Màu xám đậm */
+}
+
+/* Định dạng nút quay lại */
+.back-to-orders .btn {
+  font-size: 1rem;
+  padding: 12px 20px;
+  background-color: #0056b3;  
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.back-to-orders .btn:hover {
+  background-color: #218838;  /* Màu xanh lá đậm */
+}
+
+.back-to-orders .btn i {
+  margin-right: 10px;  /* Khoảng cách cho icon */
+}
+
+/* Định dạng Order Status */
+.order-status p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #17a2b8;  /* Màu xanh da trời */
+  margin-top: 10px;
+}

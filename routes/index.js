@@ -13,6 +13,7 @@ const Address = require('../models/AddressModel');
 const Order = require('../models/OrderModel');
 const OrderItem = require('../models/OrderItemModel');
 const Shipping = require('../models/ShippingModel');
+const Review = require('../models/ReviewModel');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -63,6 +64,27 @@ router.get('/', async function(req, res, next) {
   const categories = await Category.find();
   const products = await Product.find().populate('categoryId');
 
+  //for hot deal
+  const lsProductSelled = await OrderItem.find().populate('productId'); // Lấy danh sách với thông tin productId
+  // Gom nhóm các sản phẩm theo productId và cộng dồn quantity
+  const aggregatedProducts = lsProductSelled.reduce((acc, item) => {
+    const existingItem = acc.find((prod) => prod.productId._id.toString() === item.productId._id.toString());
+    if (existingItem) {
+      existingItem.quantity += item.quantity; // Cộng dồn quantity nếu đã tồn tại
+    } else {
+      acc.push({
+        productId: item.productId,
+        quantity: item.quantity,
+      });
+    }
+    return acc;
+  }, []);
+  // Sắp xếp theo quantity giảm dần
+  aggregatedProducts.sort((a, b) => b.quantity - a.quantity);
+  // Lấy top 10 sản phẩm (hoặc tất cả nếu ít hơn 10)
+  const topProducts = aggregatedProducts.slice(0, 10);
+
+
   const webLocationHost = `${req.protocol}://${req.get('host')}`;
   res.render('homePage', { 
     title: 'Home Page', 
@@ -73,7 +95,8 @@ router.get('/', async function(req, res, next) {
     cartId: req.session.cart.cartId,
     wishlistId: req.session.wishlist.wishlistId,
     wishlistItemList,
-    userInf : req.session.userInf
+    userInf : req.session.userInf,
+    topProducts
   });
 });
 
@@ -311,6 +334,9 @@ router.get('/product-details/:id', async function(req, res, next) {
     //product
     const products = await Product.find().populate('categoryId');
 
+    //review
+    const reviewLs = await Review.find({productId : id});
+    console.log(reviewLs)
     res.render('product-details', { title: 'Product Detail', 
       webLocationHost, 
       categories, 
@@ -321,7 +347,8 @@ router.get('/product-details/:id', async function(req, res, next) {
       wishlistId: req.session.wishlist.wishlistId,
       wishlistItemList: req.session.wishlistItemList,
       products,
-      userInf : req.session.userInf
+      userInf : req.session.userInf,
+      reviewLs
     });
   }
 });
@@ -613,7 +640,7 @@ router.get('/userAccount', async function(req, res, next) {
   if(!req.session.user || (req.session.userInf && req.session.userInf.username === "Guess")){
     res.redirect('/');
   }else{
-    const { id } = req.params;
+    const id = req.session.userInf._id;
 
     const categories = await Category.find();
     let categoryName = '';
@@ -639,6 +666,11 @@ router.get('/userAccount', async function(req, res, next) {
 
    const userInf = req.session.userInf;
 
+   //Address 
+   const addressLs = await Address.find({userId : id});
+
+   //Orders
+   const OrderLs = await Order.find({userId:id});
 
     res.render('userAccount', { title: 'User Account', 
       webLocationHost, 
@@ -651,7 +683,9 @@ router.get('/userAccount', async function(req, res, next) {
       products,
       userInf,
       errorRegister : req.session.registerErr,
-      oldDataFormRegister: req.session.oldDataFormRegister
+      oldDataFormRegister: req.session.oldDataFormRegister,
+      addressLs,
+      OrderLs
     });
   }
 });
@@ -865,5 +899,93 @@ const generateTrackingNumber = () => {
 router.get('/delivery',(req,res)=>{
   res.render('deliveryFollow');
 })
+
+//review
+router.post('/review',async (req,res)=>{
+  const {
+    productId,
+    rating,
+    comment
+  } = req.body;
+
+  const newReview = new Review({
+    productId,
+    rating,
+    comment
+  })
+
+  await newReview.save();
+
+  res.redirect('/product-details/'+productId);
+})
+
+//forAddress
+router.post('/address', async (req, res) => {
+  const { fullAddress, city, state } = req.body;
+
+  try {
+    const userId = req.session.userInf._id;
+    console.log(userId)
+
+    // Cập nhật tất cả các địa chỉ của userId thành default: false
+    await Address.updateMany({ userId }, { default: false });
+
+    // Tạo địa chỉ mới và đặt làm mặc định
+    const newAddress = new Address({
+      userId,
+      fullAddress,
+      city,
+      state,
+      default: true,
+    });
+
+    await newAddress.save();
+
+    res.redirect('/userAccount');
+  } catch (error) {
+    console.error('Error saving address:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+//forAddress
+router.get('/address/del/:id', async (req, res) => {
+  const addressId = req.params.id;
+
+  await Address.findByIdAndDelete({ _id: addressId})
+
+  res.redirect('/userAccount');
+});
+
+//for view order
+router.get('/viewOrder/:orderId', async (req, res) => {
+  const { orderId } = req.params;
+
+  try {
+    // Lấy các OrderItem có orderId tương ứng và populate productId
+    const orderItems = await OrderItem.find({ orderId })
+      .populate('productId'); // Populate productId trong mỗi OrderItem
+
+      console.log(orderItems)
+
+    // Lấy đơn hàng để hiển thị thông tin như orderStatus, totalPrice,...
+    const order = await Order.findById(orderId);
+
+    res.render('viewOrder', {
+      orderStatus: order.orderStatus,
+      orderId: order._id,
+      totalPrice: order.totalPrice,
+      discount: order.discount,
+      createdAt: order.createdAt,
+      orderItems: orderItems, // Truyền danh sách OrderItem đã populate productId
+    });
+  } catch (error) {
+    console.error('Error fetching order items:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 
 module.exports = router;

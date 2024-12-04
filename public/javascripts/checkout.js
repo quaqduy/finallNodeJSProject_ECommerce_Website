@@ -84,6 +84,29 @@ document.querySelector('#city').addEventListener('input',(e)=>{
     document.querySelector('#totalPrice').value = shippingFee + parseInt(orderSubTotal.replace(/[^\d]/g, ''), 10);
 })
 
+window.onload = ()=>{
+  const state = document.querySelector('input[name="state"]').value;
+      if(state == 'Vietnam'){
+          shippingFee = 100000;
+      }else{
+          shippingFee = 200000;
+      }
+      
+      shippingFeeElement.innerText = new Intl.NumberFormat('vi-VN', {
+          style: 'currency',
+          currency: 'VND'
+      }).format(shippingFee);
+
+      orderTotal.innerText = new Intl.NumberFormat('vi-VN', {
+          style: 'currency',
+          currency: 'VND'
+      }).format(shippingFee + parseInt(orderSubTotal.replace(/[^\d]/g, ''), 10));
+
+      document.querySelector('#shippingCost').value = shippingFee;
+      document.querySelector('#totalPrice').value = shippingFee + parseInt(orderSubTotal.replace(/[^\d]/g, ''), 10);
+}  
+  
+
 
 if(document.getElementById("toggleCollapse")){
   document.getElementById("toggleCollapse").addEventListener("click", function() {
@@ -138,4 +161,3 @@ if(createAccountCheckbox){
   });
 }
 
-  

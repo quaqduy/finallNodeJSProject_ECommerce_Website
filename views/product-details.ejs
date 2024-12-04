@@ -296,7 +296,7 @@
                       role="tab"
                       aria-controls="reviews"
                       aria-selected="false"
-                      >Reviews (1)</a
+                      >Reviews (<%= reviewLs.length ? reviewLs.length : 0 %>)</a
                     >
                   </li>
                 </ul>
@@ -313,84 +313,70 @@
                 </div>
                 <div class="tab-pane fade" id="reviews" role="tabpanel">
                   <div class="reviews_wrapper">
-                    <h2>1 review for Donec eu furniture</h2>
-                    <div class="reviews_comment_box">
-                      <div class="comment_thmb">
-                        <img src="/images/blog/comment2.jpg" alt="" />
+                    <h2><%= reviewLs.length ? reviewLs.length : 0 %> review for this product</h2>
+                    <%
+                    
+                      if(reviewLs && reviewLs.length>0){
+                        reviewLs.forEach((item,index)=>{
+                          %>
+                          <div class="reviews_comment_box">
+                            <div class="comment_thmb">
+                              <img src="/images/blog/comment2.jpg" alt="" />
+                            </div>
+                            <div class="comment_text">
+                              <div class="reviews_meta">
+                                <div class="star_rating">
+                                  <ul>
+                                    <%
+                                      if(item.rating && item.rating > 0){
+                                        for(var i = 0; i < item.rating; i++){
+                                          %>
+                                          <li>
+                                            <a><i class="ion-ios-star"></i></a>
+                                          </li>
+                                          <%
+                                        }
+                                      }
+                                    %>
+                                  </ul>
+                                </div>
+                                <p><strong>Customer <%=index+1%> </strong>- <%=item.createdAt%></p>
+                                <span><%=item.comment%></span>
+                              </div>
+                            </div>
+                          </div>
+                          <%
+                        })
+                      }
+
+                    %>
+                    <div class="comment_section">
+                      <div class="comment_title">
+                        <h2>Add a review</h2>
                       </div>
-                      <div class="comment_text">
-                        <div class="reviews_meta">
-                          <div class="star_rating">
-                            <ul>
-                              <li>
-                                <a href="#"><i class="ion-ios-star"></i></a>
-                              </li>
-                              <li>
-                                <a href="#"><i class="ion-ios-star"></i></a>
-                              </li>
-                              <li>
-                                <a href="#"><i class="ion-ios-star"></i></a>
-                              </li>
-                              <li>
-                                <a href="#"><i class="ion-ios-star"></i></a>
-                              </li>
-                              <li>
-                                <a href="#"><i class="ion-ios-star"></i></a>
-                              </li>
-                            </ul>
-                          </div>
-                          <p><strong>admin </strong>- September 12, 2022</p>
-                          <span>roadthemes</span>
+                      <form action="/review" method="POST" id="reviewForm">
+                        <!-- Rating -->
+                        <div class="product_ratting mb-3">
+                          <h3>Your rating</h3>
+                          <ul class="rating_stars d-flex">
+                            <li data-value="1"><i class="fa fa-star"></i></li>
+                            <li data-value="2"><i class="fa fa-star"></i></li>
+                            <li data-value="3"><i class="fa fa-star"></i></li>
+                            <li data-value="4"><i class="fa fa-star"></i></li>
+                            <li data-value="5"><i class="fa fa-star"></i></li>
+                          </ul>
+                          <input type="hidden" name="rating" id="ratingValue" value="1" />
+                          <input type="hidden" name="productId" id="productId" value="<%=productDetail._id%>" />
                         </div>
-                      </div>
-                    </div>
-                    <div class="comment_title">
-                      <h2>Add a review</h2>
-                      <p>
-                        Your email address will not be published. Required
-                        fields are marked
-                      </p>
-                    </div>
-                    <div class="product_ratting mb-10">
-                      <h3>Your rating</h3>
-                      <ul>
-                        <li>
-                          <a href="#"><i class="fa fa-star"></i></a>
-                        </li>
-                        <li>
-                          <a href="#"><i class="fa fa-star"></i></a>
-                        </li>
-                        <li>
-                          <a href="#"><i class="fa fa-star"></i></a>
-                        </li>
-                        <li>
-                          <a href="#"><i class="fa fa-star"></i></a>
-                        </li>
-                        <li>
-                          <a href="#"><i class="fa fa-star"></i></a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="product_review_form">
-                      <form action="#">
-                        <div class="row">
-                          <div class="col-12">
-                            <label for="review_comment">Your review </label>
-                            <textarea
-                              name="comment"
-                              id="review_comment"
-                            ></textarea>
-                          </div>
-                          <div class="col-lg-6 col-md-6">
-                            <label for="author">Name</label>
-                            <input id="author" type="text" />
-                          </div>
-                          <div class="col-lg-6 col-md-6">
-                            <label for="email">Email </label>
-                            <input id="email" type="text" />
-                          </div>
+                        <!-- Review Comment -->
+                        <div class="product_review_form">
+                          <div class="row">
+                            <div class="col-12">
+                              <label for="review_comment">Your review</label>
+                              <textarea name="comment" id="review_comment"></textarea>
+                            </div>
+                          <button type="submit" class="btn btn-primary mt-3" style="height: 40px;">Submit</button>
                         </div>
-                        <button type="submit">Submit</button>
                       </form>
                     </div>
                   </div>

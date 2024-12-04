@@ -869,97 +869,6 @@
         };
         }
     });
-
-    // Address event
-    document.addEventListener("DOMContentLoaded", function () {
-        const addressModal = document.getElementById("addressForm");
-        if(addressModal){
-            const modalClose = document.querySelector("#addressForm .close");
-            const editAddressInput = document.getElementById("editAddress");
-            const editPhoneInput = document.getElementById("editPhone");
-            const updateAddressForm = document.getElementById("updateAddressForm");
-            const addAddressButton = document.getElementById("addAddress");
-            const modalTitle = document.getElementById("modalTitle");
-        
-            let currentRow = null; // To track the row being edited, or null for adding new
-        
-            // Handle "Add another address" button
-            addAddressButton.addEventListener("click", function () {
-                currentRow = null; // No row is being edited
-                editAddressInput.value = ""; // Clear the input fields
-                editPhoneInput.value = "";
-                modalTitle.textContent = "Add New Address"; // Update modal title
-                addressModal.style.display = "block"; // Show the modal
-            });
-        
-            // Handle Edit buttons
-            document.querySelectorAll(".edit-btn").forEach((btn) => {
-                btn.addEventListener("click", function () {
-                    currentRow = btn.closest("tr");
-                    const address = currentRow.children[1].textContent.trim();
-                    const phone = currentRow.children[2].textContent.trim();
-                    editAddressInput.value = address;
-                    editPhoneInput.value = phone;
-                    modalTitle.textContent = "Update Address"; // Update modal title
-                    addressModal.style.display = "block"; // Show the modal
-                });
-            });
-        
-            // Handle Close modal
-            modalClose.onclick = function () {
-                addressModal.style.display = "none";
-            };
-        
-            // Close modal when clicking outside
-            window.addEventListener("click", function (event) {
-                if (event.target === addressModal) {
-                    addressModal.style.display = "none";
-                }
-            });
-        
-            // Handle form submission
-            updateAddressForm.onsubmit = function (e) {
-                e.preventDefault();
-        
-                const updatedAddress = editAddressInput.value;
-                const updatedPhone = editPhoneInput.value;
-        
-                if (currentRow) {
-                    // Update existing row
-                    currentRow.children[1].textContent = updatedAddress;
-                    currentRow.children[2].textContent = updatedPhone;
-                } else {
-                    // Add a new row
-                    const tableBody = document.querySelector("table tbody");
-                    const newRow = document.createElement("tr");
-                    const rowIndex = tableBody.children.length + 1;
-        
-                    newRow.innerHTML = `
-                        <td>${rowIndex}</td>
-                        <td>${updatedAddress}</td>
-                        <td>${updatedPhone}</td>
-                        <td>
-                            <button class="edit-btn" data-index="${rowIndex}">Edit</button>
-                            <button>Delete</button>
-                        </td>
-                    `;
-        
-                    tableBody.appendChild(newRow);
-        
-                    // Rebind the Edit button for the new row
-                    newRow.querySelector(".edit-btn").addEventListener("click", function () {
-                        currentRow = newRow;
-                        editAddressInput.value = updatedAddress;
-                        editPhoneInput.value = updatedPhone;
-                        modalTitle.textContent = "Update Address";
-                        addressModal.style.display = "block";
-                    });
-                }
-        
-                addressModal.style.display = "none"; // Close the modal
-            };
-        }
-    });
     
 })(jQuery);	
 
@@ -1173,3 +1082,21 @@ function createHiddenForm(cartId, productId, color, quantity, currentURL) {
 
     return form;
 }
+
+// Thêm sự kiện cho các sao
+document.querySelectorAll(".rating_stars li").forEach((star) => {
+    star.addEventListener("click", function () {
+      // Lấy giá trị rating
+      const rating = this.getAttribute("data-value");
+      // Cập nhật input ẩn
+      document.getElementById("ratingValue").value = rating;
+      // Highlight các sao đã chọn
+      document.querySelectorAll(".rating_stars li").forEach((s) => {
+        s.classList.remove("active");
+      });
+      for (let i = 0; i < rating; i++) {
+        document.querySelectorAll(".rating_stars li")[i].classList.add("active");
+      }
+    });
+  });
+  
