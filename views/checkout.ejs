@@ -55,6 +55,23 @@
     </div>
     <!--breadcrumbs area end-->
 
+<%
+
+    let state = '';
+    let street = '';
+    let city = '';
+    if(addressUserList && addressUserList.length > 0){
+      addressUserList.forEach((item)=>{
+        if(item.default == true){
+          state = item.state;
+          city = item.city;
+          street = item.fullAddress;
+        }
+      })
+    }
+
+%>
+
     <!--Checkout page section-->
     <div class="Checkout_section mt-60">
       <div class="container">
@@ -68,42 +85,54 @@
                     <label>Full Name <span>*</span></label>
                     <div class="input-group">
                       <span class="input-group-text"><i class="fas fa-user"></i></span>
-                      <input type="text" name="fullname" class="form-control"/>
+                      <input type="text" name="fullname" class="form-control" value = "<%= userInf.fullname ? userInf.fullname : '' %>"/>
                     </div>
                   </div>
                   <div class="col-12 mb-20">
                     <label for="country">State <span>*</span></label>
-                    <select name="state" id="country" class="form-control">
-                      <!-- Add state options here -->
-                    </select>
+                    <% 
+                    
+                      if(state !== ''){
+                        %>
+                        <input type="text" name="state" class="form-control" value = "<%= state %>"/>
+                        <%
+                      }else{
+                        %>
+                        <select name="state" id="country" class="form-control" value = "">
+                          <!-- Add state options here -->
+                        </select>                        
+                        <%
+                      }
+
+                    %>
                   </div>
               
                   <div class="col-12 mb-20">
                     <label>Street address <span>*</span></label>
                     <div class="input-group">
                       <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                      <input type="text" placeholder="House number and street name" name="fullAddress" class="form-control"/>
+                      <input type="text" placeholder="House number and street name" name="fullAddress" class="form-control" value = "<%= street %>"/>
                     </div>
                   </div>
                   <div class="col-12 mb-20">
                     <label>Town / City <span>*</span></label>
                     <div class="input-group">
                       <span class="input-group-text"><i class="fas fa-city"></i></span>
-                      <input type="text" name="city" id="city" class="form-control"/>
+                      <input type="text" name="city" id="city" class="form-control" value = "<%= city %>"/>
                     </div>
                   </div>
                   <div class="col-lg-6 mb-20">
                     <label>Phone <span>*</span></label>
                     <div class="input-group">
                       <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                      <input type="text" class="form-control"/>
+                      <input type="text" class="form-control" name="phoneNumber" value = "<%= userInf.phoneNumber ? userInf.phoneNumber : '' %>"/>
                     </div>
                   </div>
                   <div class="col-lg-6 mb-20">
                     <label>Email Address <span>*</span></label>
                     <div class="input-group">
                       <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                      <input type="text" name="email" class="form-control"/>
+                      <input type="text" name="email" class="form-control" value = "<%= userInf.email ? userInf.email : '' %>"/>
                     </div>
                   </div>
                 </div>
@@ -163,24 +192,56 @@
                       </tfoot>
                     </table>
                   </div>
-              
-                  <!-- Collapse phần "Create an account" với icon -->
                   <div class="col-12 mb-20">
-                    <label for="account" id="toggleCollapse">
-                      <i class="fas fa-user-plus"></i> <i>Create an account?</i>
-                    </label>
-
-                    <div id="collapseOne" class="collapse one">
-                      <div class="card-body1">
-                        <label> Username <span>*</span></label>
-                        <input placeholder="Enter your username" type="text" class="form-control"/>
-                        <label> Account password <span>*</span></label>
-                        <input placeholder="password" type="password" class="form-control"/>
-                        <label> Re_account password <span>*</span></label>
-                        <input placeholder="password" type="password" class="form-control"/>
-                      </div>
+                    <label>Shipping Method:</label>
+                    <div class="shipping-method">
+                      <input type="radio" id="standard" name="shippingMethod" value="standard" checked />
+                      <label for="standard" class="shipping-icon">
+                        <i class="fas fa-truck"></i> Standard
+                      </label>
+                    </div>
+                    <div class="shipping-method">
+                      <input type="radio" id="express" name="shippingMethod" value="express" />
+                      <label for="express" class="shipping-icon">
+                        <i class="fas fa-bolt"></i> Express
+                      </label>
                     </div>
                   </div>
+                  
+                  <input type="hidden" id="shippingCost" name="shippingCost" value="0">
+                  <input type="hidden" id="totalPrice" name="totalPrice" value="0">
+                  <input type="hidden" id="discount" name="discount" value="0">
+              
+                  <!-- Collapse phần "Create an account" với icon -->
+                  <% 
+
+                    if(!userInf.fullname){
+                      %>
+                      <div class="col-12 mb-20">
+                        <label for="account" id="toggleCollapse">
+                          <i class="fas fa-user-plus"></i> <i>Create an account?</i>
+                        </label>
+    
+                        <div id="collapseOne" class="collapse one">
+                          <div class="card-body1">
+                            <label> Username <span>*</span></label>
+                            <input placeholder="Enter your username" name="username" id="username" type="text" class="form-control" />
+                            <label> Account password <span>*</span></label>
+                            <input placeholder="password" type="password" name="password" id="password" class="form-control" />
+                            <label> Re_account password <span>*</span></label>
+                            <input placeholder="repassword" type="password" name="repassword" id="repassword" class="form-control" />
+                          </div>
+                          <div class="registration-option">
+                            <p>Do you want to create an account also?</p>
+                            <input type="checkbox" id="create-account-checkbox" name="checkRegister"/>
+                            <label for="create-account-checkbox">Yes, create an account</label>
+                          </div>
+                        </div>
+                      </div>
+                      <%
+                    }
+
+                  %>
               
                   <!-- Nút submit với icon giỏ hàng -->
                   <%

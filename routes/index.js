@@ -9,6 +9,10 @@ const Cart = require('../models/CartModel');
 const CartItem = require('../models/CartItemModel');
 const Wishlist = require('../models/wishListModel');
 const WishlistItem = require('../models/wishListItemModel');
+const Address = require('../models/AddressModel');
+const Order = require('../models/OrderModel');
+const OrderItem = require('../models/OrderItemModel');
+const Shipping = require('../models/ShippingModel');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -39,6 +43,7 @@ router.get('/', async function(req, res, next) {
     req.session.wishlist = {wishlistId : savedWishlist.id}
   }
 
+  console.log(req.session.user.userId);
   console.log(req.session.userInf.username);
   console.log(req.session.cart);
   
@@ -684,7 +689,7 @@ router.post('/forgortpassword',async (req,res)=>{
     user.password = hashedPassword;
     await user.save();
 
-    mailer.mailerCreate(email, newPassword , user.username);
+    mailer.mailerCreate(email, newPassword , user.fullname);
 
     result = { 
       code: 0,
@@ -717,16 +722,19 @@ router.get('/checkout', async function(req, res, next) {
     const cartItemList = req.session.cartItemList;
 
        //get wishlist item list
-   const wishlistId_find_items = req.session.wishlist.wishlistId;
-   const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
-   req.session.wishlistItemList = wishlistItems;
-   const wishlistItemList = req.session.wishlistItemList;
+    const wishlistId_find_items = req.session.wishlist.wishlistId;
+    const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
+    req.session.wishlistItemList = wishlistItems;
+    const wishlistItemList = req.session.wishlistItemList;
 
    //products
    const products = await Product.find().populate('categoryId');
 
    const userInf = req.session.userInf;
 
+   //getAddress if userHave account
+    const addressUserList = await Address.find({ userId: req.session.user.userId });
+    console.log(addressUserList)
 
     res.render('checkout', { title: 'Checkout', 
       webLocationHost, 
@@ -739,13 +747,123 @@ router.get('/checkout', async function(req, res, next) {
       products,
       userInf,
       errorRegister : req.session.registerErr,
-      oldDataFormRegister: req.session.oldDataFormRegister
+      oldDataFormRegister: req.session.oldDataFormRegister,
+      addressUserList
     });
   }
 });
 
-router.post('/checkout', async (req,res)=>{
-  console.log(req.body);
+const mailerOrder = require('../helper/mailerOrder');
+router.post("/checkout", async (req, res) => {
+  try {
+    const {
+      fullname,
+      state,
+      fullAddress,
+      city,
+      phoneNumber,
+      email,
+      shippingCost,
+      shippingMethod,
+      totalPrice,
+      discount,
+      username,
+      password,
+      checkRegister,
+    } = req.body;
+
+    // 1. Save order information to the Order table
+    const newOrder = new Order({
+      userId: req.session.user.userId,
+      totalPrice,
+      discount,
+    });
+    const savedOrder = await newOrder.save();
+    const newOrderId = savedOrder._id;
+
+    // 2. Save items to the OrderItem table
+    const cartItemList = req.session.cartItemList || [];
+    for (const itemCart of cartItemList) {
+      const newOrderItem = new OrderItem({
+        orderId: newOrderId,
+        productId: itemCart.productId._id,
+        quantity: itemCart.quantity,
+        price: itemCart.quantity * itemCart.productId.price,
+      });
+      await newOrderItem.save();
+    }
+
+    // 3. Update product stock in the Product table
+    for (const itemCart of cartItemList) {
+      const product = await Product.findById(itemCart.productId._id);
+      const newStock = product.stock - itemCart.quantity;
+      product.stock = newStock;
+      await product.save();
+    }
+
+    // 4. Save shipping information to the Shipping table
+    const trackingNumber = generateTrackingNumber();
+    const newShipping = new Shipping({
+      orderId: newOrderId,
+      shippingMethod,
+      shippingCost,
+      trackingNumber,
+    });
+    await newShipping.save();
+
+    // 5. Clear the cart after completing the order
+    for (const cartItem of req.session.cartItemList) {
+      await CartItem.deleteOne({ _id: cartItem._id });
+    }
+
+    // 6. register account if user chosing register
+    if(checkRegister == 'on'){
+      let updatedData = { fullname, username, email, phoneNumber, password };
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        updatedData.password = hashedPassword;
+      }
+    
+      const updatedUser = await User.findByIdAndUpdate(req.session.user.userId, updatedData, { new: true, runValidators: true });
+      req.session.userInf = updatedUser;   
+
+      //Create Address for user
+      const userAddress = new Address({
+        userId: req.session.user.userId,
+        fullAddress,
+        city,
+        state,
+        default: true
+      })
+      await userAddress.save();
+
+      return res.redirect('/userAccount');
+    }   
+
+    // 7. send mail notify order
+    const addressUser = fullAddress+' - '+city+' - '+state;
+    mailerOrder.mailerCreate(email, req.session.cartItemList, fullname, addressUser,'pedding', trackingNumber);
+    req.session.cartItemList = [];
+
+    res.redirect('/');
+  } catch (error) {
+    console.error("Checkout Error:", error);
+    res.status(500).json({ error: "An error occurred during checkout." });
+  }
+});
+
+const generateTrackingNumber = () => {
+  // Định dạng: PREFIX + TIMESTAMP + RANDOM NUMBER
+  const prefix = "DKD"; 
+  const timestamp = Date.now().toString(); 
+  const randomPart = Math.floor(100000 + Math.random() * 900000).toString(); 
+
+  return `${prefix}-${timestamp}-${randomPart}`;
+};
+
+//delivery
+router.get('/delivery',(req,res)=>{
+  res.render('deliveryFollow');
 })
 
 module.exports = router;

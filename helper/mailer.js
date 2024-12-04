@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config(); 
 
-exports.mailerCreate = (emailReceipt, newPassword, username)=>{
+exports.mailerCreate = (emailReceipt, newPassword, fullname)=>{
     // Tạo transporter (kết nối với dịch vụ email)
     const transporter = nodemailer.createTransport({
         service: 'gmail', 
@@ -65,7 +65,7 @@ exports.mailerCreate = (emailReceipt, newPassword, username)=>{
 
                 <div class="email-container">
                     <h2>Your New Password</h2>
-                    <p>Hi ${username},</p>
+                    <p>Hi ${fullname},</p>
                     <p>We have successfully reset your password. Below is your new password:</p>
 
                     <div class="password-container">
