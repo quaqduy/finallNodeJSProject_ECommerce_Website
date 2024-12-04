@@ -850,23 +850,6 @@
             }
         });
 
-        // Handle form submission
-        const profileForm = document.getElementById("profileForm");
-        profileForm.onsubmit = function (e) {
-            e.preventDefault(); // Prevent form refresh
-
-            // Collect updated data
-            const fullName = document.getElementById("fullName").value;
-            const email = document.getElementById("email").value;
-            const phoneNumber = document.getElementById("phoneNumber").value;
-            const defaultAddress = document.getElementById("defaultAddress").value;
-
-            // Log the updated data (can be sent to server or updated on page)
-            console.log({ fullName, email, phoneNumber, defaultAddress });
-
-            // Close the modal after submission
-            modal.style.display = "none";
-        };
         }
     });
     

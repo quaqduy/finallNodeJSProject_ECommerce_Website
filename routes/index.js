@@ -986,6 +986,55 @@ router.get('/viewOrder/:orderId', async (req, res) => {
 });
 
 
+// For updating profile
+router.post('/updateProfile/:id', async (req, res) => {
+  const {
+    fullname,
+    email,
+    phoneNumber,
+    defaultAddress
+  } = req.body;
+
+  // Xử lý chỉ mục của địa chỉ mặc định
+  const indexAddress = parseInt(defaultAddress.split('/')[0].trim());
+  try {
+    // Cập nhật thông tin người dùng
+    await User.findOneAndUpdate(
+      { _id: req.session.userInf._id }, 
+      { 
+        fullname,
+        email,
+        phoneNumber 
+      },
+      { new: true } // Trả về tài liệu đã cập nhật
+    );
+
+    // Lấy danh sách địa chỉ của người dùng
+    const addressLs = await Address.find({ userId: req.session.userInf._id });
+
+    // Duyệt qua danh sách địa chỉ và cập nhật địa chỉ cần thiết
+    for (let index = 0; index < addressLs.length; index++) {
+      const item = addressLs[index];
+      // Đánh dấu địa chỉ mặc định
+      if (index === indexAddress) {
+        item.default = true;
+      } else {
+        item.default = false;
+      }
+
+      // Lưu lại thông tin đã cập nhật
+      await item.save();
+    }
+    req.session.userInf.fullname = fullname;
+    
+    // Điều hướng về trang tài khoản người dùng
+    res.redirect('/userAccount');
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    res.status(500).send('An error occurred while updating the profile.');
+  }
+});
+
 
 
 module.exports = router;
