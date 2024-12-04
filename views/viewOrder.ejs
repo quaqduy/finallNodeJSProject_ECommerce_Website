@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <!-- Thêm Bootstrap và FontAwesome -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+<!-- Header và Navbar (nếu có) -->
+
+<div class="container">
+    <h2 class="mb-4">Order Details</h2>
+
+    <!-- Order Status -->
+    <div class="order-status mb-4">
+        <p><i class="fas fa-info-circle"></i> <strong>Order Status:</strong> <%= orderStatus %></p>
+    </div>
+
+    <!-- Order Info -->
+    <div class="order-info mb-4">
+        <p><i class="fas fa-id-badge"></i> <strong>Order ID:</strong> <%= orderId %></p>
+        <p><i class="fas fa-wallet"></i> <strong>Total Price:</strong> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice) %></p>
+        <p><i class="fas fa-percent"></i> <strong>Discount:</strong> <%= discount %> %</p>
+        <p><i class="fas fa-calendar-alt"></i> <strong>Created At:</strong> <%= new Date(createdAt).toLocaleDateString() %></p>
+    </div>
+
+    <!-- Order Items Table -->
+    <h3>Order Items</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orderItems.forEach(item => { %>
+                <tr>
+                    <td><%= item.productId.name %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price) %></td>
+                    <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.quantity * item.price) %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- Order Summary Section -->
+    <div class="order-summary mt-4">
+        <h4>Order Summary</h4>
+        <p><strong>Subtotal:</strong> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)) %></p>
+        <p><strong>Discount:</strong> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice * (discount / 100)) %></p>
+        <p><strong>Total Amount:</strong> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice - (totalPrice * (discount / 100))) %></p>
+    </div>
+
+  <!-- Back Button -->
+    <div class="back-to-orders mt-3">
+        <a href="/userAccount" class="btn btn-custom"><i class="fas fa-arrow-left"></i> Back to Account</a>
+    </div>
+</div>
+
+<!-- Thêm Bootstrap JS và các thư viện cần thiết khác -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/path/to/custom-scripts.js"></script>
+
+</body>
+</html>

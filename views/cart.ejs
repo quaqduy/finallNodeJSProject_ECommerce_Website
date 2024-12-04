@@ -18,6 +18,21 @@
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add FontAwesome CSS (for icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Add Bootstrap JS (including Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
   </head>
   <body>
     <!-- Include header component -->
@@ -30,7 +45,7 @@
               <div class="col-12">
                   <div class="breadcrumb_content">
                       <ul>
-                          <li><a href="index.ejs">home</a></li>
+                          <li><a href="<%= webLocationHost %>">home</a></li>
                           <li>Shopping Cart</li>
                       </ul>
                   </div>
@@ -52,60 +67,43 @@
                                   <thead>
                                       <tr>
                                           <th class="product_remove">Delete</th>
+                                          <th class="product_Id">Product ID</th>
                                           <th class="product_thumb">Image</th>
-                                          <th class="product_name">Product</th>
+                                          <th class="product_name">Product Name</th>
+                                          <th class="product_color">Color Chose</th>
                                           <th class="product-price">Price</th>
                                           <th class="product_quantity">Quantity</th>
                                           <th class="product_total">Total</th>
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
-                                          </td>
-                                          <td class="product_thumb"><a href="#"><img
-                                                      src="/images/s-product/product.jpg" alt=""></a></td>
-                                          <td class="product_name"><a href="#">Handbag fringilla</a></td>
-                                          <td class="product-price">£65.00</td>
-                                          <td class="product_quantity"><label>Quantity</label> <input min="1"
-                                                  max="100" value="1" type="number"></td>
-                                          <td class="product_total">£130.00</td>
-
-
-                                      </tr>
-
-                                      <tr>
-                                          <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
-                                          </td>
-                                          <td class="product_thumb"><a href="#"><img
-                                                      src="/images/s-product/product2.jpg" alt=""></a></td>
-                                          <td class="product_name"><a href="#">Handbags justo</a></td>
-                                          <td class="product-price">£90.00</td>
-                                          <td class="product_quantity"><label>Quantity</label> <input min="1"
-                                                  max="100" value="1" type="number"></td>
-                                          <td class="product_total">£180.00</td>
-
-
-                                      </tr>
-                                      <tr>
-                                          <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
-                                          </td>
-                                          <td class="product_thumb"><a href="#"><img
-                                                      src="/images/s-product/product3.jpg" alt=""></a></td>
-                                          <td class="product_name"><a href="#">Handbag elit</a></td>
-                                          <td class="product-price">£80.00</td>
-                                          <td class="product_quantity"><label>Quantity</label> <input min="1"
-                                                  max="100" value="1" type="number"></td>
-                                          <td class="product_total">£160.00</td>
-
-
-                                      </tr>
-
+                                    <%
+                                    if(cartItemList.length > 0){
+                                        cartItemList.forEach((item) => {
+                                    %>
+                                    <tr class="cartItem" _cartItemID="<%= item._id %>" _cartItem_ProductPrice="<%= item.productId.price %>">
+                                        <input class="itemCartId d-none" _cartItemId="<%= item._id %>" type="text" >
+                                        <td class="product_remove" onclick="handleViewerAction('<%= item._id %>','<%= item.productId.name %>')"><i class="fa fa-trash"></i></td>
+                                        <td class="product_Id"><%= item.productId._id %></td>
+                                        <td class="product_thumb"><a href="<%= webLocationHost %>/product-details/<%= item.productId._id %>"><img src="/images/product_imgs/defautProductImg.png" alt=""></a></td>
+                                        <td class="product_name"><a href="<%= webLocationHost %>/product-details/<%= item.productId._id %>"><%= item.productId.name %></a></td>
+                                        <td class="product_Chose"><%= item.color %></td>
+                                        <td class="product-price"><%= parseInt(item.productId.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+                                        <td class="product_quantity">
+                                            <label>Quantity</label> 
+                                            <input _cartItemID="<%= item._id %>" class="quantityItemCart" min="1" max="100" value="<%= item.quantity %>" type="number">
+                                        </td>
+                                        <td class="product_total"><%= (parseInt(item.quantity) * parseInt(item.productId.price)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+                                    </tr>
+                                    <%
+                                        });
+                                    }
+                                    %>
                                   </tbody>
                               </table>
                           </div>
                           <div class="cart_submit">
-                              <button type="submit">update cart</button>
+                              <button type="button" onclick = 'submitNewCart()'>update cart</button>
                           </div>
                       </div>
                   </div>
@@ -129,20 +127,49 @@
                               <div class="coupon_inner">
                                   <div class="cart_subtotal">
                                       <p>Subtotal</p>
-                                      <p class="cart_amount">£215.00</p>
+                                      <p class="cart_amount" id="subTotal">
+                                        <%
+                                            let subtotal = 0;
+                                            if(cartItemList.length && cartItemList.length > 0){
+                                                cartItemList.forEach((item)=>{
+                                                    subtotal += parseInt(item.quantity)*parseInt(item.productId.price);
+                                                })
+                                            }
+                                        %>
+                                            <%= subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+                                        </p>
                                   </div>
                                   <div class="cart_subtotal ">
                                       <p>Shipping</p>
-                                      <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
+                                      <p class="cart_amount" id="shippingFee">Calculating...</p>
                                   </div>
-                                  <a href="#">Calculate shipping</a>
-
+                                  <div class="mb-3">
+                                        <label for="customerAddress" class="form-label">Enter your address to caculate shipping fee</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="bi bi-geo-alt"></i> <!-- Biểu tượng địa chỉ -->
+                                            </span>
+                                            <input type="text" class="form-control" id="customerAddress_cartPage" placeholder="Enter customer's address with the format: address ; city ; state">
+                                        </div>
+                                    </div>                               
                                   <div class="cart_subtotal">
                                       <p>Total</p>
-                                      <p class="cart_amount">£215.00</p>
+                                      <p class="cart_amount" id="totalFee_Cart"></p>
                                   </div>
                                   <div class="checkout_btn">
-                                      <a href="#">Proceed to Checkout</a>
+                                        <%
+                                        if(cartItemList.length && cartItemList.length > 0){
+                                            cartItemList.forEach((item)=>{
+                                                %>
+                                                <a href="/checkout">Proceed to Checkout</a>         
+                                                <%
+                                            })
+                                        }else{
+                                            %>
+                                            <a style="color: white">No item cart to check out</a>         
+                                            <%
+                                        }
+                                        %>
                                   </div>
                               </div>
                           </div>
@@ -155,6 +182,34 @@
   </div>
   <!--shopping cart area end -->
 
+  <!-- Delete Confirmation Modal -->
+  <form id="submitNewCartForm" action="<%= webLocationHost %>/cart_item_delmany" method="POST" class="d-none">
+    <input type="text" name="listCartItemID_remove">
+    <input type="text" name="listQuantity_change">
+    <input type="text" name="currentURL">
+    <input type="submit" id="submitHandleCartBtn">
+  </form>
+<div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmRemoveModalLabel">Confirm Remove Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to remove <span id="modalProductName" class="fw-bold"></span> from the cart?
+        </div>
+        <div class="modal-footer">
+          <button id="removeItemCancelBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <div>
+            <button id="removeItemCofirmBtn" _cartItemID="" type="button" class="btn btn-danger" onclick="handleRemoveItemCart_view(event)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
   <!-- Include footer component -->
   <%- include('./components/footer.ejs') %>
 
@@ -163,5 +218,7 @@
 
   <!-- Main JS -->
   <script src="/javascripts/index.js"></script>
+
+  <script src="/javascripts/cart.js"></script>
   </body>
 </html>
