@@ -91,11 +91,10 @@
                             </div>
                             <div class="widget_list widget_filter">
                                 <h2>Filter by price</h2>
-                                <form action="#">
+                                <form>
                                     <div id="slider-range"></div>
-                                    <button type="submit">Filter</button>
-                                    <input type="text" name="text" id="amount" />
-
+                                    <button type="button" onclick="applyPriceFilter()"><a href="#" style="color:white !important">Filter</a></button>
+                                    <input type="text" name="text" id="amount"/>
                                 </form>
                             </div>
                         </div>
@@ -117,19 +116,21 @@
                             <button data-role="grid_list" type="button" class="btn-list" data-bs-toggle="tooltip"
                                 title="List"></button>
                         </div>
-                        <div class=" niceselect_option">
-                            <form class="select_option" action="#">
-                                <select name="orderby" id="short">
-
-                                    <option selected value="1">Sort by average rating</option>
-                                    <option value="2">Sort by popularity</option>
-                                    <option value="3">Sort by newness</option>
-                                    <option value="4">Sort by price: low to high</option>
-                                    <option value="5">Sort by price: high to low</option>
-                                    <option value="6">Product Name: Z</option>
-                                </select>
-                            </form>
-                        </div>
+                        <div>
+                            <div class="dropdown">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="sortSelectionButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort Options
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="sortSelectionButton">
+                                <li><a class="dropdown-item" href="#" onclick="pickSort(1)">Sort by average rating</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="pickSort(2)">Sort by popularity</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="pickSort(3)">Sort by newness</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="pickSort(4)">Sort by price: low to high</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="pickSort(5)">Sort by price: high to low</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="pickSort(6)">Product Name: A-Z</a></li>
+                              </ul>
+                            </div>
+                          </div>                                                
                         <div class="page_amount">
                             <p>Showing 1–9 of 21 results</p>
                         </div>
@@ -141,38 +142,71 @@
                             if(products && products.length > 0){
                                 products.forEach((item, index)=>{
                                     %>
-                                    <div class="col-lg-4 col-md-4 col-12 ">
+                                    <div class="col-lg-4 col-md-4 col-12 productBox_item" _itemPrice = "<%= item.price %>" _itemName = "<%= item.name %>">
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="product-details"><img
-                                                            src="/images/product/product1.jpg" alt=""></a>
-                                                    <a class="secondary_img" href="product-details"><img
-                                                            src="/images/product/product2.jpg" alt=""></a>
+                                                    <a class="primary_img" href="/product-details/<%= item._id %>"><img
+                                                            src="/images/product_imgs/defautProductImg.png" alt=""></a>
+                                                    <a class="secondary_img" href="/product-details/<%= item._id %>"><img
+                                                            src="/images/product_imgs/defautProductImg.png" alt=""></a>
                                                     <div class="label_product">
                                                         <span class="label_sale">sale</span>
                                                     </div>
                                                     <div class="action_links">
                                                         <ul>
-                                                            <li class="wishlist"><a href="wishlist" title="Add to Wishlist"><i
-                                                                        class="fa fa-heart-o" aria-hidden="true"></i></a></li>
+                                                            <li class="wishlist" onclick="addProductToWishList('<%= item._id %>')">
+                                                                <form _productId="<%= item._id %>" class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                                    <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                                    <input type="text" name="productId" value="<%= item._id %>">
+                                                                    <input type="text" name="currentUrl">
+                                                                    <input type="submit">
+                                                                </form>
+                                                                <%
+                                                                    var heartIconStyle = '';
+
+                                                                    if (wishlistItemList.length > 0) {
+                                                                        wishlistItemList.forEach((wishItem) => {
+                                                                            var wishItem_productId = String(wishItem.productId._id);
+                                                                            var productId = String(item._id);
+                                                                            if (wishItem_productId === productId) {
+                                                                                heartIconStyle = 'background-color: red !important';
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                %>
+                                                                <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                            </li>                                                          
                                                             <li class="quick_button"><a href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#modal_box" title="quick view"> <span
-                                                                        class="ion-ios-search-strong"></span></a></li>
+                                                                    data-bs-target="#modal_box" title="quick view" 
+                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')"> 
+                                                                    <span class="ion-ios-search-strong"></span></a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div class="add_to_cart">
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal" 
-                                                        onclick = "
-                                                        shopModelHandle.readyForAddToCartModel(
-                                                            '<%= item.name %>',
-                                                            '<%= item.stock %>', 
-                                                            '<%= item.colors %>', 
-                                                            '<%= item.price %>',
-                                                            '<%= item.id %>'
-                                                        )">
-                                                            <i class="bi bi-eye"></i> Add to cart
-                                                          </button>
+                                                        <%
+                                                            if(parseInt(item.stock) == 0) {
+                                                        %>
+                                                                <button type="button" class="btn btn-dark">
+                                                                    <i class="bi bi-cart-x"></i> Out of stock
+                                                                </button>  
+                                                        <%
+                                                            } else {
+                                                        %>
+                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal" 
+                                                                    onclick="shopModelHandle.readyForAddToCartModel(
+                                                                        '<%= item.name %>',
+                                                                        '<%= item.stock %>', 
+                                                                        '<%= item.colors %>', 
+                                                                        '<%= item.price %>',
+                                                                        '<%= item.id %>'
+                                                                    )">
+                                                                    <i class="bi bi-eye"></i> Add to cart
+                                                                </button>
+                                                        <%
+                                                            }
+                                                        %>
                                                     </div>
                                                 </div>
                                                 <div class="product_content grid_content">
@@ -189,7 +223,7 @@
                                                             <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
                                                         </ul>
                                                     </div>
-                                                    <h3 class="product_name grid_name"><a href="product-details"><%= item.name %></a></h3>
+                                                    <h3 class="product_name grid_name"><a href="/product-details/<%= item._id %>"><%= item.name %></a></h3>
                                                 </div>
                                                 <div class="product_content list_content">
                                                     <div class="left_caption">
@@ -197,7 +231,7 @@
                                                             <!-- <span class="old_price">$86.00</span> -->
                                                             <span class="current_price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price) %></span>
                                                         </div>
-                                                        <h3 class="product_name"><a href="product-details"><%= item.name %></a></h3>
+                                                        <h3 class="product_name"><a href="/product-details/<%= item._id %>"><%= item.name %></a></h3>
                                                         <div class="product_ratings">
                                                             <ul>
                                                                 <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
@@ -227,14 +261,33 @@
                                                         </div>
                                                         <div class="action_links">
                                                             <ul>
-                                                                <li class="wishlist"><a href="wishlist"
-                                                                        title="Add to Wishlist"><i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> Add to Wishlist</a></li>
-                                                                <li class="compare"><a href="#" title="compare"><span
-                                                                            class="ion-levels"></span> Compare</a></li>
+                                                                <li class="wishlist" onclick="addProductToWishList(event)">
+                                                                    <form class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                                        <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                                        <input type="text" name="productId" value="<%= item._id %>">
+                                                                        <input type="submit">
+                                                                    </form>
+                                                                    <%
+                                                                        var heartIconStyle = '';
+
+                                                                        if (wishlistItemList.length > 0) {
+                                                                            wishlistItemList.forEach((wishItem) => {
+                                                                                var wishItem_productId = String(wishItem.productId._id);
+                                                                                var productId = String(item._id);
+                                                                                if (wishItem_productId === productId) {
+                                                                                    heartIconStyle = 'background-color: red !important';
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    %>
+                                                                <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                                </li>                                        
                                                                 <li class="quick_button"><a href="#" data-bs-toggle="modal"
-                                                                        data-bs-target="#modal_box" title="quick view"> <span
-                                                                            class="ion-ios-search-strong"></span> Quick View</a>
+                                                                        data-bs-target="#modal_box" title="quick view"
+                                                                        onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')"> 
+                                                                        <span
+                                                                            class="ion-ios-search-strong"></span> Quick View
+                                                                        </a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -254,12 +307,28 @@
                     <div class="shop_toolbar t_bottom">
                         <div class="pagination">
                             <ul>
-                                <li class="current">1</li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#">next</a></li>
-                                <li><a href="#">>></a></li>
+                                <%
+                                    var itemsPerPage = 6; 
+                                    var pageNumber = Math.ceil(products.length / itemsPerPage); 
+                                    var classCurrent = '';
+                                    for (var i = 0; i < pageNumber; i++) {
+                                        if(i == 0){
+                                            classCurrent = 'current';
+                                        }else{
+                                            classCurrent = '';
+                                        }
+                                %>
+                                    <li class="<%= classCurrent %>" onclick="showPage(this,'<%= i + 1 %>')">
+                                        <a href="#"><%= i + 1 %></a>
+                                    </li>
+                                <%
+                                    }
+                                %>
+                                <li class="next" onclick="showPage(this , 'next')"><a href="#">next</a></li>
                             </ul>
+                        </div>
+                        <div class="pagination" id="pagination_forFilter">
+
                         </div>
                     </div>
                     <!--shop toolbar end-->
@@ -288,9 +357,6 @@
                   <i class="bi bi-palette"></i> Choose Color:
                 </label>
                 <select class="form-select" id="colorSelect">
-                  <option value="red">Red</option>
-                  <option value="blue">Blue</option>
-                  <option value="green">Green</option>
                 </select>
               </div>
               <!-- Quantity -->
@@ -303,6 +369,7 @@
                   <input type="number" class="form-control text-center" id="quantity_ModelAddToCart" value="1" min="1">
                   <button class="btn btn-outline-secondary" id="increase"><i class="bi bi-plus-lg"></i></button>
                 </div>
+                <div id="msgModelAdd"></div>
               </div>
             </div>
             <div class="modal-footer">
@@ -343,7 +410,117 @@
             </div>
         </div>
     </div>
-    <!--Modal area end-->
+
+ <!-- modal area start (Quickview chi tiết sản phẩm)-->
+ <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal_body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <div class="modal_tab">
+                                <div class="tab-content product-details-large">
+                                    <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                                        <div class="modal_tab_img">
+                                            <a href="#"><img src="/images/product/product1.jpg" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab2" role="tabpanel">
+                                        <div class="modal_tab_img">
+                                            <a href="#"><img src="/images/product/product2.jpg" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab3" role="tabpanel">
+                                        <div class="modal_tab_img">
+                                            <a href="#"><img src="/images/product/product3.jpg" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab4" role="tabpanel">
+                                        <div class="modal_tab_img">
+                                            <a href="#"><img src="/images/product/product5.jpg" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal_tab_button">
+                                    <ul class="nav product_navactive owl-carousel" role="tablist">
+                                        <li>
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#tab1" role="tab"
+                                                aria-controls="tab1" aria-selected="false"><img
+                                                    src="/images/product/product1.jpg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#tab2" role="tab"
+                                                aria-controls="tab2" aria-selected="false"><img
+                                                    src="/images/product/product2.jpg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link button_three" data-bs-toggle="tab" href="#tab3"
+                                                role="tab" aria-controls="tab3" aria-selected="false"><img
+                                                    src="/images/product/product3.jpg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#tab4" role="tab"
+                                                aria-controls="tab4" aria-selected="false"><img
+                                                    src="/images/product/product5.jpg" alt=""></a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12">
+                            <div class="modal_right">
+                                <div class="modal_title mb-10">
+                                    <h2 id="modelQuickView_ProductName">Dũng Ruồi</h2>
+                                </div>
+                                <div class="modal_price mb-10">
+                                    <span class="new_price" id="modelQuickView_ProductPrice">$64.99</span>
+                                    <!-- <span class="old_price" >$78.99</span> -->
+                                </div>
+                                <div class="modal_description mb-15">
+                                    <p id="modelQuickView_ProductDesc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste
+                                        laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam
+                                        in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel
+                                        recusandae </p>
+                                </div>
+                                <div class="variants_selects p-3">
+                                    <div class="mb-3">
+                                        <h5 class="fw-bold">Color</h5>
+                                        <select class="form-select" id="modelQuickView_Colors">
+                                            <option value="" disabled selected>Choose a color</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal_add_to_cart">
+                                        <form class="d-flex align-items-center gap-2">
+                                            <input 
+                                                min="0" 
+                                                max="100" 
+                                                step="2" 
+                                                value="1" 
+                                                type="number" 
+                                                class="form-control w-25" 
+                                                id="modelQuickView_Quantity" 
+                                            />
+                                            <button type="button" class="btn btn-dark text-white px-4" id="modelQuickView_buttonSubmit">
+                                                Add to Cart
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal area end-->
 
     <!-- Include footer component -->
     <%- include('./components/footer.ejs') %>

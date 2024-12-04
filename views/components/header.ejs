@@ -5,6 +5,9 @@
 %>
 </div>
 
+<input type="hidden" id="categoriesData" value="<%= JSON.stringify(categories) %>" />
+<input type="hidden" id="productsData" value="<%= JSON.stringify(products) %>" />
+
 <div class="Offcanvas_menu">
 
     <input type="text" class =' d-none' id="cartID_input" value = '<%= cartId %>'>
@@ -20,23 +23,31 @@
                     <div class="canvas_close">
                         <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
                     </div>
-                    <div class="search_container">
-                        <form action="#">
-                            <div class="search_box">
-                                <input placeholder="Search product..." type="text">
-                                <button type="submit">Search</button>
+                        <!-- Search and Category Filter Area -->
+                        <!-- Thanh tìm kiếm -->
+                        <div class="search_container">
+                            <div class="input-group">
+                                <input type="text" class="form-control searchInput_Header" placeholder="Search products and categories..." aria-label="Search">
                             </div>
-                        </form>
-                    </div>
+                            <div class="searchResults list-group d-none"></div>
+                        </div>                        
 
                     <div class="middel_right_info">
                         <div class="header_wishlist">
-                            <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                            <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
                             </a>
-                            <span class="wishlist_quantity">3</span>
+                            <span class="wishlist_quantity">
+                                <%
+                                    var wishlistLength = 0;
+                                    if (wishlistItemList.length > 0) {
+                                        wishlistLength = wishlistItemList.length;
+                                    }
+                                %>
+                                <%= wishlistLength %>
+                            </span>
                         </div>
                         <div class="mini_cart_wrapper">
-                            <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
+                            <a href="javascript:void(0)" style="color:black !important"><i class="fa fa-shopping-bag"
                                     aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
                             <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                             <!--mini cart-->
@@ -67,14 +78,14 @@
                                                 <input type="text" class="d-none" name="cartItemId" value = '<%= item._id %>'>
                                                 <!-- Product Image -->
                                                 <div class="cart_img me-3">
-                                                <a href="<%= productId %>">
+                                                <a href="/product-details/<%= productId %>">
                                                     <img src="/images/s-product/product.jpg" alt="<%= productName %>" class="img-fluid rounded" style="width: 80px; height: 80px;">
                                                 </a>
                                                 </div>
                                                 
                                                 <!-- Product Information -->
                                                 <div class="cart_info flex-grow-1">
-                                                <a href="<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                                                <a href="/product-details/<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
                                                     <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
                                                     <%= productName %>
                                                 </a>
@@ -133,7 +144,17 @@
                             <li class="menu-item-has-children"><a href="<%= webLocationHost %>/about">About Us</a></li>
                             <li class="menu-item-has-children"><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                             <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                            <%
+                                if(userInf.username == "Guess"){
+                                    %>
+                                    <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                    <%                                
+                                }else{
+                                    %>
+                                    <li class="menu-item-has-children"><a href="<%= webLocationHost %>/userAccount">Your account</a></li>
+                                    <%
+                                }
+                             %>
                         </ul>
                     </div>
 
@@ -167,22 +188,32 @@
                     </div>
                     <div class="col-lg-9 col-md-6">
                         <div class="middel_right">
+                            
+                            <!-- Search and Category Filter Area -->
+                            <!-- Thanh tìm kiếm -->
                             <div class="search_container">
-                                <form action="#">
-                                    <div class="search_box">
-                                        <input placeholder="Search product..." type="text">
-                                        <button type="submit">Search</button>
-                                    </div>
-                                </form>
-                            </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control searchInput_Header" placeholder="Search products and categories..." aria-label="Search">
+                                </div>
+                                <div class="searchResults list-group d-none"></div>
+                            </div>                       
+
                             <div class="middel_right_info">
                                 <div class="header_wishlist">
-                                    <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                                    <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
                                     </a>
-                                    <span class="wishlist_quantity">3</span>
+                                    <span class="wishlist_quantity">
+                                        <%
+                                            var wishlistLength = 0;
+                                            if (wishlistItemList.length > 0) {
+                                                wishlistLength = wishlistItemList.length;
+                                            }
+                                        %>
+                                        <%= wishlistLength %>
+                                    </span>
                                 </div>
                                 <div class="mini_cart_wrapper">
-                                    <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
+                                    <a href="javascript:void(0)" style="color:black !important"><i class="fa fa-shopping-bag"
                                             aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
                                     <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                                     <!--mini cart-->
@@ -207,14 +238,14 @@
                                             <div class="cart_item p-3 rounded shadow-sm d-flex align-items-center mb-3">
                                             <!-- Product Image -->
                                             <div class="cart_img me-3">
-                                            <a href="<%= productId %>">
+                                            <a href="/product-details/<%= productId %>">
                                                 <img src="/images/s-product/product.jpg" alt="<%= productName %>" class="img-fluid rounded" style="width: 80px; height: 80px;">
                                             </a>
                                             </div>
                                             
                                             <!-- Product Information -->
                                             <div class="cart_info flex-grow-1">
-                                            <a href="<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                                            <a href="/product-details/<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
                                                 <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
                                                 <%= productName %>
                                             </a>
@@ -300,7 +331,17 @@
                                     <li><a href="<%= webLocationHost %>/about">About Us</a></li>
                                     <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                     <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                    <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li> 
+                                    <%
+                                        if(userInf.username == "Guess"){
+                                            %>
+                                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                            <%                                
+                                        }else{
+                                            %>
+                                            <li class="menu-item-has-children"><a href="<%= webLocationHost %>/userAccount">Your account</a></li>
+                                            <%
+                                        }
+                                    %>
                                 </ul>
                             </nav>
                         </div>
@@ -330,18 +371,36 @@
                                 <li><a href="<%= webLocationHost %>/about">About Us</a></li>
                                 <li><a href="<%= webLocationHost %>/contact"> Contact Us</a></li>
                                 <!-- Khi dăng nhập thì thay đổi thành tên người dùng -->
-                                <li><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                <%
+                                    if(userInf.username == "Guess"){
+                                        %>
+                                        <li class="menu-item-has-children"><a href="<%= webLocationHost %>/login">Sign In/Sign Up</a></li>
+                                        <%                                
+                                    }else{
+                                        %>
+                                        <li class="menu-item-has-children"><a href="<%= webLocationHost %>/userAccount">Your account</a></li>
+                                        <%
+                                    }
+                                %>
                             </ul>
                         </nav>
                     </div>
                     <div class="middel_right_info">
                         <div class="header_wishlist">
-                            <a href="wishlist"><i class="fa fa-heart" aria-hidden="true"></i>
+                            <a href="wishlist" style="color:black !important"><i class="fa fa-heart" aria-hidden="true"></i>
                             </a>
-                            <span class="wishlist_quantity">3</span>
+                            <span class="wishlist_quantity">
+                                <%
+                                    var wishlistLength = 0;
+                                    if (wishlistItemList.length > 0) {
+                                        wishlistLength = wishlistItemList.length;
+                                    }
+                                %>
+                                <%= wishlistLength %>
+                            </span>
                         </div>
                         <div class="mini_cart_wrapper">
-                            <a href="javascript:void(0)"><i class="fa fa-shopping-bag"
+                            <a style="color:black !important" href="javascript:void(0)"><i class="fa fa-shopping-bag"
                                     aria-hidden="true"></i><span class="header_totalPrice"><%= totalPrice_VND_Format %></span><i class="fa fa-angle-down"></i></a>
                             <span class="cart_quantity header_totalQuantity"><%= cartItemList.length %></span>
                             <!--mini cart-->
@@ -365,14 +424,14 @@
                                             <div class="cart_item p-3 rounded shadow-sm d-flex align-items-center mb-3">
                                             <!-- Product Image -->
                                             <div class="cart_img me-3">
-                                            <a href="<%= productId %>">
+                                            <a href="/product-details/<%= productId %>">
                                                 <img src="/images/s-product/product.jpg" alt="<%= productName %>" class="img-fluid rounded" style="width: 80px; height: 80px;">
                                             </a>
                                             </div>
                                             
                                             <!-- Product Information -->
                                             <div class="cart_info flex-grow-1">
-                                            <a href="<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
+                                            <a href="/product-details/<%= productId %>" class="text-dark text-decoration-none fw-bold d-flex align-items-center">
                                                 <i class="bi bi-box-seam me-2 text-primary"></i> <!-- Icon cho sản phẩm -->
                                                 <%= productName %>
                                             </a>

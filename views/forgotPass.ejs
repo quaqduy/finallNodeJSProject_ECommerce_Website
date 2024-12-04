@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm mt-5">
+                    <div class="card-header text-center">
+                        <h4><i class="fas fa-key"></i> Forgot Password</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/forgortpassword" method="POST">
+                            <!-- Email Field with Icon -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 mb-3"><i class="fas fa-paper-plane"></i> Send Password Reset</button>
+                            <% if(result && result.code === 0) { %>
+                                <!-- Thông báo thành công -->
+                                <div class="alert alert-success d-flex align-items-center" role="alert">
+                                    <i class="bi bi-check-circle-fill me-2"></i> <!-- Biểu tượng thành công -->
+                                    <div>
+                                        <strong>Success!</strong> <%= result.message %>
+                                    </div>
+                                </div>
+                            <% } else if(result && result.code === 1) { %>
+                                <!-- Thông báo lỗi -->
+                                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <i class="bi bi-x-circle-fill me-2"></i> <!-- Biểu tượng lỗi -->
+                                    <div>
+                                        <strong>Error!</strong> <%= result.message %>
+                                    </div>
+                                </div>
+                            <% } %>                            
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p>Remember your password? <a href="/login">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to Bootstrap JS and Popper.js (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
