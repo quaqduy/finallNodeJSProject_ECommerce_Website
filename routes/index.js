@@ -1035,6 +1035,12 @@ router.post('/updateProfile/:id', async (req, res) => {
   }
 });
 
+router.get('/admins/dashboard', function(req, res, next) {
+  res.render('./admins/dashboard', { title: 'Express' });
+});
 
+router.get('/admins/product-list', function(req, res, next) {
+  res.render('./admins/product-list', { title: 'Express' });
+});
 
 module.exports = router;
