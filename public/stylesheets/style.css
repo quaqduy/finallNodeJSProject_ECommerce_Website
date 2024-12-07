@@ -187,6 +187,7 @@ h1 {
 h2 {
   font-size: 36px;
   line-height: 36px;
+  text-align: left;
 }
 
 h3 {
@@ -2605,6 +2606,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   font-weight: 400;
   text-transform: uppercase;
   margin-bottom: 0;
+  text-align: left;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .slider_content h2 {
