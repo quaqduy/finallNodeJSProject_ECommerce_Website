@@ -4,17 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Product Page - Admin HTML Template</title>
+    <title>Admin</title>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:400,700"
     />
     <!-- https://fonts.google.com/specimen/Roboto -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- https://fontawesome.com/ -->
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <!-- https://getbootstrap.com/ -->
-    <link rel="stylesheet" href="/stylesheets/templatemo-style.css">
+    <link rel="stylesheet" href="/stylesheets/templatemo-style.css" />
     <!--
 	Product Admin CSS Template
 	https://templatemo.com/tm-524-product-admin
@@ -58,7 +61,9 @@
             <!-- table container -->
             <a
               href="/admins/product-detail"
-              class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+              class="btn btn-primary btn-block text-uppercase mb-3"
+              >Add new product</a
+            >
             <button class="btn btn-primary btn-block text-uppercase">
               Delete selected products
             </button>
@@ -92,13 +97,21 @@
 
     <script src="/javascripts/jquery-3.3.1.min.js"></script>
     <!-- https://jquery.com/download/ -->
-    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"
+      integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM="
+      crossorigin="anonymous"
+    ></script>
     <!-- https://jqueryui.com/download/ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
     <!-- https://getbootstrap.com/ -->
     <script>
-      $(function() {
-        $(".tm-product-name").on("click", function() {
+      $(function () {
+        $(".tm-product-name").on("click", function () {
           window.location.href = "/admins/product-detail";
         });
       });

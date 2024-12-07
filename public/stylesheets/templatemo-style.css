@@ -229,15 +229,15 @@ thead {
   border-radius: 50%;
   margin-top: -3px;
 }
-.moving {
+.green {
   background-color: #9be64d;
   box-shadow: 0 0 8px #9be64d, inset 0 0 8px #9be64d;
 }
-.pending {
+.yellow {
   background-color: #efc54b;
   box-shadow: 0 0 8px #efc54b, inset 0 0 8px #efc54b;
 }
-.cancelled {
+.red {
   background-color: #da534f;
   box-shadow: 0 0 8px #da534f, inset 0 0 8px #da534f;
 }
@@ -739,13 +739,13 @@ input[type="checkbox"]:focus {
 
 .label-text {
   font-size: 16px; /* Cỡ chữ */
-  text-align: left; 
+  text-align: left;
   margin-left: 10px;
 }
 
 .label-content {
   font-size: 40px; /* Cỡ chữ */
-  text-align: center; 
+  text-align: center;
   margin-left: 10px;
 }
 
