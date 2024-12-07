@@ -57,7 +57,7 @@
             </div>
             <!-- table container -->
             <a
-              href="add-product.html"
+              href="/admins/product-detail"
               class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
             <button class="btn btn-primary btn-block text-uppercase">
               Delete selected products
@@ -90,14 +90,16 @@
       </div>
     </div>
 
-    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="/javascripts/jquery-3.3.1.min.js"></script>
     <!-- https://jquery.com/download/ -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+    <!-- https://jqueryui.com/download/ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- https://getbootstrap.com/ -->
     <script>
       $(function() {
         $(".tm-product-name").on("click", function() {
-          window.location.href = "edit-product.html";
+          window.location.href = "/admins/product-detail";
         });
       });
     </script>

@@ -748,3 +748,19 @@ input[type="checkbox"]:focus {
   text-align: center; 
   margin-left: 10px;
 }
+
+.form-select {
+  background-color: #f8f9fa; /* Light background color */
+  border: 1px solid #ced4da; /* Border color */
+  border-radius: 0.25rem; /* Rounded corners */
+  padding: 0.375rem 0.75rem; /* Padding */
+  font-size: 1rem; /* Font size */
+  color: #495057; /* Text color */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-select:focus {
+  border-color: #80bdff; /* Border color on focus */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Box shadow on focus */
+}

@@ -1043,4 +1043,20 @@ router.get('/admins/product-list', function(req, res, next) {
   res.render('./admins/product-list', { title: 'Express' });
 });
 
+router.get('/admins/product-list', function(req, res, next) {
+  res.render('./admins/product-list', { title: 'Express' });
+});
+
+router.get('/admins/product-detail', function(req, res, next) {
+  res.render('./admins/product-detail', { title: 'Express' });
+});
+
+router.get('/admins/order-list', function(req, res, next) {
+  res.render('./admins/order-list', { title: 'Express' });
+});
+
+router.get('/admins/user-list', function(req, res, next) {
+  res.render('./admins/user-list', { title: 'Express' });
+});
+
 module.exports = router;
