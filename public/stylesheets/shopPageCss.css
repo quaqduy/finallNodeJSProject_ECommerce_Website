@@ -1,0 +1,22 @@
+.btn-primary {
+    background-color: #1953b4;
+    border-color: #1953b4;
+  }
+  .btn-primary:hover {
+    background-color: #163d8a;
+  }
+
+  a{
+    text-decoration: none;
+    color: black;
+  }
+
+  .header_totalPrice{
+    font-size: 15px !important;
+    font-weight: bold;
+  }
+
+  .pagination li:hover{
+    cursor: pointer;
+    opacity: 0.5;
+  }

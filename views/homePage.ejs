@@ -1,0 +1,722 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DKD - Electronics eCommerce</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+    <!-- CSS 
+    ========================= -->
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/stylesheets/plugins.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add FontAwesome CSS (for icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Add Bootstrap JS (including Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <link rel="stylesheet" href="/stylesheets/shopPageCss.css">
+  </head>
+  <body>
+    <!-- Include header component -->
+    <%- include('./components/header.ejs') %>
+
+    <!--slider area start-->
+    <section class="slider_section mb-70">
+        <div class="slider_area owl-carousel">
+            <div class="single_slider d-flex align-items-center" data-bgimg="/images/slider/slider1.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="slider_content">
+                                <h1> best skin</h1>
+                                <h2>qled 75 inch q7f</h2>
+                                <p>exclusive offer <span> 20% off </span> this week</p>
+                                <a class="button" href="<%= webLocationHost %>/shop">shopping now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="single_slider d-flex align-items-center" data-bgimg="/images/slider/slider2.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="slider_content">
+                                <h1>Dual Front</h1>
+                                <h2>camera 20mp</h2>
+                                <p>exclusive offer <span> 20% off </span> this week</p>
+                                <a class="button" href="<%= webLocationHost %>/shop">shopping now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="single_slider d-flex align-items-center" data-bgimg="/images/slider/slider3.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="slider_content">
+                                <h1>Hurry Up!</h1>
+                                <h2>IN THE WORD 2022</h2>
+                                <p>exclusive offer <span> 20% off </span> this week</p>
+                                <a class="button" href="<%= webLocationHost %>/shop">shopping now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--slider area end-->
+
+    <!--shipping area start-->
+    <section class="shipping_area mb-70">
+        <div class="container">
+            <div class=" row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="single_shipping">
+                        <div class="shipping_icone">
+                            <img src="/images/about/shipping1.png" alt="">
+                        </div>
+                        <div class="shipping_content">
+                            <h2>Free Shipping</h2>
+                            <p>Free shipping on all US order</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="single_shipping">
+                        <div class="shipping_icone">
+                            <img src="/images/about/shipping2.png" alt="">
+                        </div>
+                        <div class="shipping_content">
+                            <h2>Support 24/7</h2>
+                            <p>Contact us 24 hours a day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="single_shipping">
+                        <div class="shipping_icone">
+                            <img src="/images/about/shipping3.png" alt="">
+                        </div>
+                        <div class="shipping_content">
+                            <h2>100% Money Back</h2>
+                            <p>You have 30 days to Return</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="single_shipping">
+                        <div class="shipping_icone">
+                            <img src="/images/about/shipping4.png" alt="">
+                        </div>
+                        <div class="shipping_content">
+                            <h2>Payment Secure</h2>
+                            <p>We ensure secure payment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--shipping area end-->
+
+    <!--banner area start-->
+    <div class="banner_area mb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner1.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner2.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner3.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--banner area end-->
+
+    <!--product area start-->
+    <%
+            
+    if(topProducts.length > 0){
+        if(topProducts.length < 5){
+            %>
+            <section class="product_area mb-46">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section_title">
+                                <h2>Hot Deals Products</h2>
+                            </div>
+                        </div>
+                </div>
+                <div class="container mt-4">
+                    <div class="row">
+                        <% topProducts.forEach((item) => { %>
+                            <div class="col-md-4 col-sm-6 col-12 mb-4">
+                                <article class="single_product">
+                                    <figure>
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>">
+                                                <img src="/images/product/product1.jpg" alt="" class="img-fluid">
+                                            </a>
+                                            <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>">
+                                                <img src="/images/product/product2.jpg" alt="" class="img-fluid">
+                                            </a>
+                                            <div class="label_product">
+                                                <span class="badge bg-danger">Sale</span>
+                                            </div>
+                                            <div class="action_links d-flex justify-content-around mt-2">
+                                                <ul class="list-unstyled d-flex">
+                                                    <li class="wishlist me-2" onclick="addProductToWishList('<%= item.productId._id %>')">
+                                                        <form _productId="<%= item.productId._id %>" class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                            <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                            <input type="text" name="productId" value="<%= item.productId._id %>">
+                                                            <input type="text" name="currentUrl">
+                                                            <input type="submit">
+                                                        </form>
+                                                        <%
+                                                            var heartIconStyle = '';
+                                                            if (wishlistItemList.length > 0) {
+                                                                wishlistItemList.forEach((wishItem) => {
+                                                                    var wishItem_productId = String(wishItem.productId._id);
+                                                                    var productId = String(item.productId._id);
+                                                                    if (wishItem_productId === productId) {
+                                                                        heartIconStyle = 'background-color: red !important';
+                                                                    }
+                                                                });
+                                                            }
+                                                        %>
+                                                        <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                    </li>
+                                                    <li class="quick_button ms-2" onclick="quickViewModel_create('<%=item.productId.name%>','<%=item.productId.price%>','<%=item.productId.description%>','<%=item.productId.colors%>', '<%=item.productId._id%>', '<%=item.productId.stock%>')">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Quick View">
+                                                            <span class="ion-ios-search-strong"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add_to_cart mt-2">
+                                                <%
+                                                    if (parseInt(item.productId.stock) == 0) {
+                                                %>
+                                                    <button type="button" class="btn btn-dark w-100">
+                                                        <i class="bi bi-cart-x"></i> Out of stock
+                                                    </button>
+                                                <%
+                                                    } else {
+                                                %>
+                                                    <a href="<%=webLocationHost%>/product-details/<%=item.productId._id%>" class="btn btn-primary w-100" title="Add to Cart">
+                                                        <i class="bi bi-cart"></i> Add to Cart
+                                                    </a>
+                                                <%
+                                                    }
+                                                %>
+                                            </div>
+                                        </div>
+                                        <figcaption class="product_content mt-3">
+                                            <h3 class="product_name text-center">
+                                                <a href="product-details"><%= item.productId.name %></a>
+                                            </h3>
+                                            <div class="price_box text-center mt-2">
+                                                <span class="current_price">
+                                                    <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.productId.price) %>
+                                                </span>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </article>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+                    
+            </section>
+            <%
+        }else{
+            topProducts.forEach((item)=>{
+                %>
+                <div class="product_carousel product_column5 owl-carousel">
+                    <section class="product_area mb-46">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="section_title">
+                                        <h2>Hot Deals Products</h2>
+                                    </div>
+                                </div>
+                        </div>
+                        <article class="single_product">
+                            <figure>
+                                <div class="product_thumb">
+                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>"><img
+                                            src="/images/product/product1.jpg" alt=""></a>
+                                    <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>"><img
+                                            src="/images/product/product2.jpg" alt=""></a>
+                                    <div class="label_product">
+                                        <span class="label_sale">sale</span>
+                                    </div>
+                                    <div class="action_links">
+                                        <ul>
+                                            <li class="wishlist" onclick="addProductToWishList('<%= item.productId._id %>')">
+                                                <form _productId="<%= item.productId._id %>" class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                    <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                    <input type="text" name="productId" value="<%= item.productId._id %>">
+                                                    <input type="text" name="currentUrl">
+                                                    <input type="submit">
+                                                </form>
+                                                <%
+                                                    var heartIconStyle = '';
+
+                                                    if (wishlistItemList.length > 0) {
+                                                        wishlistItemList.forEach((wishItem) => {
+                                                            var wishItem_productId = String(wishItem.productId._id);
+                                                            var productId = String(item.productId._id);
+                                                            if (wishItem_productId === productId) {
+                                                                heartIconStyle = 'background-color: red !important';
+                                                            }
+                                                        });
+                                                    }
+                                                %>
+                                                <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                            </li>      
+                                            <li class="quick_button" onclick = "quickViewModel_create('<%=item.productId.name%>','<%=item.productId.price%>','<%=item.productId.description%>','<%=item.productId.colors%>', '<%=item.productId._id%>', '<%=item.productId.stock%>')">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box"
+                                                    title="quick view"> <span class="ion-ios-search-strong" ></span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="add_to_cart">
+                                        <%
+                                            if(parseInt(item.productId.stock) == 0) {
+                                        %>
+                                                <button type="button" class="btn btn-dark">
+                                                    <i class="bi bi-cart-x"></i> Out of stock
+                                                </button>  
+                                        <%
+                                            } else {
+                                        %>
+                                            <a href="<%=webLocationHost%>/product-details/<%=item.productId._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
+                                        <%
+                                            }
+                                        %>
+                                    </div>
+                                </div>
+                                <figcaption class="product_content">
+                                    <div class="price_box">
+                                        <!-- <span class="old_price">$86.00</span> -->
+                                        <span class="current_price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.productId.price) %></span>
+                                    </div>
+                                    <h3 class="product_name"><a href="product-details"><%= item.productId.name %></a></h3>
+                                </figcaption>
+                            </figure>
+                        </article>
+                    </div>
+</div>
+</section>
+                        <%
+            })
+        }
+        
+    }
+
+    %>
+
+    <!--product area end-->
+
+    <!--banner area start-->
+    <div class="banner_area mb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner4.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner5.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--banner area end-->
+
+    <!--product area start-->
+    <section class="product_area mb-46">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section_title">
+                        <h2>Computer & Laptop</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="product_carousel product_column5 owl-carousel">
+            <%
+            
+                if(products && products.length > 0){
+                    products.forEach((item, index) => {
+                        if(item.categoryId._id == '674a9d4f8eb26147c85d6c8a' || item.categoryId._id == '674a9d438eb26147c85d6c88'){
+                            %>
+                                <article class="single_product">
+                                    <figure>
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
+                                                    src="/images/product/product1.jpg" alt=""></a>
+                                            <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
+                                                    src="/images/product/product2.jpg" alt=""></a>
+                                            <div class="label_product">
+                                                <span class="label_sale">sale</span>
+                                            </div>
+                                            <div class="action_links">
+                                                <ul>
+                                                    <li class="wishlist" onclick="addProductToWishList('<%= item._id %>')">
+                                                        <form _productId="<%= item._id %>" class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                            <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                            <input type="text" name="productId" value="<%= item._id %>">
+                                                            <input type="text" name="currentUrl">
+                                                            <input type="submit">
+                                                        </form>
+                                                        <%
+                                                            var heartIconStyle = '';
+
+                                                            if (wishlistItemList.length > 0) {
+                                                                wishlistItemList.forEach((wishItem) => {
+                                                                    var wishItem_productId = String(wishItem.productId._id);
+                                                                    var productId = String(item._id);
+                                                                    if (wishItem_productId === productId) {
+                                                                        heartIconStyle = 'background-color: red !important';
+                                                                    }
+                                                                });
+                                                            }
+                                                        %>
+                                                        <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                    </li>      
+                                                    <li class="quick_button" onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box"
+                                                            title="quick view"> <span class="ion-ios-search-strong" ></span></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="add_to_cart">
+                                                <%
+                                                    if(parseInt(item.stock) == 0) {
+                                                %>
+                                                        <button type="button" class="btn btn-dark">
+                                                            <i class="bi bi-cart-x"></i> Out of stock
+                                                        </button>  
+                                                <%
+                                                    } else {
+                                                %>
+                                                    <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
+                                                <%
+                                                    }
+                                                %>
+                                            </div>
+                                        </div>
+                                        <figcaption class="product_content">
+                                            <div class="price_box">
+                                                <!-- <span class="old_price">$86.00</span> -->
+                                                <span class="current_price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price) %></span>
+                                            </div>
+                                            <h3 class="product_name"><a href="product-details"><%= item.name %></a></h3>
+                                        </figcaption>
+                                    </figure>
+                                </article>
+                            <%
+                        }
+                    })
+                }
+
+            %>
+            </div>
+        </div>
+    </section>
+    <!--product area end-->
+
+    <!--banner area start-->
+    <div class="banner_area mb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-9">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner6.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="single_banner mb-30">
+                        <div class="banner_thumb">
+                            <a href="shop"><img src="/images/bg/banner7.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--banner area end-->
+
+    <!--product area start-->
+    <section class="product_area mb-46">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="product_left_area">
+                        <div class="section_title">
+                            <h2>Smartphone & Tablets</h2>
+                        </div>
+                        <div class="product_carousel product_column4 owl-carousel">
+                            <%
+            
+                            if(products && products.length > 0){
+                                products.forEach((item, index) => {
+                                    if(item.categoryId._id == '674a9d188eb26147c85d6c86' || item.categoryId._id == '674a9d888eb26147c85d6c91'){
+                                        %>
+                                        <article class="single_product">
+                                            <figure>
+                                                <div class="product_thumb">
+                                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
+                                                            src="/images/product/product1.jpg" alt=""></a>
+                                                    <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
+                                                            src="/images/product/product2.jpg" alt=""></a>
+                                                    <div class="label_product">
+                                                        <span class="label_sale">sale</span>
+                                                    </div>
+                                                    <div class="action_links">
+                                                        <ul>
+                                                            <li class="wishlist" onclick="addProductToWishList('<%= item._id %>')">
+                                                                <form _productId="<%= item._id %>" class="wishlistAdd_form d-none" action="<%=webLocationHost%>/wishlist_item" method="POST">
+                                                                    <input type="text" name="wishlistId" value="<%= wishlistId %>">
+                                                                    <input type="text" name="productId" value="<%= item._id %>">
+                                                                    <input type="text" name="currentUrl">
+                                                                    <input type="submit">
+                                                                </form>
+                                                                <%
+                                                                    var heartIconStyle = '';
+
+                                                                    if (wishlistItemList.length > 0) {
+                                                                        wishlistItemList.forEach((wishItem) => {
+                                                                            var wishItem_productId = String(wishItem.productId._id);
+                                                                            var productId = String(item._id);
+                                                                            if (wishItem_productId === productId) {
+                                                                                heartIconStyle = 'background-color: red !important';
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                %>
+                                                                <i class="fa fa-heart" aria-hidden="true" style="<%=heartIconStyle%>"></i>
+                                                            </li>      
+                                                            <li class="quick_button"><a href="#" data-bs-toggle="modal"
+                                                                    data-bs-target="#modal_box" title="quick view" 
+                                                                    onclick = "quickViewModel_create('<%=item.name%>','<%=item.price%>','<%=item.description%>','<%=item.colors%>', '<%=item._id%>', '<%=item.stock%>')"> 
+                                                                    <span
+                                                                        class="ion-ios-search-strong"></span></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="add_to_cart">
+                                                        <%
+                                                            if(parseInt(item.stock) == 0) {
+                                                        %>
+                                                                <button type="button" class="btn btn-dark">
+                                                                    <i class="bi bi-cart-x"></i> Out of stock
+                                                                </button>  
+                                                        <%
+                                                            } else {
+                                                        %>
+                                                            <a href="<%=webLocationHost%>/product-details/<%=item._id%>" style="color: white" title="add to cart"><i class="bi bi-cart"></i></a>
+                                                        <%
+                                                            }
+                                                        %>                                                    </div>
+                                                </div>
+                                                <figcaption class="product_content">
+                                                    <div class="price_box">
+                                                        <!-- <span class="old_price">$86.00</span> -->
+                                                        <span class="current_price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price) %></span>
+                                                    </div>
+                                                    <h3 class="product_name"><a href="product-details"><%= item.name %></a></h3>
+                                                </figcaption>
+                                            </figure>
+                                        </article>  
+                                        <%
+                                    }
+                                })
+                            }
+            
+                        %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--product area end-->
+    <!-- modal area start (Quickview chi tiết sản phẩm)-->
+    <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal_body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-12">
+                                <div class="modal_tab">
+                                    <div class="tab-content product-details-large">
+                                        <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                                            <div class="modal_tab_img">
+                                                <a href="#"><img src="/images/product/product1.jpg" alt=""></a>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab2" role="tabpanel">
+                                            <div class="modal_tab_img">
+                                                <a href="#"><img src="/images/product/product2.jpg" alt=""></a>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab3" role="tabpanel">
+                                            <div class="modal_tab_img">
+                                                <a href="#"><img src="/images/product/product3.jpg" alt=""></a>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab4" role="tabpanel">
+                                            <div class="modal_tab_img">
+                                                <a href="#"><img src="/images/product/product5.jpg" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal_tab_button">
+                                        <ul class="nav product_navactive owl-carousel" role="tablist">
+                                            <li>
+                                                <a class="nav-link active" data-bs-toggle="tab" href="#tab1" role="tab"
+                                                    aria-controls="tab1" aria-selected="false"><img
+                                                        src="/images/product/product1.jpg" alt=""></a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" data-bs-toggle="tab" href="#tab2" role="tab"
+                                                    aria-controls="tab2" aria-selected="false"><img
+                                                        src="/images/product/product2.jpg" alt=""></a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link button_three" data-bs-toggle="tab" href="#tab3"
+                                                    role="tab" aria-controls="tab3" aria-selected="false"><img
+                                                        src="/images/product/product3.jpg" alt=""></a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" data-bs-toggle="tab" href="#tab4" role="tab"
+                                                    aria-controls="tab4" aria-selected="false"><img
+                                                        src="/images/product/product5.jpg" alt=""></a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12">
+                                <div class="modal_right">
+                                    <div class="modal_title mb-10">
+                                        <h2 id="modelQuickView_ProductName">Dũng Ruồi</h2>
+                                    </div>
+                                    <div class="modal_price mb-10">
+                                        <span class="new_price" id="modelQuickView_ProductPrice">$64.99</span>
+                                        <!-- <span class="old_price" >$78.99</span> -->
+                                    </div>
+                                    <div class="modal_description mb-15">
+                                        <p id="modelQuickView_ProductDesc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste
+                                            laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam
+                                            in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel
+                                            recusandae </p>
+                                    </div>
+                                    <div class="variants_selects p-3">
+                                        <div class="mb-3">
+                                            <h5 class="fw-bold">Color</h5>
+                                            <select class="form-select" id="modelQuickView_Colors">
+                                                <option value="" disabled selected>Choose a color</option>
+                                            </select>
+                                        </div>
+                                        <div class="modal_add_to_cart">
+                                            <form class="d-flex align-items-center gap-2">
+                                                <input 
+                                                    min="0" 
+                                                    max="100" 
+                                                    step="2" 
+                                                    value="1" 
+                                                    type="number" 
+                                                    class="form-control w-25" 
+                                                    id="modelQuickView_Quantity" 
+                                                />
+                                                <button type="button" class="btn btn-dark text-white px-4" id="modelQuickView_buttonSubmit">
+                                                    Add to Cart
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal area end-->
+
+    <!-- modal area end-->
+
+    <!-- Include footer component -->
+    <%- include('./components/footer.ejs') %>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Plugins JS -->
+    <script src="/javascripts/plugins.js"></script>
+
+    <!-- Main JS -->
+    <script src="/javascripts/index.js"></script>
+  </body>
+</html>
