@@ -600,7 +600,6 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
 
   // Lấy dữ liệu từ form
   const { usernameOrEmail, password } = req.body;
-
   // Kiểm tra xem người dùng có đăng nhập bằng username hay email
   const user = await User.findOne({
       $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
@@ -615,24 +614,29 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
 
   // Kiểm tra mật khẩu
   const isMatch = await bcrypt.compare(password, user.password);
+  console.log(isMatch)
   if (!isMatch) {
       // Nếu mật khẩu không đúng
       req.session.signInErr = { code: '2', msg: 'Incorrect password.' };
       req.session.oldDataFormSignIn = req.body;
       return res.redirect('/login'); // Quay lại trang login với thông báo lỗi
   }
-
   // Đăng nhập thành công, lưu thông tin người dùng vào session
   req.session.userInf = user;
   req.session.user = {userId : user.id};
+  
+  if(user.role == "admin"){
+    res.redirect('/admins/dashboard'); // Redirect đến trang tài khoản admin
+  }else{
 
-  const cart = await Cart.findOne({ userId: user._id });
-  req.session.cart = {cartId : cart._id }
+    const cart = await Cart.findOne({ userId: user._id });
+    req.session.cart = {cartId : cart._id }
 
-  const wishlist = await Wishlist.findOne({ userId: user._id });
-  req.session.wishlist = {wishlistId : wishlist._id}
+    const wishlist = await Wishlist.findOne({ userId: user._id });
+    req.session.wishlist = {wishlistId : wishlist._id}
 
-  res.redirect('/userAccount'); // Redirect đến trang tài khoản người dùng
+    res.redirect('/userAccount'); // Redirect đến trang tài khoản người dùng
+  }
 });
 
 /* GET user account page. */
@@ -1035,28 +1039,51 @@ router.post('/updateProfile/:id', async (req, res) => {
   }
 });
 
-router.get('/admins/dashboard', function(req, res, next) {
-  res.render('./admins/dashboard', { title: 'Express' });
+router.get('/admins/dashboard', async function(req, res, next) {
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+
+    res.render('./admins/dashboard', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/product-list', function(req, res, next) {
-  res.render('./admins/product-list', { title: 'Express' });
-});
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
 
-router.get('/admins/product-list', function(req, res, next) {
-  res.render('./admins/product-list', { title: 'Express' });
+    res.render('./admins/product-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/product-detail', function(req, res, next) {
-  res.render('./admins/product-detail', { title: 'Express' });
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/product-detail', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/order-list', function(req, res, next) {
-  res.render('./admins/order-list', { title: 'Express' });
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/order-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/user-list', function(req, res, next) {
-  res.render('./admins/user-list', { title: 'Express' });
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/user-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 module.exports = router;

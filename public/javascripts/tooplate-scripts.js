@@ -58,14 +58,6 @@ function drawLineChart() {
             pointRadius: 0
           },
           {
-            label: "Profit (millions)",
-            data: [33, 45, 37, 21, 55, 74, 69, 33, 44, 19, 38, 46],
-            fill: false,
-            borderColor: "rgba(255,99,132,1)",
-            cubicInterpolationMode: "monotone",
-            pointRadius: 0
-          },
-          {
             label: "Number of orders (single unit)",
             data: [44, 19, 38, 46, 85, 66, 79, 33, 44, 19, 38, 46],
             fill: false,
