@@ -621,13 +621,13 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
       req.session.oldDataFormSignIn = req.body;
       return res.redirect('/login'); // Quay lại trang login với thông báo lỗi
   }
+  // Đăng nhập thành công, lưu thông tin người dùng vào session
+  req.session.userInf = user;
+  req.session.user = {userId : user.id};
   
   if(user.role == "admin"){
     res.redirect('/admins/dashboard'); // Redirect đến trang tài khoản admin
   }else{
-    // Đăng nhập thành công, lưu thông tin người dùng vào session
-    req.session.userInf = user;
-    req.session.user = {userId : user.id};
 
     const cart = await Cart.findOne({ userId: user._id });
     req.session.cart = {cartId : cart._id }
@@ -1040,47 +1040,49 @@ router.post('/updateProfile/:id', async (req, res) => {
 });
 
 router.get('/admins/dashboard', async function(req, res, next) {
-  if(!req.session.user && req.session.userInf.role == "admin"){
-    res.redirect('/');
-  }else{
+  if(req.session.user && req.session.userInf.role == "admin"){
     //Code here
+
     res.render('./admins/dashboard', { title: 'Express' });
+  }else{
+    res.redirect('/');
   }
 });
 
 router.get('/admins/product-list', function(req, res, next) {
-  if(!req.session.user && req.session.userInf.role != "admin"){
-    res.redirect('/');
-  }else{
+  if(req.session.user && req.session.userInf.role == "admin"){
     //Code here
+
     res.render('./admins/product-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
   }
 });
 
 router.get('/admins/product-detail', function(req, res, next) {
-  if(!req.session.user && req.session.userInf.role == "admin"){
-    res.redirect('/');
-  }else{
+  if(req.session.user && req.session.userInf.role == "admin"){
     //Code here
     res.render('./admins/product-detail', { title: 'Express' });
+  }else{
+    res.redirect('/');
   }
 });
 
 router.get('/admins/order-list', function(req, res, next) {
-  if(!req.session.user && req.session.userInf.role == "admin"){
-    res.redirect('/');
-  }else{
+  if(req.session.user && req.session.userInf.role == "admin"){
     //Code here
     res.render('./admins/order-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
   }
 });
 
 router.get('/admins/user-list', function(req, res, next) {
-  if(!req.session.user && req.session.userInf.role == "admin"){
-    res.redirect('/');
-  }else{
+  if(req.session.user && req.session.userInf.role == "admin"){
     //Code here
     res.render('./admins/user-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
   }
 });
 
