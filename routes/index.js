@@ -621,13 +621,13 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
       req.session.oldDataFormSignIn = req.body;
       return res.redirect('/login'); // Quay lại trang login với thông báo lỗi
   }
+  // Đăng nhập thành công, lưu thông tin người dùng vào session
+  req.session.userInf = user;
+  req.session.user = {userId : user.id};
   
   if(user.role == "admin"){
     res.redirect('/admins/dashboard'); // Redirect đến trang tài khoản admin
   }else{
-    // Đăng nhập thành công, lưu thông tin người dùng vào session
-    req.session.userInf = user;
-    req.session.user = {userId : user.id};
 
     const cart = await Cart.findOne({ userId: user._id });
     req.session.cart = {cartId : cart._id }
@@ -1040,59 +1040,50 @@ router.post('/updateProfile/:id', async (req, res) => {
 });
 
 router.get('/admins/dashboard', async function(req, res, next) {
-  const id = req.session.userInf._id;
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
 
-  const categories = await Category.find();
-  let categoryName = '';
-  categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
-
-  const webLocationHost = `${req.protocol}://${req.get('host')}`;
-  const cartId = req.session.cart.cartId;
-
-  //get cartItem list
-  const cartId_find_items = req.session.cart.cartId;
-  const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');
-  req.session.cartItemList = cartItems;
-  const cartItemList = req.session.cartItemList;
-
-      //get wishlist item list
-  const wishlistId_find_items = req.session.wishlist.wishlistId;
-  const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
-  req.session.wishlistItemList = wishlistItems;
-  const wishlistItemList = req.session.wishlistItemList;
-
-  //products
-  const products = await Product.find().populate('categoryId');
-
-  const userInf = req.session.userInf;
-
-  //Address 
-  const addressLs = await Address.find({userId : id});
-
-  //Orders
-  const OrderLs = await Order.find({userId:id});
-
-  res.render('./admins/dashboard', { title: 'Express' });
+    res.render('./admins/dashboard', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/product-list', function(req, res, next) {
-  res.render('./admins/product-list', { title: 'Express' });
-});
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
 
-router.get('/admins/product-list', function(req, res, next) {
-  res.render('./admins/product-list', { title: 'Express' });
+    res.render('./admins/product-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/product-detail', function(req, res, next) {
-  res.render('./admins/product-detail', { title: 'Express' });
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/product-detail', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/order-list', function(req, res, next) {
-  res.render('./admins/order-list', { title: 'Express' });
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/order-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 router.get('/admins/user-list', function(req, res, next) {
-  res.render('./admins/user-list', { title: 'Express' });
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/user-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
