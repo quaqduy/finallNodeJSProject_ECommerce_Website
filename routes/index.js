@@ -600,7 +600,6 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
 
   // Lấy dữ liệu từ form
   const { usernameOrEmail, password } = req.body;
-
   // Kiểm tra xem người dùng có đăng nhập bằng username hay email
   const user = await User.findOne({
       $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
@@ -615,24 +614,29 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
 
   // Kiểm tra mật khẩu
   const isMatch = await bcrypt.compare(password, user.password);
+  console.log(isMatch)
   if (!isMatch) {
       // Nếu mật khẩu không đúng
       req.session.signInErr = { code: '2', msg: 'Incorrect password.' };
       req.session.oldDataFormSignIn = req.body;
       return res.redirect('/login'); // Quay lại trang login với thông báo lỗi
   }
+  
+  if(user.role == "admin"){
+    res.redirect('/admins/dashboard'); // Redirect đến trang tài khoản admin
+  }else{
+    // Đăng nhập thành công, lưu thông tin người dùng vào session
+    req.session.userInf = user;
+    req.session.user = {userId : user.id};
 
-  // Đăng nhập thành công, lưu thông tin người dùng vào session
-  req.session.userInf = user;
-  req.session.user = {userId : user.id};
+    const cart = await Cart.findOne({ userId: user._id });
+    req.session.cart = {cartId : cart._id }
 
-  const cart = await Cart.findOne({ userId: user._id });
-  req.session.cart = {cartId : cart._id }
+    const wishlist = await Wishlist.findOne({ userId: user._id });
+    req.session.wishlist = {wishlistId : wishlist._id}
 
-  const wishlist = await Wishlist.findOne({ userId: user._id });
-  req.session.wishlist = {wishlistId : wishlist._id}
-
-  res.redirect('/userAccount'); // Redirect đến trang tài khoản người dùng
+    res.redirect('/userAccount'); // Redirect đến trang tài khoản người dùng
+  }
 });
 
 /* GET user account page. */
@@ -1035,7 +1039,39 @@ router.post('/updateProfile/:id', async (req, res) => {
   }
 });
 
-router.get('/admins/dashboard', function(req, res, next) {
+router.get('/admins/dashboard', async function(req, res, next) {
+  const id = req.session.userInf._id;
+
+  const categories = await Category.find();
+  let categoryName = '';
+  categories.forEach((item) => {if(item.id == id){categoryName = item.name}});
+
+  const webLocationHost = `${req.protocol}://${req.get('host')}`;
+  const cartId = req.session.cart.cartId;
+
+  //get cartItem list
+  const cartId_find_items = req.session.cart.cartId;
+  const cartItems = await CartItem.find({ cartId: cartId_find_items }).populate('productId');
+  req.session.cartItemList = cartItems;
+  const cartItemList = req.session.cartItemList;
+
+      //get wishlist item list
+  const wishlistId_find_items = req.session.wishlist.wishlistId;
+  const wishlistItems = await WishlistItem.find({ wishlistId: wishlistId_find_items }).populate('productId'); 
+  req.session.wishlistItemList = wishlistItems;
+  const wishlistItemList = req.session.wishlistItemList;
+
+  //products
+  const products = await Product.find().populate('categoryId');
+
+  const userInf = req.session.userInf;
+
+  //Address 
+  const addressLs = await Address.find({userId : id});
+
+  //Orders
+  const OrderLs = await Order.find({userId:id});
+
   res.render('./admins/dashboard', { title: 'Express' });
 });
 
