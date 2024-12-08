@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Docker.dockerfile
+    ports:
+      - "8386:8386"
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_CLUSTER=${DB_CLUSTER}
+      - DB_NAME=${DB_NAME}
+      - SHOP_MAIL=${SHOP_MAIL}
+      - SHOP_PASS=${SHOP_PASS}
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: always
