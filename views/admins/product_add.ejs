@@ -109,31 +109,29 @@
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                        <div 
-                        class="tm-product-img-dummy mx-auto" >
-                        <i
-                          class="fas fa-cloud-upload-alt tm-upload-icon"
-                          onclick="document.getElementById('fileInput').click();"
-                        ></i>
+                      <div class="tm-product-img-dummy mx-auto" id="imagePreview" style="cursor: pointer;">
+                        <!-- Hình ảnh sẽ được hiển thị ở đây khi tải lên -->
                       </div>
                       <div class="custom-file mt-3 mb-3">
-                        <input id="fileInput" type="file" name="productImg" style="display: none" />
-                        <input
-                          type="button"
-                          class="btn btn-primary btn-block mx-auto"
-                          value="UPLOAD PRODUCT IMAGE"
-                          onclick="document.getElementById('fileInput').click();"
-                        />
+                        <input id="fileInput" type="file" name="productImg" style="display: none" onchange="previewImage(event)" />
+                        <input type="button" class="btn btn-primary btn-block mx-auto" value="UPLOAD PRODUCT IMAGE" onclick="document.getElementById('fileInput').click();" />
                       </div>
                     </div>
                     <div class="col-12">
-                      <button
-                        type="submit"
-                        class="btn btn-primary btn-block text-uppercase"
-                      >
-                        ADD PRODUCT
-                      </button>
+                      <button type="submit" class="btn btn-primary btn-block text-uppercase">ADD PRODUCT</button>
                     </div>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <img id="modalImage" src="" alt="Product Image" class="img-fluid" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
 
                 </form>
             </div>
@@ -153,5 +151,35 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script>
+      // Hàm để hiển thị hình ảnh khi người dùng chọn ảnh
+      function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+          const imagePreview = document.getElementById('imagePreview');
+          imagePreview.style.backgroundImage = `url(${reader.result})`;  // Cập nhật hình nền cho phần tử chứa ảnh
+          imagePreview.innerHTML = ''; // Xóa biểu tượng tải lên (upload icon)
+          const imgElement = document.createElement('img');
+          imgElement.src = reader.result;
+          imgElement.alt = 'Uploaded Product Image';
+          imgElement.style.width = '100%';  // Điều chỉnh kích thước hình ảnh
+          imgElement.style.cursor = 'pointer'; // Thêm hiệu ứng khi nhấp vào ảnh
+          imagePreview.appendChild(imgElement);
+
+          // Thêm sự kiện click để mở modal khi nhấp vào ảnh
+          imgElement.addEventListener('click', function() {
+            document.getElementById('modalImage').src = reader.result;
+            $('#imageModal').modal('show'); // Hiển thị modal Bootstrap
+          });
+        }
+
+        if (file) {
+          reader.readAsDataURL(file);  // Đọc hình ảnh đã tải lên
+        }
+      }
+
+    </script>
   </body>
 </html>

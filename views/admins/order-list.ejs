@@ -28,7 +28,7 @@
               <h2 class="tm-block-title">Orders List</h2>
             </div>
             <div class="col-auto">
-              <form class="d-flex">
+              <form action="/filter-orders" method="GET">
                 <div class="input-group">
                   <input
                     type="date"
@@ -65,16 +65,23 @@
             </thead>
             <tbody>
               <% orders.forEach(function(order) { %>
-                <tr class="order-row">
-                  <th scope="row"><b><%= order._id %></b></th>
-                  <td>
-                    <div class="tm-status-circle <%= order.orderStatus === 'Moving' ? 'green' : 'red' %>"></div>
-                    <%= order.orderStatus %>
-                  </td>
-                  <td><b><%= order.totalPrice %></b></td>
-                  <td><b><%= order.userId.username %></b></td>
-                  <td><%= new Date(order.createdAt).toLocaleDateString() %></td>
-                </tr>
+              <tr class="order-row">
+                <th scope="row"><b><%= order._id %></b></th>
+                <td>
+                  <div class="tm-status-circle 
+                    <% if (order.orderStatus === 'pending') { %> yellow 
+                    <% } else if (order.orderStatus === 'confirmed') { %> green
+                    <% } else if (order.orderStatus === 'shipping') { %> orange 
+                    <% } else if (order.orderStatus === 'delivered') { %>  blue 
+                    <% } else if (order.orderStatus === 'cancelled') { %> red 
+                    <% } %>">
+                  </div>
+                  <%= order.orderStatus %>
+                </td>
+                <td><b><%= order.totalPrice %></b></td>
+                <td><b><%= order.userId.username %></b></td>
+                <td><%= new Date(order.createdAt).toLocaleDateString() %></td>
+              </tr>
               <% }); %>
             </tbody>
           </table>
@@ -82,41 +89,38 @@
           <div class="pagination-container" style="padding-top: 20px">
             <ul class="pagination justify-content-center">
               <% if (currentPage > 1) { %>
-                <li class="page-item">
-                  <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-                </li>
+              <li class="page-item">
+                <a class="page-link" href="?page=<%= currentPage - 1 %>"
+                  >Previous</a
+                >
+              </li>
               <% } else { %>
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-              <% } %>
-    
-              <% 
-                let startPage = Math.max(1, currentPage - 2);
-                let endPage = Math.min(totalPages, currentPage + 2);
-                if (endPage - startPage < 4) {
-                  if (startPage === 1) {
-                    endPage = Math.min(totalPages, startPage + 4);
-                  } else if (endPage === totalPages) {
-                    startPage = Math.max(1, endPage - 4);
-                  }
-                }
-              %>
-    
-              <% for (let i = startPage; i <= endPage; i++) { %>
-                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                  <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                </li>
-              <% } %>
-    
-              <% if (currentPage < totalPages) { %>
-                <li class="page-item">
-                  <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-                </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+                  >Previous</a
+                >
+              </li>
+              <% } %> <% let startPage = Math.max(1, currentPage - 2); let
+              endPage = Math.min(totalPages, currentPage + 2); if (endPage -
+              startPage < 4) { if (startPage === 1) { endPage =
+              Math.min(totalPages, startPage + 4); } else if (endPage ===
+              totalPages) { startPage = Math.max(1, endPage - 4); } } %> <% for
+              (let i = startPage; i <= endPage; i++) { %>
+              <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+              </li>
+              <% } %> <% if (currentPage < totalPages) { %>
+              <li class="page-item">
+                <a class="page-link" href="?page=<%= currentPage + 1 %>"
+                  >Next</a
+                >
+              </li>
               <% } else { %>
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
-                </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+                  >Next</a
+                >
+              </li>
               <% } %>
             </ul>
           </div>
@@ -124,44 +128,51 @@
       </div>
     </div>
 
+    <!-- Order Details Modal -->
     <div
       class="modal fade"
-      id="statusModal"
+      id="orderDetailsModal"
       tabindex="-1"
-      aria-labelledby="statusModalLabel"
+      role="dialog"
+      aria-labelledby="orderDetailsModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="statusModalLabel">Status Details</h5>
+            <h5 class="modal-title" id="orderDetailsModalLabel">
+              Order Details
+            </h5>
           </div>
           <div class="modal-body">
-            <form id="profileForm" class="account_form">
-              <div class="mb-3">
-                <label for="statusSelect" class="form-label"
-                  >Change Status</label
-                >
-                <select class="form-select" id="statusSelect">
-                  <option value="pending">Pending</option>
-                  <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </div>
-            </form>
+            <h6>Order ID: <span id="modalOrderId"></span></h6>
+            <h6>
+              Status:
+              <select id="modalOrderStatus">
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="shipping">Shipping</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </h6>
+            <h6>Products:</h6>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody id="modalProductsTableBody">
+                <!-- Products will be dynamically inserted here -->
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary">
+            <button type="button" class="btn btn-primary" id="saveOrderStatus">
               Save changes
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
             </button>
           </div>
         </div>
@@ -176,10 +187,45 @@
     ></script>
     <script src="/javascripts/tooplate-scripts.js"></script>
     <script>
-      $(function () {
-        $(".order-row").on("click", function () {
-          $("#statusModal").modal("show");
+      document.querySelectorAll('.order-row').forEach(row => {
+        row.addEventListener('click', async function() {
+          const orderId = this.querySelector('th').innerText;
+          const response = await fetch(`/order-details/${orderId}`);
+          const { order, orderItems } = await response.json();
+    
+          document.getElementById('modalOrderId').innerText = order._id;
+          document.getElementById('modalOrderStatus').value = order.orderStatus;
+    
+          const productsTableBody = document.getElementById('modalProductsTableBody');
+          productsTableBody.innerHTML = '';
+          orderItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${item.productId.name}</td>
+              <td>${item.quantity}</td>
+              <td>${item.price}</td>
+            `;
+            productsTableBody.appendChild(row);
+          });
+    
+          $('#orderDetailsModal').modal('show');
         });
+      });
+    
+      document.getElementById('saveOrderStatus').addEventListener('click', async function() {
+        const orderId = document.getElementById('modalOrderId').innerText;
+        const orderStatus = document.getElementById('modalOrderStatus').value;
+    
+        await fetch(`/update-order-status/${orderId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ orderStatus })
+        });
+    
+        $('#orderDetailsModal').modal('hide');
+        location.reload(); // Reload the page to reflect the changes
       });
     </script>
   </body>
