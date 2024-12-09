@@ -624,7 +624,7 @@ router.post('/login/signIn', validateSignIn, async (req, res) => {
   // Đăng nhập thành công, lưu thông tin người dùng vào session
   req.session.userInf = user;
   req.session.user = {userId : user.id};
-  
+
   if(user.role == "admin"){
     res.redirect('/admins/dashboard'); // Redirect đến trang tài khoản admin
   }else{
@@ -1049,20 +1049,122 @@ router.get('/admins/dashboard', async function(req, res, next) {
   }
 });
 
-router.get('/admins/product-list', function(req, res, next) {
+router.get('/admins/product-list', async function(req, res, next) {
   if(req.session.user && req.session.userInf.role == "admin"){
-    //Code here
+    // Lấy danh sách sản phẩm kèm unitSold
+    const productLs = await Product.find();
+    const productLsSoldInf = await Product.aggregate([
+      {
+        $lookup: {
+          from: "orderitems", // Tên collection OrderItem
+          localField: "_id", // _id của sản phẩm trong Product
+          foreignField: "productId", // productId trong OrderItem
+          as: "orderItems" // Nối thông tin OrderItem
+        }
+      },
+      {
+        $project: {
+          name: 1, // Lấy tên sản phẩm
+          price: 1, // Lấy giá sản phẩm
+          unitSold: { $sum: "$orderItems.quantity" } // Tính tổng quantity
+        }
+      }
+    ]);
 
-    res.render('./admins/product-list', { title: 'Express' });
+    const categoryLs = await Category.find();
+
+    // Render trang product-list
+    res.render('./admins/product-list', {
+      title: 'Product List',
+      productLs,
+      productLsSoldInf,
+      categoryLs
+    });
   }else{
     res.redirect('/');
   }
 });
 
-router.get('/admins/product-detail', function(req, res, next) {
+router.get('/admins/product_view/:id', async function(req, res, next) {
+  if(req.session.user && req.session.userInf.role == "admin"){
+    const {id} = req.params;
+
+    // Tìm thông tin sản phẩm theo ID
+    const productInf = await Product.findById(id);
+    const categoryLs = await Category.find();
+
+    res.render('./admins/product_view', { title: 'Express', productInf, categoryLs });
+  }else{
+    res.redirect('/');
+  }
+});
+
+//Admin view product
+const uploadImg = require('../middlewares/uploadImg');
+router.post('/admins/product_view/:id', uploadImg.upload.single('productImg'), async function(req, res, next) {
+  if (req.session.user && req.session.userInf.role == "admin") {
+    const { id } = req.params;
+    const { name, description, categoryId, stock, colors, price, productImg } = req.body;
+
+    // Xử lý description và price
+    const trimmedDescription = description.trim();
+    const formattedPrice = price
+    .replace(/\./g, '')        // Loại bỏ dấu chấm
+    .replace(/[₫]/g, '')      // Loại bỏ ký hiệu ₫
+    .trim();
+
+    console.log({
+      name,
+      trimmedDescription,
+      categoryId,
+      stock,
+      colors,
+      formattedPrice,
+      productImg
+    });
+
+    try {
+      // Tìm và cập nhật thông tin sản phẩm
+      const productInf = await Product.findByIdAndUpdate(
+        id,
+        {
+          name,
+          description: trimmedDescription,
+          categoryId,
+          stock,
+          colors,
+          price: Number(formattedPrice),
+        },
+        { new: true } // Trả về dữ liệu sản phẩm đã được cập nhật
+      );
+
+      // Lấy danh sách category nếu cần render lại
+      const categoryLs = await Category.find();
+
+      res.redirect('/admins/product_view/'+id);
+    } catch (err) {
+      console.error('Error updating product:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
+//Admin add product page get
+router.get('/admins/product_add', async function(req, res, next) {
   if(req.session.user && req.session.userInf.role == "admin"){
     //Code here
-    res.render('./admins/product-detail', { title: 'Express' });
+    res.render('./admins/order-list', { title: 'Express' });
+  }else{
+    res.redirect('/');
+  }
+});
+
+router.get('/admins/user-list', function(req, res, next) {
+  if(req.session.user && req.session.userInf.role == "admin"){
+    //Code here
+    res.render('./admins/user-list', { title: 'Express' });
   }else{
     res.redirect('/');
   }
