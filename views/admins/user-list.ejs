@@ -30,53 +30,67 @@
                 <th scope="col">USER ID</th>
                 <th scope="col">FULLNAME</th>
                 <th scope="col">USERNAME</th>
-                <th scope="col">PASSWORD</th>
                 <th scope="col">EMAIL</th>
                 <th scope="col">PHONE NUMBER</th>
                 <th scope="col">STATUS</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="order-row">
-                <th scope="row"><b>#122349</b></th>
-                <td>John Doe</td>
-                <td>johndoe</td>
-                <td>********</td>
-                <td>johndoe@gmail.com</td>
-                <td>0123456789</td>
+              <% users.forEach(function(user) { %>
+              <tr class="user-row">
+                <th scope="row"><b><%= user._id %></b></th>
+                <td><%= user.fullname %></td>
+                <td><%= user.username %></td>
+                <td><%= user.email %></td>
+                <td><%= user.phoneNumber %></td>
                 <td>
-                  <div class="tm-status-circle green"></div>
-                  ACTIVE
+                  <div class="tm-status-circle <%= user.role === 'customer' ? 'green' : 'red'%>"></div>
+                  <%= user.role === 'customer' ? 'Active' : 'Banned'%>
                 </td>
               </tr>
-              <tr class="order-row">
-                <th scope="row"><b>#122349</b></th>
-                <td>John Doe</td>
-                <td>johndoe</td>
-                <td>********</td>
-                <td>johndoe@gmail.com</td>
-                <td>0123456789</td>
-                <td>
-                  <div class="tm-status-circle red"></div>
-                  BAN
-                </td>
-              </tr>
+              <% }); %>
             </tbody>
           </table>
           <!-- Pagination -->
           <div class="pagination-container" style="padding-top: 20px">
             <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
-                  >Previous</a
-                >
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
+              <% if (currentPage > 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                </li>
+              <% } else { %>
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+              <% } %>
+    
+              <% 
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, currentPage + 2);
+                if (endPage - startPage < 4) {
+                  if (startPage === 1) {
+                    endPage = Math.min(totalPages, startPage + 4);
+                  } else if (endPage === totalPages) {
+                    startPage = Math.max(1, endPage - 4);
+                  }
+                }
+              %>
+    
+              <% for (let i = startPage; i <= endPage; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                  <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+              <% } %>
+    
+              <% if (currentPage < totalPages) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                </li>
+              <% } else { %>
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                </li>
+              <% } %>
             </ul>
           </div>
         </div>

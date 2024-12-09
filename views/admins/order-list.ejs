@@ -58,38 +58,66 @@
               <tr>
                 <th scope="col">ORDER NO.</th>
                 <th scope="col">STATUS</th>
+                <th scope="col">TOTAL PRICE</th>
                 <th scope="col">USERNAME</th>
-                <th scope="col">LOCATION</th>
                 <th scope="col">START DATE</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="order-row">
-                <th scope="row"><b>#122349</b></th>
-                <td>
-                  <div class="tm-status-circle green"></div>
-                  Moving
-                </td>
-                <td><b>Oliver Trag</b></td>
-                <td><b>London, UK</b></td>
-                <td>16:00, 12 NOV 2018</td>
-              </tr>
+              <% orders.forEach(function(order) { %>
+                <tr class="order-row">
+                  <th scope="row"><b><%= order._id %></b></th>
+                  <td>
+                    <div class="tm-status-circle <%= order.orderStatus === 'Moving' ? 'green' : 'red' %>"></div>
+                    <%= order.orderStatus %>
+                  </td>
+                  <td><b><%= order.totalPrice %></b></td>
+                  <td><b><%= order.userId.username %></b></td>
+                  <td><%= new Date(order.createdAt).toLocaleDateString() %></td>
+                </tr>
+              <% }); %>
             </tbody>
           </table>
           <!-- Pagination -->
           <div class="pagination-container" style="padding-top: 20px">
             <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
-                  ><i class="fas fa-arrow-left"></i></a
-                >
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a>
-              </li>
+              <% if (currentPage > 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                </li>
+              <% } else { %>
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+              <% } %>
+    
+              <% 
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, currentPage + 2);
+                if (endPage - startPage < 4) {
+                  if (startPage === 1) {
+                    endPage = Math.min(totalPages, startPage + 4);
+                  } else if (endPage === totalPages) {
+                    startPage = Math.max(1, endPage - 4);
+                  }
+                }
+              %>
+    
+              <% for (let i = startPage; i <= endPage; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                  <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+              <% } %>
+    
+              <% if (currentPage < totalPages) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                </li>
+              <% } else { %>
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                </li>
+              <% } %>
             </ul>
           </div>
         </div>
