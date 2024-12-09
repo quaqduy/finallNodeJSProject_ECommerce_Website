@@ -68,17 +68,31 @@ router.get('/', async function(req, res, next) {
   const lsProductSelled = await OrderItem.find().populate('productId'); // Lấy danh sách với thông tin productId
   // Gom nhóm các sản phẩm theo productId và cộng dồn quantity
   const aggregatedProducts = lsProductSelled.reduce((acc, item) => {
-    const existingItem = acc.find((prod) => prod.productId._id.toString() === item.productId._id.toString());
+    // Kiểm tra nếu productId hoặc productId._id không tồn tại
+    if (!item.productId || !item.productId._id) {
+      console.warn('Invalid item, missing productId or _id:', item);
+      return acc; // Bỏ qua item không hợp lệ
+    }
+  
+    // Tìm sản phẩm đã tồn tại trong danh sách acc
+    const existingItem = acc.find(
+      (prod) => prod.productId._id.toString() === item.productId._id.toString()
+    );
+  
     if (existingItem) {
-      existingItem.quantity += item.quantity; // Cộng dồn quantity nếu đã tồn tại
+      // Cộng dồn quantity nếu sản phẩm đã tồn tại
+      existingItem.quantity += item.quantity;
     } else {
+      // Thêm sản phẩm mới vào danh sách
       acc.push({
         productId: item.productId,
         quantity: item.quantity,
       });
     }
-    return acc;
+  
+    return acc; // Trả về acc để tiếp tục reduce
   }, []);
+  
   // Sắp xếp theo quantity giảm dần
   aggregatedProducts.sort((a, b) => b.quantity - a.quantity);
   // Lấy top 10 sản phẩm (hoặc tất cả nếu ít hơn 10)
