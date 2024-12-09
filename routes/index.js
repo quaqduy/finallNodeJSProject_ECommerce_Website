@@ -1227,20 +1227,54 @@ router.post('/admins/product_delete/:id', async function(req, res, next) {
   }
 });
 
-router.get('/admins/order-list', function(req, res, next) {
+router.get('/admins/order-list', async function(req, res, next) {
   if(req.session.user && req.session.userInf.role == "admin"){
-    //Code here
-    res.render('./admins/order-list', { title: 'Express' });
-  }else{
+    try {
+      const page = parseInt(req.query.page) || 1; // Get the current page number from query params, default to 1
+      const limit = 10; // Number of items per page
+      const skip = (page - 1) * limit; // Calculate the number of items to skip
+
+      const totalOrders = await Order.countDocuments(); // Get the total number of orders
+      const orders = await Order.find().populate('userId').skip(skip).limit(limit); // Fetch orders for the current page
+
+      const totalPages = Math.ceil(totalOrders / limit); // Calculate the total number of pages
+
+      res.render('./admins/order-list', { 
+        title: 'Express', 
+        orders: orders, 
+        currentPage: page, 
+        totalPages: totalPages 
+      });
+    } catch (err) {
+      next(err); // Pass errors to the error handler
+    }
+  } else {
     res.redirect('/');
   }
 });
 
-router.get('/admins/user-list', function(req, res, next) {
+router.get('/admins/user-list', async function(req, res, next) {
   if(req.session.user && req.session.userInf.role == "admin"){
-    //Code here
-    res.render('./admins/user-list', { title: 'Express' });
-  }else{
+    try {
+      const page = parseInt(req.query.page) || 1; // Get the current page number from query params, default to 1
+      const limit = 10; // Number of items per page
+      const skip = (page - 1) * limit; // Calculate the number of items to skip
+
+      const totalUsers = await User.countDocuments(); // Get the total number of users
+      const users = await User.find().skip(skip).limit(limit); // Fetch users for the current page
+
+      const totalPages = Math.ceil(totalUsers / limit); // Calculate the total number of pages
+
+      res.render('./admins/user-list', { 
+        title: 'Express', 
+        users: users, 
+        currentPage: page, 
+        totalPages: totalPages 
+      });
+    } catch (err) {
+      next(err); // Pass errors to the error handler
+    }
+  } else {
     res.redirect('/');
   }
 });
