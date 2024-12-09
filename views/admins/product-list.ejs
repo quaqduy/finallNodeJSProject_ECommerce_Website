@@ -27,33 +27,43 @@
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
                   <tr>
-                    <th scope="col">&nbsp;</th>
                     <th scope="col">PRODUCT NAME</th>
                     <th scope="col">UNIT SOLD</th>
                     <th scope="col">IN STOCK</th>
-                    <th scope="col">EXPIRE DATE</th>
+                    <th scope="col">ADDED ADD</th>
                     <th scope="col">&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row"><input type="checkbox" /></th>
-                    <td class="tm-product-name">Lorem Ipsum Product 1</td>
-                    <td>1,450</td>
-                    <td>550</td>
-                    <td>28 March 2019</td>
-                    <td>
-                      <a href="#" class="tm-product-delete-link">
-                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                      </a>
-                    </td>
-                  </tr>
+
+                  <%
+                  
+                  if(productLs && productLs.length > 0){
+                    productLs.forEach((item,index)=>{
+                      %>
+                      <tr>
+                        <td class="tm-product-name"><a href="/admins/product_view/<%=item._id%>"><%= item.name %></a></td>
+                        <td><%= productLsSoldInf[index].unitSold %></td>
+                        <td><%= item.stock %></td>
+                        <td><%= item.createdAt %></td>
+                        <td>
+                          <a class="tm-product-delete-link" data-product-id="<%= item._id %>"
+                            onclick="setDeleteAction(this)">
+                            <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      <%
+                    })
+                  }
+                  
+                  %>
                 </tbody>
               </table>
             </div>
             <!-- table container -->
             <a
-              href="/admins/product-detail"
+              href="/admins/product_add"
               class="btn btn-primary btn-block text-uppercase mb-3"
               >Add new product</a
             >
@@ -68,14 +78,24 @@
             <div class="tm-product-table-container">
               <table class="table tm-table-small tm-product-table">
                 <tbody>
-                  <tr>
-                    <td class="tm-product-name">Product Category 1</td>
-                    <td class="text-center">
-                      <a href="#" class="tm-product-delete-link">
-                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                      </a>
-                    </td>
-                  </tr>
+                  <%
+                  
+                  if(categoryLs && categoryLs.length > 0){
+                    categoryLs.forEach((item)=>{
+                      %>
+                      <tr>
+                        <td class="tm-product-name"><%=item.name%></td>
+                        <td class="text-center">
+                          <a href="#" class="tm-product-delete-link">
+                            <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      <%
+                    })
+                  }
+
+                  %>                  
                 </tbody>
               </table>
             </div>
@@ -92,16 +112,18 @@
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to delete the selected items?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="confirmDeleteBtn">Delete</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
+          <form id="confirmDeleteForm" action="" method="post">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete the selected items?
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" id="confirmDeleteBtn">Delete</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -132,6 +154,12 @@
           $("#deleteConfirmModal").modal('hide');
         });
       });
+
+      function setDeleteAction(button) {
+        const productId = button.getAttribute("data-product-id");
+        document.querySelector("#confirmDeleteForm").setAttribute("action", `/admins/product_delete/${productId}`);
+      }
+
     </script>
   </body>
 </html>
