@@ -23,7 +23,7 @@
     <div class="container mt-5">
       <div class="row tm-content-row">
         <div class="col-12 tm-block-col">
-          <h2 class="tm-block-title">Orders List</h2>
+          <h2 class="tm-block-title">Users List</h2>
           <table class="table">
             <thead>
               <tr>
@@ -37,17 +37,17 @@
             </thead>
             <tbody>
               <% users.forEach(function(user) { %>
-              <tr class="user-row">
-                <th scope="row"><b><%= user._id %></b></th>
-                <td><%= user.fullname %></td>
-                <td><%= user.username %></td>
-                <td><%= user.email %></td>
-                <td><%= user.phoneNumber %></td>
-                <td>
-                  <div class="tm-status-circle <%= user.role === 'customer' ? 'green' : 'red'%>"></div>
-                  <%= user.role === 'customer' ? 'Active' : 'Banned'%>
-                </td>
-              </tr>
+                <tr class="user-row" data-id="<%= user._id %>" data-fullname="<%= user.fullname %>" data-email="<%= user.email %>" data-phoneNumber="<%= user.phoneNumber %>" data-role="<%= user.role %>">
+                  <th scope="row"><b><%= user._id %></b></th>
+                  <td><%= user.fullname %></td>
+                  <td><%= user.username %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.phoneNumber %></td>
+                  <td>
+                    <div class="tm-status-circle <%= user.role === 'customer' ? 'green' : 'red'%>"></div>
+                    <%= user.role === 'customer' ? 'Active' : 'Banned'%>
+                  </td>
+                </tr>
               <% }); %>
             </tbody>
           </table>
@@ -97,90 +97,40 @@
       </div>
     </div>
 
-    <div
-      class="modal fade"
-      id="statusModal"
-      tabindex="-1"
-      aria-labelledby="statusModalLabel"
-      aria-hidden="true"
-    >
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="statusModalLabel">Status Details</h5>
-          </div>
-          <div class="modal-body">
-            <form id="profileForm" class="account_form">
+          <form id="editUserForm" action="" method="post">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+            </div>
+            <div class="modal-body">
               <div class="mb-3">
-                <label for="fullName" class="form-label">Full Name:</label>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  class="form-control"
-                  value="Duy Khoa Dung"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password:</label>
-                <input
-                  type="text"
-                  id="password"
-                  name="password"
-                  class="form-control"
-                  value="Duy Khoa Dung"
-                  required
-                />
+                <label for="fullname" class="form-label">Fullname:</label>
+                <input type="text" id="fullname" name="fullname" class="form-control" required />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-control"
-                  value="tdtu@gmail.com"
-                  required
-                />
+                <input type="email" id="email" name="email" class="form-control" required />
               </div>
               <div class="mb-3">
-                <label for="phoneNumber" class="form-label"
-                  >Phone number:</label
-                >
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  class="form-control"
-                  value="0123456789"
-                  required
-                />
+                <label for="phoneNumber" class="form-label">Phone number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required />
               </div>
               <div class="mb-3">
                 <label for="statusSelect" class="form-label">Status</label>
-                <select
-                  class="form-select custom-status-select"
-                  id="statusSelect"
-                >
-                  <option value="active">Active</option>
-                  <option value="ban">Ban</option>
+                <select class="form-select custom-status-select" id="statusSelect" name="status">
+                  <option value="customer">Active</option>
+                  <option value="banned">Ban</option>
                 </select>
               </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary">
-              Save changes
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -194,8 +144,20 @@
     <script src="/javascripts/tooplate-scripts.js"></script>
     <script>
       $(function () {
-        $(".order-row").on("click", function () {
-          $("#statusModal").modal("show");
+        $(".user-row").on("click", function () {
+          const userId = $(this).data("id");
+          const fullname = $(this).data("fullname");
+          const email = $(this).data("email");
+          const phoneNumber = $(this).data("phonenumber");
+          const role = $(this).data("role");
+
+          $("#editUserForm").attr("action", `/admins/user-update/${userId}`);
+          $("#fullname").val(fullname);
+          $("#email").val(email);
+          $("#phoneNumber").val(phoneNumber);
+          $("#statusSelect").val(role);
+
+          $("#editUserModal").modal("show");
         });
       });
     </script>

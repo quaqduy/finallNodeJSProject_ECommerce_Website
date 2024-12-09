@@ -42,33 +42,7 @@ function drawLineChart() {
           fontColor: "white" // Change legend label color to white
         }
       }
-    };
-
-    var configLine = {
-      type: "line",
-      data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        datasets: [
-          {
-            label: "Revenue (millions)",
-            data: [65, 59, 80, 81, 56, 55, 40, 33, 44, 19, 38, 46],
-            fill: false,
-            borderColor: "rgba(75, 192, 192, 1)",
-            cubicInterpolationMode: "monotone",
-            pointRadius: 0
-          },
-          {
-            label: "Number of orders (single unit)",
-            data: [44, 19, 38, 46, 85, 66, 79, 33, 44, 19, 38, 46],
-            fill: false,
-            borderColor: "rgba(153, 102, 255, 1)",
-            cubicInterpolationMode: "monotone",
-            pointRadius: 0
-          }
-        ]
-      },
-      options: optionsLine
-    };
+    }
 
     lineChart = new Chart(ctxLine, configLine);
   }

@@ -32,6 +32,14 @@
           <div class="col-12 tm-block-col">
             <div class="tm-bg-primary-dark tm-block-col tm-block-taller">
               <h2 class="tm-block-title">Statistic</h2>
+              <div class="mb-3">
+                <label for="monthSelect">Select Month:</label>
+                <select id="monthSelect" class="custom-select" onchange="updateChart()">
+                  <% for (let i = 1; i <= 12; i++) { %>
+                    <option value="<%= i %>" <%= selectedMonth == i ? 'selected' : '' %>><%= new Date(0, i - 1).toLocaleString('default', { month: 'long' }) %></option>
+                  <% } %>
+                </select>
+              </div>
               <canvas id="lineChart"></canvas>
             </div>
           </div>
@@ -49,7 +57,7 @@
                       >
                         Total Customers
                       </div>
-                      <div class="label-content">10000</div>
+                      <div class="label-content"><%= totalCustomers %></div>
                     </div>
                   </div>
                   <!-- Block 2 -->
@@ -62,7 +70,7 @@
                       >
                         Total Orders
                       </div>
-                      <div class="label-content">7823</div>
+                      <div class="label-content"><%= totalOrders %></div>
                     </div>
                   </div>
                 </div>
@@ -77,7 +85,7 @@
                       >
                         Total Revenue
                       </div>
-                      <div class="label-content">7823</div>
+                      <div class="label-content"><%= totalRevenue %> M</div>
                     </div>
                   </div>
                   <!-- Block 4 -->
@@ -88,9 +96,9 @@
                         class="tm-block-title"
                         style="margin-left: 10px; margin-bottom: 5px"
                       >
-                        Completed Orders
+                        Number of Visits
                       </div>
-                      <div class="label-content">12</div>
+                      <div class="label-content"><%= numberOfVisits %></div>
                     </div>
                   </div>
                 </div>
@@ -99,7 +107,7 @@
           </div>
           <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
             <div class="tm-bg-primary-dark tm-block tm-block-taller">
-              <h2 class="tm-block-title">Top 5 Best Seller By Categories</h2>
+              <h2 class="tm-block-title">Top 3 Best Seller By Categories</h2>
               <div id="pieChartContainer">
                 <canvas id="pieChart"></canvas>
               </div>
@@ -133,6 +141,95 @@
           updateLineChart();
           updatePieChart();
         });
+      });
+    </script>
+
+    <script>
+      function updateChart() {
+        const month = document.getElementById('monthSelect').value;
+        window.location.href = `/admins/dashboard?month=${month}`;
+      }
+    
+      $(function () {
+        const ctxLine = document.getElementById("lineChart").getContext("2d");
+    
+        const optionsLine = {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  fontColor: "white" // Change tick color to white
+                }
+              }
+            ],
+            xAxes: [
+              {
+                ticks: {
+                  fontColor: "white" // Change tick color to white
+                }
+              }
+            ]
+          },
+          legend: {
+            labels: {
+              fontColor: "white" // Change legend label color to white
+            }
+          }
+        };
+    
+        const configLine = {
+          type: "line",
+          data: {
+            labels: Array.from({ length: <%= dailyRevenue.length %> }, (_, i) => i + 1),
+            datasets: [
+              {
+                label: "Revenue (millions)",
+                data: <%= JSON.stringify(dailyRevenue) %>,
+                fill: false,
+                borderColor: "rgba(75, 192, 192, 1)",
+                cubicInterpolationMode: "monotone",
+                pointRadius: 0
+              },
+              {
+                label: "Number of orders (single unit)",
+                data: <%= JSON.stringify(dailyOrders) %>,
+                fill: false,
+                borderColor: "rgba(153, 102, 255, 1)",
+                cubicInterpolationMode: "monotone",
+                pointRadius: 0
+              }
+            ]
+          },
+          options: optionsLine
+        };
+    
+        const lineChart = new Chart(ctxLine, configLine);
+    
+        const ctxPie = document.getElementById("pieChart").getContext("2d");
+    
+        const configPie = {
+          type: "pie",
+          data: {
+            labels: <%= JSON.stringify(topCategories.map(category => category.name)) %>,
+            datasets: [
+              {
+                data: <%= JSON.stringify(topCategories.map(category => category.count)) %>,
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            legend: {
+              position: "top",
+              labels: {
+                fontColor: "white"
+              }
+            }
+          }
+        };
+    
+        const pieChart = new Chart(ctxPie, configPie);
       });
     </script>
   </body>

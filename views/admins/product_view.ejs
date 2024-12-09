@@ -112,24 +112,29 @@
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                        <div 
+                      <div 
                         class="tm-product-img-dummy mx-auto" 
-                        style="background: url('/public/images/product_imgs/<%= productInf.name.trim() %>.png') no-repeat center center; background-size: cover;">
-                        <i
-                          class="fas fa-cloud-upload-alt tm-upload-icon"
-                          onclick="document.getElementById('fileInput').click();"
-                        ></i>
+                        style="background: url('/images/product_imgs/<%= encodeURIComponent(productInf.name.trim()) %>.png') no-repeat center center; background-size: contain;"
+                        onclick="document.getElementById('imageModal').style.display='block';"
+                      >
                       </div>
                       <div class="custom-file mt-3 mb-3">
                         <input id="fileInput" type="file" name="productImg" style="display: none" />
-                        <input
-                          type="button"
-                          class="btn btn-primary btn-block mx-auto"
-                          value="UPLOAD PRODUCT IMAGE"
-                          onclick="document.getElementById('fileInput').click();"
-                        />
+                        <input type="button" class="btn btn-primary btn-block mx-auto" value="UPLOAD PRODUCT IMAGE" onclick="document.getElementById('fileInput').click();" />
                       </div>
                     </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <img id="modalImage" src="" alt="Product Image" class="img-fluid" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="col-12">
                       <button
                         type="submit"
@@ -157,5 +162,14 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      // Thêm sự kiện click vào phần tử chứa hình ảnh
+      document.querySelector('.tm-product-img-dummy').addEventListener('click', function() {
+        var imgSrc = this.style.backgroundImage.slice(5, -2); // Lấy URL của hình ảnh từ style
+        document.getElementById('modalImage').src = imgSrc; // Đặt src của ảnh trong modal
+        $('#imageModal').modal('show'); // Mở modal sử dụng Bootstrap
+      });
+    </script>
   </body>
 </html>
