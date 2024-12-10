@@ -11,7 +11,7 @@ Before you begin, ensure you have the following installed on your machine:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/finallNodeJSProject_ECommerce_Website.git
+   git clone https://github.com/quaqduy/finallNodeJSProject_ECommerce_Website.git
    cd finallNodeJSProject_ECommerce_Website
 
 2. **Create a .env file in the root directory with the following contents:**
