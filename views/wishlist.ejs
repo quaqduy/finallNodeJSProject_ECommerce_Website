@@ -82,7 +82,7 @@
                                                     <tr>
                                                         <td class="product_remove" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="openConfirmDelModal('<%= wishlistId %>', '<%= item.productId._id %>')">  <i class="fa fa-trash"></i> </td>
                                                         <td class="product_thumb"><a href="<%= webLocationHost %>/product-details/<%= item.productId._id %>"><img
-                                                                    src="/images/product_imgs/defautProductImg.png" alt=""></a></td>
+                                                                    src="/images/product_imgs/<%=encodeURIComponent(item.productId.name)%>.png" alt=""></a></td>
                                                         <td class="product_name"><a href="<%= webLocationHost %>/product-details/<%= item.productId._id %>"><%= item.productId.name %></a></td>
                                                         <td class="product-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.productId.price) %></td>
                                                         <td class="product_quantity"><%= item.productId.stock > 0 ? 'In stock' : 'Out stock' %></td>

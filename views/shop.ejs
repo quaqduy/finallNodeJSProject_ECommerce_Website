@@ -147,9 +147,7 @@
                                             <figure>
                                                 <div class="product_thumb">
                                                     <a class="primary_img" href="/product-details/<%= item._id %>"><img
-                                                            src="/images/product_imgs/defautProductImg.png" alt=""></a>
-                                                    <a class="secondary_img" href="/product-details/<%= item._id %>"><img
-                                                            src="/images/product_imgs/defautProductImg.png" alt=""></a>
+                                                            src="/images/product_imgs/<%= encodeURIComponent(item.name)%>.png" alt=""></a>
                                                     <div class="label_product">
                                                         <span class="label_sale">sale</span>
                                                     </div>
