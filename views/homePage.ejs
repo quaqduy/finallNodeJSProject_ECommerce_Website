@@ -192,11 +192,8 @@
                                     <figure>
                                         <div class="product_thumb">
                                             <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>">
-                                                <img src="/images/product/product1.jpg" alt="" class="img-fluid">
-                                            </a>
-                                            <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>">
-                                                <img src="/images/product/product2.jpg" alt="" class="img-fluid">
-                                            </a>
+                                                <img src="/images/product_imgs/<%=encodeURIComponent(item.productId.name)%>.png" alt="<%=item.productId.name%>" class="img-fluid">
+                                              </a>
                                             <div class="label_product">
                                                 <span class="badge bg-danger">Sale</span>
                                             </div>
@@ -283,10 +280,9 @@
                         <article class="single_product">
                             <figure>
                                 <div class="product_thumb">
-                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>"><img
-                                            src="/images/product/product1.jpg" alt=""></a>
-                                    <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>"><img
-                                            src="/images/product/product2.jpg" alt=""></a>
+                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item.productId._id%>">
+                                        <img src="/images/product_imgs/<%=encodeURIComponent(item.productId.name)%>.png" alt="<%=item.productId.name%>" class="img-fluid">
+                                    </a>
                                     <div class="label_product">
                                         <span class="label_sale">sale</span>
                                     </div>
@@ -401,10 +397,9 @@
                                 <article class="single_product">
                                     <figure>
                                         <div class="product_thumb">
-                                            <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
-                                                    src="/images/product/product1.jpg" alt=""></a>
-                                            <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
-                                                    src="/images/product/product2.jpg" alt=""></a>
+                                            <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>">
+                                                <img src="/images/product_imgs/<%=encodeURIComponent(item.name)%>.png" alt="<%=item.name%>" class="img-fluid">
+                                            </a>
                                             <div class="label_product">
                                                 <span class="label_sale">sale</span>
                                             </div>
@@ -516,10 +511,9 @@
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
-                                                            src="/images/product/product1.jpg" alt=""></a>
-                                                    <a class="secondary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>"><img
-                                                            src="/images/product/product2.jpg" alt=""></a>
+                                                    <a class="primary_img" href="<%=webLocationHost%>/product-details/<%=item._id%>">
+                                                        <img src="/images/product_imgs/<%=encodeURIComponent(item.name)%>.png" alt="<%=item.name%>" class="img-fluid">
+                                                    </a>
                                                     <div class="label_product">
                                                         <span class="label_sale">sale</span>
                                                     </div>
