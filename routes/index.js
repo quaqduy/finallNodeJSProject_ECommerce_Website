@@ -111,6 +111,7 @@ router.get("/", async function (req, res, next) {
   
     return acc; // Trả về acc để tiếp tục reduce
   }, []);
+  
   // Sắp xếp theo quantity giảm dần
   aggregatedProducts.sort((a, b) => b.quantity - a.quantity);
   // Lấy top 10 sản phẩm (hoặc tất cả nếu ít hơn 10)

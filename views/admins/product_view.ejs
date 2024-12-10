@@ -117,6 +117,7 @@
                         style="background: url('/images/product_imgs/<%= encodeURIComponent(productInf.name.trim()) %>.png') no-repeat center center; background-size: contain;"
                         onclick="document.getElementById('imageModal').style.display='block';"
                       >
+                        <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('fileInput').click();"></i>
                       </div>
                       <div class="custom-file mt-3 mb-3">
                         <input id="fileInput" type="file" name="productImg" style="display: none" />
